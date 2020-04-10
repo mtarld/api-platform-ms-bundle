@@ -7,6 +7,12 @@
     <services>
         <defaults public="false" autowire="true" autoconfigure="true" />
 
-        <prototype namespace="Mtarld\ApiPlatformMsBundle\" resource="../../*" exclude="../../{DependencyInjection,Exception,Model,Tests}" />
+        <prototype namespace="Mtarld\ApiPlatformMsBundle\" resource="../../*" exclude="../../{DependencyInjection,Exception,Tests}">
+            <bind key="$httpClient" id="api_platform_ms.http_client" />
+        </prototype>
+
+        <prototype namespace="Mtarld\ApiPlatformMsBundle\Controller\" resource="../../Controller/*">
+            <tag name="controller.service_arguments" />
+        </prototype>
     </services>
 </container>

@@ -1,7 +1,7 @@
 <?php
 
 $finder = PhpCsFixer\Finder::create()
-    ->in(__DIR__.'/src')
+    ->in(__DIR__.'/{src,tests}')
 ;
 
 return PhpCsFixer\Config::create()
@@ -14,5 +14,5 @@ return PhpCsFixer\Config::create()
     ])
     ->setRiskyAllowed(true)
     ->setFinder($finder)
-    ->setCacheFile(__DIR__.'/var/.php_cs.cache')
+    ->setCacheFile(__DIR__.'/.php_cs.cache')
 ;

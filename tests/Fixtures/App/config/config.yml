@@ -1,0 +1,34 @@
+api_platform:
+  enable_docs: true
+
+framework:
+  secret: ThisIsSecret
+  test: true
+
+api_platform_ms:
+  name: foo
+  microservices:
+    bar:
+      base_uri: https://localhost
+
+services:
+  _defaults:
+    autowire: true
+    autoconfigure: true
+    public: true
+
+  test.iri_converter:
+    alias: ApiPlatform\Core\Api\IriConverterInterface
+    public: true
+
+  test.existence_checker:
+    alias: Mtarld\ApiPlatformMsBundle\Resource\ExistenceChecker
+    public: true
+
+  test.http_client:
+    alias: Symfony\Contracts\HttpClient\HttpClientInterface
+    public: true
+
+  test.logger:
+    alias: Psr\Log\LoggerInterface
+    public: true
