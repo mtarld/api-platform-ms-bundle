@@ -1,0 +1,34 @@
+<?xml version="1.0" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="http://symfony.com/schema/dic/services https://symfony.com/schema/dic/services/services-1.0.xsd">
+    <services>
+        <service id="api_platform_ms.jsonapi.encoder" class="ApiPlatform\Core\Serializer\JsonEncoder" public="false">
+            <argument>jsonapi</argument>
+            <tag name="serializer.encoder" />
+        </service>
+
+        <service id="api_platform_ms.jsonapi.denormalizer.constraint_violation_list" class="Mtarld\ApiPlatformMsBundle\Serializer\JsonApi\ConstraintViolationListDenormalizer" public="false">
+            <call method="setNameConverter">
+                <argument type="service" id="api_platform.name_converter" on-invalid="ignore" />
+            </call>
+            <!-- Run before api_platform_ms.jsonapi.denormalizer.object -->
+            <tag name="serializer.normalizer" priority="-870" />
+        </service>
+
+        <service id="api_platform_ms.jsonapi.denormalizer.collection" class="Mtarld\ApiPlatformMsBundle\Serializer\JsonApi\CollectionDenormalizer" public="false">
+            <!-- Run before api_platform_ms.jsonapi.denormalizer.object -->
+            <tag name="serializer.normalizer" priority="-870" />
+        </service>
+
+        <service id="api_platform_ms.jsonapi.denormalizer.api_resource" class="Mtarld\ApiPlatformMsBundle\Serializer\JsonApi\ApiResourceDenormalizer" public="false">
+            <!-- Run before api_platform_ms.jsonapi.denormalizer.object -->
+            <tag name="serializer.normalizer" priority="-870" />
+        </service>
+
+        <service id="api_platform_ms.jsonapi.denormalizer.object" class="Mtarld\ApiPlatformMsBundle\Serializer\JsonApi\ObjectDenormalizer" public="false">
+            <tag name="serializer.normalizer" priority="-880" />
+        </service>
+    </services>
+</container>

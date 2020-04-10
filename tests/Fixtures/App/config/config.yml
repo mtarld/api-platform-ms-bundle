@@ -1,0 +1,56 @@
+api_platform:
+  enable_docs: true
+  mapping:
+    paths: ['%kernel.project_dir%/src/Entity']
+  formats:
+    jsonld:   ['application/ld+json']
+    jsonhal:  ['application/hal+json']
+    jsonapi:  ['application/vnd.api+json']
+  name_converter: Symfony\Component\Serializer\NameConverter\CamelCaseToSnakeCaseNameConverter
+
+framework:
+  secret: ThisIsSecret
+  test: true
+
+api_platform_ms:
+  name: foo
+  microservices:
+    bar:
+      base_uri: https://localhost
+      api_path: /api
+      format: jsonld
+    wrong_uri:
+      base_uri: wrong
+      format: jsonld
+    wrong_format:
+      base_uri: https://localhost
+      format: json
+
+services:
+  _defaults:
+    autowire: true
+    autoconfigure: true
+    public: true
+
+  test.iri_converter:
+    alias: api_platform.iri_converter
+    public: true
+
+  test.existence_checker:
+    alias: api_platform_ms.api_resource.existence_checker
+    public: true
+
+  test.http_client:
+    alias: api_platform_ms.http_client
+    public: true
+
+  test.logger:
+    alias: logger
+    public: true
+
+  Mtarld\ApiPlatformMsBundle\Collection\PaginatedCollectionIterator: ~
+
+  Mtarld\ApiPlatformMsBundle\Tests\Fixtures\App\src\HttpRepository\PuppyHttpRepository: ~
+
+  Symfony\Component\Serializer\NameConverter\CamelCaseToSnakeCaseNameConverter: ~
+

@@ -1,0 +1,35 @@
+<?xml version="1.0" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="http://symfony.com/schema/dic/services https://symfony.com/schema/dic/services/services-1.0.xsd">
+    <services>
+        <service id="api_platform_ms.hal.encoder" class="ApiPlatform\Core\Serializer\JsonEncoder" public="false">
+            <argument>jsonhal</argument>
+            <tag name="serializer.encoder" />
+        </service>
+
+        <service id="api_platform_ms.hal.denormalizer.collection" class="Mtarld\ApiPlatformMsBundle\Serializer\Hal\CollectionDenormalizer" public="false">
+            <!-- Run before api_platform_ms.hal.denormalizer.object -->
+            <tag name="serializer.normalizer" priority="-870" />
+        </service>
+
+        <service id="api_platform_ms.hal.denormalizer.api_resource" class="Mtarld\ApiPlatformMsBundle\Serializer\Hal\ApiResourceDenormalizer" public="false">
+            <!-- Run before api_platform_ms.hal.denormalizer.object -->
+            <tag name="serializer.normalizer" priority="-870" />
+        </service>
+
+        <service id="api_platform_ms.hal.denormalizer.constraint_violation_list" class="Mtarld\ApiPlatformMsBundle\Serializer\Hal\ConstraintViolationListDenormalizer" public="false">
+            <call method="setNameConverter">
+                <argument type="service" id="api_platform.name_converter" on-invalid="ignore" />
+            </call>
+            <!-- Run before api_platform.hal.normalizer.item -->
+            <tag name="serializer.normalizer" priority="-880" />
+        </service>
+
+        <service id="api_platform_ms.hal.denormalizer.object" class="Mtarld\ApiPlatformMsBundle\Serializer\Hal\ObjectDenormalizer" public="false">
+            <!-- Run before api_platform.hal.normalizer.item -->
+            <tag name="serializer.normalizer" priority="-880" />
+        </service>
+    </services>
+</container>

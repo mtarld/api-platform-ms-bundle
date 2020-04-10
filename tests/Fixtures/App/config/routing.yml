@@ -1,0 +1,6 @@
+api:
+  resource: '.'
+  type: 'api_platform'
+
+api_platform_ms:
+  resource: '@ApiPlatformMsBundle/Resources/config/routes.xml'

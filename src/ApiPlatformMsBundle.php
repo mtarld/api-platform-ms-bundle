@@ -2,14 +2,19 @@
 
 namespace Mtarld\ApiPlatformMsBundle;
 
-use Mtarld\ApiPlatformMsBundle\DependencyInjection\ApiPlatformMsExtension;
-use Symfony\Component\DependencyInjection\Extension\ExtensionInterface;
+use Mtarld\ApiPlatformMsBundle\DependencyInjection\Compiler\CreateHttpClientsPass;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 
+/**
+ * @final
+ */
 class ApiPlatformMsBundle extends Bundle
 {
-    public function getContainerExtension(): ExtensionInterface
+    public function build(ContainerBuilder $container): void
     {
-        return new ApiPlatformMsExtension();
+        parent::build($container);
+
+        $container->addCompilerPass(new CreateHttpClientsPass());
     }
 }

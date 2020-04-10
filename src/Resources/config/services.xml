@@ -3,10 +3,59 @@
 <container xmlns="http://symfony.com/schema/dic/services"
            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
            xsi:schemaLocation="http://symfony.com/schema/dic/services https://symfony.com/schema/dic/services/services-1.0.xsd">
-
     <services>
-        <defaults public="false" autowire="true" autoconfigure="true" />
+        <defaults public="false" />
 
-        <prototype namespace="Mtarld\ApiPlatformMsBundle\" resource="../../*" exclude="../../{DependencyInjection,Exception,Model,Tests}" />
+        <service id="api_platform_ms.route_loader" class="Mtarld\ApiPlatformMsBundle\Routing\RouteLoader">
+            <argument>%api_platform_ms.name%</argument>
+            <argument>%api_platform_ms.hosts%</argument>
+            <tag name="routing.route_loader" />
+        </service>
+
+        <service id="api_platform_ms.microservice_pool" class="Mtarld\ApiPlatformMsBundle\Microservice\MicroservicePool">
+            <argument type="service" id="validator" />
+            <argument>%api_platform_ms.microservices%</argument>
+        </service>
+        <service id="Mtarld\ApiPlatformMsBundle\Microservice\MicroservicePool" alias="api_platform_ms.microservice_pool" />
+
+        <service id="Mtarld\ApiPlatformMsBundle\Controller\ApiResourceExistenceCheckerAction" class="Mtarld\ApiPlatformMsBundle\Controller\ApiResourceExistenceCheckerAction">
+            <argument type="service" id="serializer" />
+            <argument type="service" id="api_platform.iri_converter" />
+            <argument type="service" id="api_platform.validator" />
+            <tag name="controller.service_arguments" />
+        </service>
+
+        <service id="api_platform_ms.http_client.generic" class="Mtarld\ApiPlatformMsBundle\HttpClient\GenericHttpClient">
+            <argument type="service" id="serializer" />
+            <argument type="service" id="api_platform_ms.http_client" />
+        </service>
+        <service id="Mtarld\ApiPlatformMsBundle\HttpClient\GenericHttpClient" alias="api_platform_ms.http_client.generic" />
+
+        <service id="api_platform_ms.api_resource.existence_checker" class="Mtarld\ApiPlatformMsBundle\ApiResource\ExistenceChecker">
+            <argument type="service" id="api_platform_ms.http_client.generic" />
+            <argument type="service" id="serializer" />
+            <argument type="service" id="api_platform_ms.microservice_pool" />
+        </service>
+
+        <service id="api_platform_ms.validator.api_resource_exist" class="Mtarld\ApiPlatformMsBundle\Validator\ApiResourceExistValidator">
+            <argument type="service" id="api_platform_ms.api_resource.existence_checker" />
+            <call method="setLogger">
+                <argument type="service" id="logger" />
+            </call>
+            <tag name="validator.constraint_validator" />
+        </service>
+        <service id="Mtarld\ApiPlatformMsBundle\Validator\ApiResourceExistValidator" alias="api_platform_ms.validator.api_resource_exist" />
+
+        <service id="api_platform_ms.http_repository.http_repository" class="Mtarld\ApiPlatformMsBundle\HttpRepository\AbstractMicroserviceHttpRepository">
+            <argument type="service" id="api_platform_ms.http_client.generic" />
+            <argument type="service" id="serializer"/>
+            <argument type="service" id="api_platform_ms.microservice_pool"/>
+        </service>
+
+        <service id="api_platform_ms.collection.paginated_collection_iterator" class="Mtarld\ApiPlatformMsBundle\Collection\PaginatedCollectionIterator">
+            <argument type="service" id="api_platform_ms.http_client.generic" />
+            <argument type="service" id="serializer" />
+        </service>
+        <service id="Mtarld\ApiPlatformMsBundle\Collection\PaginatedCollectionIterator" alias="api_platform_ms.collection.paginated_collection_iterator"/>
     </services>
 </container>
