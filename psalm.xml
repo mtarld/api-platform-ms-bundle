@@ -1,0 +1,37 @@
+<?xml version="1.0"?>
+<psalm
+        totallyTyped="false"
+        errorLevel="8"
+        resolveFromConfigFile="true"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns="https://getpsalm.org/schema/config"
+        xsi:schemaLocation="https://getpsalm.org/schema/config vendor/vimeo/psalm/config.xsd"
+>
+    <projectFiles>
+        <directory name="src"/>
+        <ignoreFiles>
+            <directory name="src/Resources"/>
+            <directory name="src/Tests/Fixtures"/>
+            <directory name="vendor"/>
+        </ignoreFiles>
+    </projectFiles>
+
+    <issueHandlers>
+        <MissingConstructor errorLevel="suppress"/>
+        <InternalMethod>
+            <errorLevel type="suppress">
+                <referencedMethod name="PHPUnit\Framework\MockObject\Builder\InvocationMocker::willReturn" />
+                <referencedMethod name="PHPUnit\Framework\MockObject\Builder\InvocationMocker::willReturnCallback" />
+                <referencedMethod name="PHPUnit\Framework\MockObject\Builder\InvocationMocker::method" />
+                <referencedMethod name="PHPUnit\Framework\MockObject\Builder\InvocationMocker::willReturnOnConsecutiveCalls" />
+                <referencedMethod name="PHPUnit\Framework\MockObject\Builder\InvocationMocker::with" />
+                <referencedMethod name="PHPUnit\Framework\MockObject\Builder\InvocationMocker::will" />
+                <referencedMethod name="PHPUnit\Framework\MockObject\Builder\InvocationMocker::withConsecutive" />
+            </errorLevel>
+        </InternalMethod>
+    </issueHandlers>
+
+    <plugins>
+        <pluginClass class="Psalm\PhpUnitPlugin\Plugin"/>
+    </plugins>
+</psalm>
