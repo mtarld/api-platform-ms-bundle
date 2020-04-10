@@ -1,8 +1,7 @@
-.php_cs.cache
-.phpunit.result.cache
 composer.lock
 
-composer.lock
+.php_cs.cache
+.phpunit.result.cache
 
 var/
 vendor/
