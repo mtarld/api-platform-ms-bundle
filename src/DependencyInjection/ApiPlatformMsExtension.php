@@ -2,11 +2,16 @@
 
 namespace Mtarld\ApiPlatformMsBundle\DependencyInjection;
 
+use Mtarld\ApiPlatformMsBundle\Microservice\MicroservicePool;
+use Mtarld\ApiPlatformMsBundle\Routing\RouteLoader;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Extension\Extension;
 use Symfony\Component\DependencyInjection\Loader\XmlFileLoader;
 
+/**
+ * @internal
+ */
 class ApiPlatformMsExtension extends Extension
 {
     public function getAlias(): string
@@ -27,6 +32,10 @@ class ApiPlatformMsExtension extends Extension
         }
 
         $config = $this->processConfiguration($configuration, $configs);
-        $container->setParameter('api-platform-ms', $config);
+
+        $container->setAlias('api_platform_ms.http_client', $config['http_client']);
+
+        $container->getDefinition(MicroservicePool::class)->setArgument('$microserviceConfigs', $config['microservices']);
+        $container->getDefinition(RouteLoader::class)->setArgument('$name', $config['name'])->setArgument('$hosts', $config['hosts']);
     }
 }

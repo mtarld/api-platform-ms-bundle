@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:noNamespaceSchemaLocation="http://schema.phpunit.de/5.2/phpunit.xsd"
-         backupGlobals="false"
+         xsi:noNamespaceSchemaLocation="./vendor/phpunit/phpunit/phpunit.xsd"
          colors="true"
          bootstrap="vendor/autoload.php"
          testdox="true"
@@ -15,13 +14,18 @@
 >
     <php>
         <ini name="error_reporting" value="-1"/>
-        <env name="KERNEL_CLASS" value="Mtarld\ApiPlatformMsBundleBundle\Tests\Fixtures\TestKernel"/>
+        <env name="SYMFONY_DEPRECATIONS_HELPER" value="max[self]=0" />
         <env name="APP_DEBUG" value="0"/>
+        <env name="KERNEL_CLASS" value="Mtarld\ApiPlatformMsBundle\Tests\Fixtures\App\AppKernel"/>
     </php>
 
     <testsuites>
         <testsuite name="Api Platform Microservice Test Suite">
-            <directory>./src/Tests/</directory>
+            <directory>./tests/</directory>
         </testsuite>
     </testsuites>
+
+    <listeners>
+        <listener class="Symfony\Bridge\PhpUnit\SymfonyTestsListener" />
+    </listeners>
 </phpunit>
