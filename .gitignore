@@ -3,7 +3,5 @@
 composer.lock
 .php_cs.cache
 
-composer.lock
-
 var/
 vendor/
