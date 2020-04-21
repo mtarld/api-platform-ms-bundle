@@ -1,5 +1,10 @@
 api_platform:
   enable_docs: true
+  formats:
+    jsonld:   ['application/ld+json']
+    jsonhal:  ['application/hal+json']
+    jsonapi:  ['application/vnd.api+json']
+    json:     ['application/json']
 
 framework:
   secret: ThisIsSecret
