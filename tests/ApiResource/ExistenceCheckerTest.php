@@ -41,7 +41,7 @@ class ExistenceCheckerTest extends KernelTestCase
             ->method('request')
             ->with(
                 'POST',
-                '/bar_check_resource',
+                '/api/bar_check_resource',
                 [
                     'base_uri' => 'https://localhost',
                     'headers' => [

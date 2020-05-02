@@ -64,7 +64,7 @@ class MicroservicePool implements IteratorAggregate
 
         $config = $this->configs[$name];
 
-        $microservice = new Microservice($name, $config['base_uri'], $config['format']);
+        $microservice = new Microservice($name, $config['base_uri'], $config['api_path'] ?? '', $config['format']);
         $this->validateMicroservice($microservice);
 
         return $microservice;

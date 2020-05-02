@@ -27,16 +27,16 @@ class PaginatedCollectionIteratorTest extends KernelTestCase
         $this->mockHttpClient();
 
         $collection = new Collection([
-            new PuppyResourceDto('/puppies/1', 1, 'foo'),
-            new PuppyResourceDto('/puppies/2', 1, 'bar'),
-        ], 5, new Pagination('/puppies?page=1', '/puppies?page=1', '/puppies?page=3', null, '/puppies?page=2'));
+            new PuppyResourceDto('/api/puppies/1', 1, 'foo'),
+            new PuppyResourceDto('/api/puppies/2', 1, 'bar'),
+        ], 5, new Pagination('/api/puppies?page=1', '/api/puppies?page=1', '/api/puppies?page=3', null, '/api/puppies?page=2'));
 
         $expectedElements = [
-            new PuppyResourceDto('/puppies/1', 1, 'foo'),
-            new PuppyResourceDto('/puppies/2', 1, 'bar'),
-            new PuppyResourceDto('/puppies/3', 3, 'baz'),
-            new PuppyResourceDto('/puppies/4', 4, 'oof'),
-            new PuppyResourceDto('/puppies/5', 5, 'rab'),
+            new PuppyResourceDto('/api/puppies/1', 1, 'foo'),
+            new PuppyResourceDto('/api/puppies/2', 1, 'bar'),
+            new PuppyResourceDto('/api/puppies/3', 3, 'baz'),
+            new PuppyResourceDto('/api/puppies/4', 4, 'oof'),
+            new PuppyResourceDto('/api/puppies/5', 5, 'rab'),
         ];
 
         /** @var MicroservicePool $microservices */
@@ -61,7 +61,7 @@ class PaginatedCollectionIteratorTest extends KernelTestCase
             ->method('request')
             ->withConsecutive([
                 'GET',
-                '/puppies?page=2',
+                '/api/puppies?page=2',
                 [
                     'base_uri' => 'https://localhost',
                     'headers' => [
@@ -71,7 +71,7 @@ class PaginatedCollectionIteratorTest extends KernelTestCase
                 ],
             ], [
                 'GET',
-                '/puppies?page=3',
+                '/api/puppies?page=3',
                 [
                     'base_uri' => 'https://localhost',
                     'headers' => [
@@ -93,14 +93,14 @@ class PaginatedCollectionIteratorTest extends KernelTestCase
             ->method('getContent')
             ->willReturn(<<<JSON
 {
-    "@context":"\/contexts\/Puppy", "@id":"\/puppies", "@type":"hydra:Collection", "hydra:totalItems":5,
-    "hydra:member":[{"@id":"\/puppies\/3","@type":"Puppy","id":3,"super_name":"baz"}, {"@id":"\/puppies\/4","@type":"Puppy","id":4,"super_name":"oof"}],
+    "@context":"\/contexts\/Puppy", "@id":"\/api/puppies", "@type":"hydra:Collection", "hydra:totalItems":5,
+    "hydra:member":[{"@id":"\/api/puppies\/3","@type":"Puppy","id":3,"super_name":"baz"}, {"@id":"\/api/puppies\/4","@type":"Puppy","id":4,"super_name":"oof"}],
     "hydra:view": {
-        "@id": "\/puppies?page=2",
-        "hydra:first": "\/puppies?page=1",
-        "hydra:last": "\/puppies?page=3",
-        "hydra:previous": "\/puppies?page=1",
-        "hydra:next": "\/puppies?page=3"
+        "@id": "\/api/puppies?page=2",
+        "hydra:first": "\/api/puppies?page=1",
+        "hydra:last": "\/api/puppies?page=3",
+        "hydra:previous": "\/api/puppies?page=1",
+        "hydra:next": "\/api/puppies?page=3"
     }
 }
 JSON
@@ -112,13 +112,13 @@ JSON
             ->method('getContent')
             ->willReturn(<<<JSON
 {
-    "@context":"\/contexts\/Puppy", "@id":"\/puppies", "@type":"hydra:Collection", "hydra:totalItems":5,
-    "hydra:member":[{"@id":"\/puppies\/5","@type":"Puppy","id":5,"super_name":"rab"}],
+    "@context":"\/contexts\/Puppy", "@id":"\/api/puppies", "@type":"hydra:Collection", "hydra:totalItems":5,
+    "hydra:member":[{"@id":"\/api/puppies\/5","@type":"Puppy","id":5,"super_name":"rab"}],
     "hydra:view": {
-        "@id": "\/puppies?page=3",
-        "hydra:first": "\/puppies?page=1",
-        "hydra:last": "\/puppies?page=3",
-        "hydra:previous": "\/puppies?page=2"
+        "@id": "\/api/puppies?page=3",
+        "hydra:first": "\/api/puppies?page=1",
+        "hydra:last": "\/api/puppies?page=3",
+        "hydra:previous": "\/api/puppies?page=2"
     }
 }
 JSON

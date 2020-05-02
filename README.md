@@ -32,9 +32,9 @@ Mtarld\ApiPlaformMsBundle\ApiPlaformMsBundle::class => ['all' => true],
 ### Configuration
 Once the bundle is installed, you should configure it to fit your needs. 
 
-To do so, edit `config/packages/api-platform-ms-bundle.yaml`
+To do so, edit `config/packages/api_platform_ms.yaml` and `config/routes/api_platform_ms.yaml`
 ```yaml
-# config/packages/api-platform-ms-bundle.yaml
+# config/packages/api_platform_ms.yaml
 
 api_plaform_ms:
     # HttpClient that will be used internally (default: 'Symfony\Contracts\HttpClient\HttpClientInterface')
@@ -54,9 +54,19 @@ api_plaform_ms:
             # Microservice base uri (required)
             base_uri: https://product.api
 
+            # Microservice API path (default: '')
+            api_path: /api
+
             # Microservice format (required)
             # Supported formats: jsonld, jsonhal, jsonapi
             format: jsonld
+```
+```yaml
+# config/routes/api_platform_ms.yaml
+
+api_platform_ms:
+    resource: '@ApiPlatformMsBundle/Resources/config/routes.xml'
+    prefix: /api
 ```
 And you're ready to go ! :rocket:
 
@@ -93,7 +103,6 @@ $ composer install
 
 # Running tests locally
 $ make test
-
 ```
 
 ## Authors

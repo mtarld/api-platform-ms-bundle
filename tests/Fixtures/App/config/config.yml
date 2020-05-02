@@ -17,6 +17,7 @@ api_platform_ms:
   microservices:
     bar:
       base_uri: https://localhost
+      api_path: /api
       format: jsonld
     wrong_uri:
       base_uri: wrong

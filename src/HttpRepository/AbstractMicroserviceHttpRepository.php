@@ -76,20 +76,33 @@ abstract class AbstractMicroserviceHttpRepository
      *
      * @throws ExceptionInterface
      */
-    public function findBy(string $property, array $values, ?int $page = null, ?int $itemsPerPage = null): Collection
+    public function findBy(string $property, array $values): Collection
     {
-        $queryParams = [
-            $property => $values,
-        ];
+        return $this->requestCollection([$property => $values]);
+    }
 
-        $queryParams = array_merge($queryParams, (null !== $page && null !== $itemsPerPage) ? [
-            'page' => $page,
-            'itemsPerPage' => $itemsPerPage,
-        ] : [
-            'pagination' => false,
-        ]);
+    /**
+     * @psalm-return Collection<ApiResourceDtoInterface>
+     *
+     * @throws ExceptionInterface
+     */
+    public function findAll(): Collection
+    {
+        return $this->requestCollection();
+    }
 
-        $response = $this->request('GET', sprintf('/%s?%s', $this->getResourceEndpoint(), http_build_query($queryParams)));
+    /**
+     * @psalm-return Collection<ApiResourceDtoInterface>
+     *
+     * @throws ExceptionInterface
+     */
+    protected function requestCollection(array $queryParams = []): Collection
+    {
+        $uri = $this->getResourceEndpoint();
+        if (!empty($queryParams)) {
+            $uri .= '?'.http_build_query($queryParams);
+        }
+        $response = $this->request('GET', $uri);
 
         /** @var Collection $collection */
         $collection = $this->serializer->deserialize(

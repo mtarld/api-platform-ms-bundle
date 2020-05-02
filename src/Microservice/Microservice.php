@@ -19,15 +19,18 @@ class Microservice
      */
     private $baseUri;
 
+    private $apiPath;
+
     /**
      * @Assert\NotBlank
      */
     private $format;
 
-    public function __construct(string $name, string $baseUri, string $format)
+    public function __construct(string $name, string $baseUri, string $apiPath, string $format)
     {
         $this->name = $name;
         $this->baseUri = $baseUri;
+        $this->apiPath = $apiPath;
         $this->format = $format;
     }
 
@@ -39,6 +42,11 @@ class Microservice
     public function getBaseUri(): string
     {
         return $this->baseUri;
+    }
+
+    public function getApiPath(): string
+    {
+        return $this->apiPath;
     }
 
     public function getFormat(): string

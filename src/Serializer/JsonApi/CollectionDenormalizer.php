@@ -26,7 +26,7 @@ class CollectionDenormalizer extends AbstractCollectionDenormalizer
 
     protected function getPagination(array $data): ?Pagination
     {
-        return !empty($data['meta']['itemsPerPage'] ?? null)
+        return !empty($data['links']['first'] ?? null)
             ? new Pagination(
                 $data['links']['self'],
                 $data['links']['first'],

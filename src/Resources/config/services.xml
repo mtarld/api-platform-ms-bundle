@@ -26,7 +26,6 @@
         </service>
 
         <service id="api_platform_ms.http_client.generic" class="Mtarld\ApiPlatformMsBundle\HttpClient\GenericHttpClient">
-            <argument type="service" id="service_container" />
             <argument type="service" id="serializer" />
             <argument type="service" id="api_platform_ms.http_client" />
         </service>
