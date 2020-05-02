@@ -2,7 +2,6 @@
 
 namespace Mtarld\ApiPlatformMsBundle\Tests\HttpRepository;
 
-use Mtarld\ApiPlatformMsBundle\Collection\Collection;
 use Mtarld\ApiPlatformMsBundle\Tests\Fixtures\App\src\Dto\PuppyResourceDto;
 use Mtarld\ApiPlatformMsBundle\Tests\Fixtures\App\src\Entity\Puppy;
 use Mtarld\ApiPlatformMsBundle\Tests\Fixtures\App\src\HttpRepository\PuppyHttpRepository;
@@ -24,7 +23,7 @@ class HttpRepositoryTest extends KernelTestCase
         static::bootKernel();
     }
 
-    public function testFindExistinceResourceByIri(): void
+    public function testFindExistingResourceByIri(): void
     {
         /** @var SerializerInterface $serializer */
         $serializer = static::$container->get(SerializerInterface::class);
@@ -41,7 +40,7 @@ class HttpRepositoryTest extends KernelTestCase
             ->method('request')
             ->with(
                 'GET',
-                '/puppies/1',
+                '/api/puppies/1',
                 [
                     'base_uri' => 'https://localhost',
                     'headers' => [
@@ -94,7 +93,7 @@ class HttpRepositoryTest extends KernelTestCase
             ->method('request')
             ->with(
                 'GET',
-                '/puppies?superName%5B0%5D=foo&superName%5B1%5D=bar&pagination=0',
+                '/api/puppies?superName%5B0%5D=foo&superName%5B1%5D=bar',
                 [
                     'base_uri' => 'https://localhost',
                     'headers' => [
@@ -112,10 +111,7 @@ class HttpRepositoryTest extends KernelTestCase
         $httpRepository = static::$container->get(PuppyHttpRepository::class);
 
         $puppyDtos = $httpRepository->findBy('superName', ['foo', 'bar']);
-        $this->assertEquals(
-            new Collection([new PuppyResourceDto('/puppies/1', 1, 'foo'), new PuppyResourceDto('/puppies/2', 2, 'bar')], 2),
-            $puppyDtos
-        );
+        $this->assertCount(2, $puppyDtos);
     }
 
     public function testFindOneExistingResourceBy(): void
@@ -135,7 +131,7 @@ class HttpRepositoryTest extends KernelTestCase
             ->method('request')
             ->with(
                 'GET',
-                '/puppies?superName%5B0%5D=foo&pagination=0',
+                '/api/puppies?superName%5B0%5D=foo',
                 [
                     'base_uri' => 'https://localhost',
                     'headers' => [
@@ -173,7 +169,7 @@ class HttpRepositoryTest extends KernelTestCase
             ->method('request')
             ->with(
                 'GET',
-                '/puppies?superName%5B0%5D=foo&pagination=0',
+                '/api/puppies?superName%5B0%5D=foo',
                 [
                     'base_uri' => 'https://localhost',
                     'headers' => [
@@ -192,5 +188,43 @@ class HttpRepositoryTest extends KernelTestCase
 
         $puppyDto = $httpRepository->findOneBy('superName', 'foo');
         $this->assertNull($puppyDto);
+    }
+
+    public function testFindAllResources(): void
+    {
+        /** @var SerializerInterface $serializer */
+        $serializer = static::$container->get(SerializerInterface::class);
+
+        $response = $this->createMock(ResponseInterface::class);
+        $response
+            ->method('getContent')
+            ->willReturn($serializer->serialize([new Puppy(1, 'foo'), new Puppy(2, 'bar')], 'jsonld'))
+        ;
+
+        $httpClient = $this->createMock(HttpClientInterface::class);
+        $httpClient
+            ->expects($this->once())
+            ->method('request')
+            ->with(
+                'GET',
+                '/api/puppies',
+                [
+                    'base_uri' => 'https://localhost',
+                    'headers' => [
+                        'Content-Type' => 'application/ld+json',
+                        'Accept' => 'application/ld+json',
+                    ],
+                ]
+            )
+            ->willReturn($response)
+        ;
+
+        static::$container->set('test.http_client', $httpClient);
+
+        /** @var PuppyHttpRepository $httpRepository */
+        $httpRepository = static::$container->get(PuppyHttpRepository::class);
+
+        $puppyDtos = $httpRepository->findAll();
+        $this->assertCount(2, $puppyDtos);
     }
 }

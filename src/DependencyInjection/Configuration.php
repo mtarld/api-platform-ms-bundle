@@ -27,6 +27,7 @@ class Configuration implements ConfigurationInterface
                     ->arrayPrototype()
                         ->children()
                             ->scalarNode('base_uri')->isRequired()->end()
+                            ->scalarNode('api_path')->end()
                             ->scalarNode('format')->isRequired()->end()
                         ->end()
                     ->end()

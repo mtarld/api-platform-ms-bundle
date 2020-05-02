@@ -70,7 +70,7 @@ class ApiResourceExistValidatorTest extends KernelTestCase
         $logger
             ->expects($this->once())
             ->method('debug')
-            ->with("Unable to validate IRIs of microservice 'bar': HTTP 500 returned for \"https://localhost/bar_check_resource\".")
+            ->with("Unable to validate IRIs of microservice 'bar': HTTP 500 returned for \"https://localhost/api/bar_check_resource\".")
         ;
         static::$container->set('test.logger', $logger);
 

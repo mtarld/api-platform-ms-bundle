@@ -29,7 +29,7 @@ class HttpClientTest extends KernelTestCase
             ->method('request')
             ->withConsecutive([
                 'GET',
-                '/puppies',
+                '/api/puppies',
                 [
                     'base_uri' => 'https://localhost',
                     'headers' => [
@@ -39,7 +39,7 @@ class HttpClientTest extends KernelTestCase
                 ],
             ], [
                 'POST',
-                '/puppies',
+                '/api/puppies',
                 [
                     'base_uri' => 'https://localhost',
                     'headers' => [
@@ -75,7 +75,7 @@ class HttpClientTest extends KernelTestCase
             ->method('request')
             ->withConsecutive([
                 'GET',
-                '/puppies',
+                '/api/puppies',
                 [
                     'base_uri' => 'https://localhost',
                     'headers' => [
@@ -85,7 +85,7 @@ class HttpClientTest extends KernelTestCase
                 ],
             ], [
                 'POST',
-                '/puppies',
+                '/api/puppies',
                 [
                     'base_uri' => 'https://localhost',
                     'headers' => [
