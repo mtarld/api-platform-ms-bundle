@@ -11,13 +11,12 @@
         <directory name="src"/>
         <ignoreFiles>
             <directory name="src/Resources"/>
-            <directory name="src/Tests/Fixtures"/>
+            <directory name="tests/Fixtures"/>
             <directory name="vendor"/>
         </ignoreFiles>
     </projectFiles>
 
     <issueHandlers>
-        <MissingConstructor errorLevel="suppress"/>
         <InternalMethod>
             <errorLevel type="suppress">
                 <referencedMethod name="PHPUnit\Framework\MockObject\Builder\InvocationMocker::willReturn" />

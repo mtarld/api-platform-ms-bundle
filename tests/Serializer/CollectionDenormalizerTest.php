@@ -1,0 +1,127 @@
+<?php
+
+namespace Mtarld\ApiPlatformMsBundle\Tests\Serializer;
+
+use ApiPlatform\Core\DataProvider\ArrayPaginator;
+use Mtarld\ApiPlatformMsBundle\Collection\Collection;
+use Mtarld\ApiPlatformMsBundle\Collection\Pagination;
+use Mtarld\ApiPlatformMsBundle\Tests\Fixtures\App\src\Dto\PuppyDto;
+use Mtarld\ApiPlatformMsBundle\Tests\Fixtures\App\src\Dto\PuppyResourceDto;
+use Mtarld\ApiPlatformMsBundle\Tests\Fixtures\App\src\Entity\Puppy;
+use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
+use Symfony\Component\Serializer\SerializerInterface;
+
+/**
+ * @group denormalizer
+ * @group collection
+ */
+class CollectionDenormalizerTest extends KernelTestCase
+{
+    public function setUp(): void
+    {
+        static::bootKernel();
+    }
+
+    /**
+     * @dataProvider formatsDataProvider
+     * @testdox Can denormalize resource collection with $format format
+     */
+    public function testResourceCollectionDenormalization(string $format): void
+    {
+        $entityCollection = [new Puppy(1, 'foo'), new Puppy(2, 'bar'), new Puppy(3, 'baz')];
+        $dtoCollection = [new PuppyResourceDto('/puppies/1', 1, 'foo'), new PuppyResourceDto('/puppies/2', 2, 'bar'), new PuppyResourceDto('/puppies/3', 3, 'baz')];
+
+        /** @var SerializerInterface $serializer */
+        $serializer = static::$container->get(SerializerInterface::class);
+        $serializedCollection = $serializer->serialize($entityCollection, $format, ['resource_class' => Puppy::class, 'collection_operation_name' => 'foo']);
+
+        /** @var Collection $deserializedCollection */
+        $deserializedCollection = $serializer->deserialize($serializedCollection, Collection::class.'<'.PuppyResourceDto::class.'>', $format);
+        $this->assertEquals(new Collection($dtoCollection, 3), $deserializedCollection);
+
+        $this->assertFalse($deserializedCollection->hasPagination());
+
+        foreach ($deserializedCollection as $i => $item) {
+            $this->assertEquals($dtoCollection[$i], $item);
+        }
+    }
+
+    /**
+     * @dataProvider formatsDataProvider
+     * @testdox Can denormalize paginated resource collection with $format format
+     */
+    public function testPaginatedResourceCollectionDenormalization(string $format): void
+    {
+        $entityCollection = new ArrayPaginator([new Puppy(1, 'foo'), new Puppy(2, 'bar'), new Puppy(3, 'baz')], 0, 2);
+        $dtoCollection = [new PuppyResourceDto('/puppies/1', 1, 'foo'), new PuppyResourceDto('/puppies/2', 2, 'bar')];
+
+        /** @var SerializerInterface $serializer */
+        $serializer = static::$container->get(SerializerInterface::class);
+        $serializedCollection = $serializer->serialize($entityCollection, $format, ['resource_class' => Puppy::class, 'collection_operation_name' => 'foo']);
+
+        /** @var Collection $deserializedCollection */
+        $deserializedCollection = $serializer->deserialize($serializedCollection, Collection::class.'<'.PuppyResourceDto::class.'>', $format);
+        $this->assertEquals(new Collection($dtoCollection, 3, new Pagination('/?page=1', '/?page=1', '/?page=2', null, '/?page=2')), $deserializedCollection);
+
+        $this->assertTrue($deserializedCollection->hasPagination());
+        $this->assertEquals('/?page=1', $deserializedCollection->getPagination()->getCurrent());
+        $this->assertNull($deserializedCollection->getPagination()->getPrevious());
+        $this->assertEquals('/?page=2', $deserializedCollection->getPagination()->getNext());
+        $this->assertEquals('/?page=1', $deserializedCollection->getPagination()->getFirst());
+        $this->assertEquals('/?page=2', $deserializedCollection->getPagination()->getLast());
+
+        foreach ($deserializedCollection as $i => $deserializedElement) {
+            $this->assertEquals($dtoCollection[$i], $deserializedElement);
+        }
+
+        $entityCollection = new ArrayPaginator([new Puppy(1, 'foo'), new Puppy(2, 'bar'), new Puppy(3, 'baz')], 2, 2);
+        $dtoCollection = [new PuppyResourceDto('/puppies/3', 3, 'baz')];
+
+        /** @var SerializerInterface $serializer */
+        $serializer = static::$container->get(SerializerInterface::class);
+        $serializedCollection = $serializer->serialize($entityCollection, $format, ['resource_class' => Puppy::class, 'collection_operation_name' => 'foo']);
+
+        /** @var Collection $deserializedCollection */
+        $deserializedCollection = $serializer->deserialize($serializedCollection, Collection::class.'<'.PuppyResourceDto::class.'>', $format);
+        $this->assertEquals(new Collection($dtoCollection, 3, new Pagination('/?page=2', '/?page=1', '/?page=2', '/?page=1', null)), $deserializedCollection);
+
+        $this->assertTrue($deserializedCollection->hasPagination());
+        $this->assertEquals('/?page=2', $deserializedCollection->getPagination()->getCurrent());
+        $this->assertEquals('/?page=1', $deserializedCollection->getPagination()->getPrevious());
+        $this->assertNull($deserializedCollection->getPagination()->getNext());
+        $this->assertEquals('/?page=1', $deserializedCollection->getPagination()->getFirst());
+        $this->assertEquals('/?page=2', $deserializedCollection->getPagination()->getLast());
+
+        $this->assertEquals($dtoCollection[0], $deserializedCollection->getIterator()->current());
+    }
+
+    /**
+     * @dataProvider formatsDataProvider
+     * @testdox Can denormalize raw collection with $format format
+     */
+    public function testRawCollectionDenormalization(string $format): void
+    {
+        $dtoCollection = [new PuppyDto(1, 'foo'), new PuppyDto(2, 'bar'), new PuppyDto(3, 'baz')];
+
+        /** @var SerializerInterface $serializer */
+        $serializer = static::$container->get(SerializerInterface::class);
+        $serializedCollection = $serializer->serialize($dtoCollection, $format);
+
+        /** @var Collection $deserializedCollection */
+        $deserializedCollection = $serializer->deserialize($serializedCollection, Collection::class.'<'.PuppyDto::class.'>', $format);
+
+        $this->assertEquals(new Collection($dtoCollection, 3), $deserializedCollection);
+        $this->assertFalse($deserializedCollection->hasPagination());
+
+        foreach ($deserializedCollection as $i => $item) {
+            $this->assertEquals($dtoCollection[$i], $item);
+        }
+    }
+
+    public function formatsDataProvider(): iterable
+    {
+        yield ['jsonld'];
+        yield ['jsonapi'];
+        yield ['jsonhal'];
+    }
+}
