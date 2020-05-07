@@ -5,6 +5,7 @@ namespace Mtarld\ApiPlatformMsBundle\Tests\Collection;
 use Mtarld\ApiPlatformMsBundle\Collection\Collection;
 use Mtarld\ApiPlatformMsBundle\Collection\PaginatedCollectionIterator;
 use Mtarld\ApiPlatformMsBundle\Collection\Pagination;
+use Mtarld\ApiPlatformMsBundle\Exception\CollectionNotIterableException;
 use Mtarld\ApiPlatformMsBundle\Microservice\MicroservicePool;
 use Mtarld\ApiPlatformMsBundle\Tests\Fixtures\App\src\Dto\PuppyResourceDto;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
@@ -26,10 +27,14 @@ class PaginatedCollectionIteratorTest extends KernelTestCase
     {
         $this->mockHttpClient();
 
+        /** @var MicroservicePool $microservices */
+        $microservices = static::$container->get('api_platform_ms.microservice_pool');
+
         $collection = new Collection([
             new PuppyResourceDto('/api/puppies/1', 1, 'foo'),
             new PuppyResourceDto('/api/puppies/2', 1, 'bar'),
         ], 5, new Pagination('/api/puppies?page=1', '/api/puppies?page=1', '/api/puppies?page=3', null, '/api/puppies?page=2'));
+        $collection = $collection->withMicroservice($microservices->get('bar'));
 
         $expectedElements = [
             new PuppyResourceDto('/api/puppies/1', 1, 'foo'),
@@ -39,18 +44,29 @@ class PaginatedCollectionIteratorTest extends KernelTestCase
             new PuppyResourceDto('/api/puppies/5', 5, 'rab'),
         ];
 
-        /** @var MicroservicePool $microservices */
-        $microservices = static::$container->get('api_platform_ms.microservice_pool');
-
         /** @var PaginatedCollectionIterator $iterator */
         $iterator = static::$container->get(PaginatedCollectionIterator::class);
 
         $index = 0;
-        foreach ($iterator->iterateOver($collection, $microservices->get('bar')) as $element) {
+        foreach ($iterator->iterateOver($collection) as $element) {
             $this->assertEquals($expectedElements[$index++], $element);
         }
 
         $this->assertEquals(5, $index);
+    }
+
+    public function testIterateOverPaginatedCollectionWithoutMicroserviceMetadata(): void
+    {
+        $collection = new Collection([
+            new PuppyResourceDto('/api/puppies/1', 1, 'foo'),
+            new PuppyResourceDto('/api/puppies/2', 1, 'bar'),
+        ], 5, new Pagination('/api/puppies?page=1', '/api/puppies?page=1', '/api/puppies?page=3', null, '/api/puppies?page=2'));
+
+        /** @var PaginatedCollectionIterator $iterator */
+        $iterator = static::$container->get(PaginatedCollectionIterator::class);
+
+        $this->expectException(CollectionNotIterableException::class);
+        iterator_to_array($iterator->iterateOver($collection));
     }
 
     private function mockHttpClient(): void

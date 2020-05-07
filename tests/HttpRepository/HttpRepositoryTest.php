@@ -112,6 +112,7 @@ class HttpRepositoryTest extends KernelTestCase
 
         $puppyDtos = $httpRepository->findBy('superName', ['foo', 'bar']);
         $this->assertCount(2, $puppyDtos);
+        $this->assertNotNull($puppyDtos->getMicroservice());
     }
 
     public function testFindOneExistingResourceBy(): void
@@ -226,5 +227,6 @@ class HttpRepositoryTest extends KernelTestCase
 
         $puppyDtos = $httpRepository->findAll();
         $this->assertCount(2, $puppyDtos);
+        $this->assertNotNull($puppyDtos->getMicroservice());
     }
 }

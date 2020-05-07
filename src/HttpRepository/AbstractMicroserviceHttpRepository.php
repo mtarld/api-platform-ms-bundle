@@ -111,7 +111,7 @@ abstract class AbstractMicroserviceHttpRepository
             $this->getMicroservice()->getFormat()
         );
 
-        return $collection;
+        return $collection->withMicroservice($this->getMicroservice());
     }
 
     /**

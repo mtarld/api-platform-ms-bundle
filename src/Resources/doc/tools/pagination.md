@@ -118,7 +118,7 @@ class ProductService
         /** @var Collection $products */
         $products = $this->serializer->deserialize($response->getContent(), Collection::class.'<'.ProductDto::class.'>', $productMicroservice->getFormat());
         
-        yield from $this->collectionIterator->iterateOver($products, $productMicroservice);
+        yield from $this->collectionIterator->iterateOver($products);
     }
 }
 ```

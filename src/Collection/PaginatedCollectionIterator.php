@@ -3,6 +3,7 @@
 namespace Mtarld\ApiPlatformMsBundle\Collection;
 
 use Iterator;
+use Mtarld\ApiPlatformMsBundle\Exception\CollectionNotIterableException;
 use Mtarld\ApiPlatformMsBundle\HttpClient\GenericHttpClient;
 use Mtarld\ApiPlatformMsBundle\Microservice\Microservice;
 use Symfony\Component\Serializer\SerializerInterface;
@@ -17,11 +18,6 @@ class PaginatedCollectionIterator
     private $httpClient;
     private $serializer;
 
-    /**
-     * @var string|null
-     */
-    private $elementType;
-
     public function __construct(GenericHttpClient $httpClient, SerializerInterface $serializer)
     {
         $this->httpClient = $httpClient;
@@ -31,9 +27,15 @@ class PaginatedCollectionIterator
     /**
      * @psalm-param Collection<T> $collection
      * @psalm-return Iterator<T>
+     *
+     * @throws ExceptionInterface
      */
-    public function iterateOver(Collection $collection, Microservice $microservice): Iterator
+    public function iterateOver(Collection $collection): Iterator
     {
+        if (null === $collection->getMicroservice()) {
+            throw new CollectionNotIterableException("Collection isn't iterable because it doesn't hold microservice metadata");
+        }
+
         foreach ($collection as $element) {
             yield $element;
         }
@@ -46,13 +48,9 @@ class PaginatedCollectionIterator
             return;
         }
 
-        $nextPart = $this->getNextCollectionPart(
-            $microservice,
-            $nextPage,
-            $this->elementType = $this->elementType ?? get_class($collection->getIterator()->current())
-        );
+        $nextPart = $this->getNextCollectionPart($collection, $nextPage);
 
-        yield from $this->iterateOver($nextPart, $microservice);
+        yield from $this->iterateOver($nextPart);
     }
 
     /**
@@ -60,15 +58,18 @@ class PaginatedCollectionIterator
      *
      * @throws ExceptionInterface
      */
-    private function getNextCollectionPart(Microservice $microservice, string $nextPage, string $elementType): Collection
+    private function getNextCollectionPart(Collection $collection, string $nextPage): Collection
     {
+        /** @var Microservice $microservice */
+        $microservice = $collection->getMicroservice();
+
         /** @var Collection $nextPart */
         $nextPart = $this->serializer->deserialize(
             $this->httpClient->request($microservice, 'GET', $nextPage)->getContent(),
-            Collection::class.'<'.$elementType.'>',
+            sprintf('%s<%s>', Collection::class, get_class($collection->getIterator()->current())),
             $microservice->getFormat()
         );
 
-        return $nextPart;
+        return $nextPart->withMicroservice($microservice);
     }
 }

@@ -6,10 +6,10 @@ use ArrayIterator;
 use Countable;
 use Iterator;
 use IteratorAggregate;
+use Mtarld\ApiPlatformMsBundle\Microservice\Microservice;
 
 /**
  * @final
- * @psalm-immutable
  * @psalm-template T of object
  */
 class Collection implements IteratorAggregate, Countable
@@ -17,6 +17,11 @@ class Collection implements IteratorAggregate, Countable
     private $elements;
     private $count;
     private $pagination;
+
+    /**
+     * @var Microservice|null
+     */
+    private $microservice;
 
     /**
      * @psalm-param array<T> $elements
@@ -52,5 +57,24 @@ class Collection implements IteratorAggregate, Countable
     public function count(): int
     {
         return $this->count;
+    }
+
+    /**
+     * @internal
+     */
+    public function withMicroservice(Microservice $microservice): self
+    {
+        $collection = clone $this;
+        $collection->microservice = $microservice;
+
+        return $collection;
+    }
+
+    /**
+     * @internal
+     */
+    public function getMicroservice(): ?Microservice
+    {
+        return $this->microservice;
     }
 }
