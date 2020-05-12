@@ -3,15 +3,20 @@
 namespace Mtarld\ApiPlatformMsBundle\Serializer\JsonApi;
 
 use ApiPlatform\Core\JsonApi\Serializer\ReservedAttributeNameConverter;
-use Mtarld\ApiPlatformMsBundle\Serializer\AbstractObjectDenormalizer;
+use Symfony\Component\Serializer\Normalizer\ContextAwareDenormalizerInterface;
+use Symfony\Component\Serializer\Normalizer\DenormalizerAwareInterface;
+use Symfony\Component\Serializer\Normalizer\DenormalizerAwareTrait;
 
 /**
  * @final @internal
  * @SuppressWarnings(PHPMD.UnusedFormalParameter)
  */
-class ObjectDenormalizer extends AbstractObjectDenormalizer
+class ObjectDenormalizer implements ContextAwareDenormalizerInterface, DenormalizerAwareInterface
 {
+    private const ALREADY_CALLED = 'jsonapi_object_denormalizer_already_called';
+
     use JsonApiDenormalizerTrait;
+    use DenormalizerAwareTrait;
 
     /**
      * @param string $type
@@ -19,6 +24,8 @@ class ObjectDenormalizer extends AbstractObjectDenormalizer
      */
     public function denormalize($data, $type, $format = null, array $context = [])
     {
+        $context[self::ALREADY_CALLED] = true;
+
         if (array_key_exists('data', $data)) {
             $data = $data['data'];
         }
@@ -34,6 +41,15 @@ class ObjectDenormalizer extends AbstractObjectDenormalizer
             }
         }
 
-        return parent::denormalize($data, $type, $format, $context);
+        return $this->denormalizer->denormalize($data, $type, $format, $context);
+    }
+
+    /**
+     * @param string $type
+     * @param string $format
+     */
+    public function supportsDenormalization($data, $type, $format = null, array $context = []): bool
+    {
+        return false === ($context[self::ALREADY_CALLED] ?? false) && $this->getFormat() === $format;
     }
 }

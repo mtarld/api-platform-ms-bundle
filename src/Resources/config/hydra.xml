@@ -26,9 +26,5 @@
             <!-- Run before api_platform_ms.jsonld.denormalizer.object -->
             <tag name="serializer.normalizer" priority="-870" />
         </service>
-
-        <service id="api_platform_ms.jsonld.denormalizer.object" class="Mtarld\ApiPlatformMsBundle\Serializer\Hydra\ObjectDenormalizer" public="false">
-            <tag name="serializer.normalizer" priority="-880" />
-        </service>
     </services>
 </container>
