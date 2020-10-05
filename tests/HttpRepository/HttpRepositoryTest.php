@@ -58,7 +58,7 @@ class HttpRepositoryTest extends KernelTestCase
         $httpRepository = static::$container->get(PuppyHttpRepository::class);
 
         $puppyDto = $httpRepository->findOneByIri('/puppies/1');
-        self::assertEquals(new PuppyResourceDto('/puppies/1', 1, 'foo'), $puppyDto);
+        self::assertEquals(new PuppyResourceDto('/puppies/1', 'foo'), $puppyDto);
     }
 
     public function testFindMissingResourceByIri(): void
@@ -150,7 +150,7 @@ class HttpRepositoryTest extends KernelTestCase
         $httpRepository = static::$container->get(PuppyHttpRepository::class);
 
         $puppyDto = $httpRepository->findOneBy('superName', 'foo');
-        self::assertEquals(new PuppyResourceDto('/puppies/1', 1, 'foo'), $puppyDto);
+        self::assertEquals(new PuppyResourceDto('/puppies/1', 'foo'), $puppyDto);
     }
 
     public function testFindOneMissingResourceBy(): void

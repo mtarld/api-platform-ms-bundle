@@ -15,7 +15,7 @@ test-phpcs: ## Run coding standard tests
 	./vendor/bin/php-cs-fixer --diff --dry-run --using-cache=no -v fix src
 
 test-psalm: ## Run Psalm static analysis
-	./vendor/bin/psalm --show-info=true --long-progress
+	./vendor/bin/psalm --show-info=true --find-unused-psalm-suppress
 
 test-phpmd: ## Run PHPMD static analysis
 	./vendor/bin/phpmd --exclude Tests/Fixtures src/ text phpmd.xml

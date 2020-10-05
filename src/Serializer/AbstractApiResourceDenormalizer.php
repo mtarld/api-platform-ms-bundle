@@ -21,15 +21,16 @@ abstract class AbstractApiResourceDenormalizer implements DenormalizerInterface,
 
     abstract protected function prepareData(array $data): array;
 
+    abstract protected function prepareEmbeddedData(array $data): array;
+
     /**
      * @param string $type
      * @param string $format
      */
     public function denormalize($data, $type, $format = null, array $context = [])
     {
-        $context[static::class.'_called'] = true;
         $iri = $this->getIri($data);
-
+        $data = $this->prepareEmbeddedData($data);
         $data = $this->prepareData($data);
         $data['iri'] = $iri;
 
@@ -40,10 +41,10 @@ abstract class AbstractApiResourceDenormalizer implements DenormalizerInterface,
      * @param string $type
      * @param string $format
      */
-    public function supportsDenormalization($data, $type, $format = null, array $context = []): bool
+    public function supportsDenormalization($data, $type, $format = null): bool
     {
         return
-            !($context[static::class.'_called'] ?? false)
+            !isset($data['iri'])
             && $this->getFormat() === $format
             && is_a($type, ApiResourceDtoInterface::class, true)
         ;

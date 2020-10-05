@@ -29,7 +29,7 @@ class CollectionDenormalizerTest extends KernelTestCase
     public function testResourceCollectionDenormalization(string $format): void
     {
         $entityCollection = [new Puppy(1, 'foo'), new Puppy(2, 'bar'), new Puppy(3, 'baz')];
-        $dtoCollection = [new PuppyResourceDto('/puppies/1', 1, 'foo'), new PuppyResourceDto('/puppies/2', 2, 'bar'), new PuppyResourceDto('/puppies/3', 3, 'baz')];
+        $dtoCollection = [new PuppyResourceDto('/puppies/1', 'foo'), new PuppyResourceDto('/puppies/2', 'bar'), new PuppyResourceDto('/puppies/3', 'baz')];
 
         /** @var SerializerInterface $serializer */
         $serializer = static::$container->get(SerializerInterface::class);
@@ -53,7 +53,7 @@ class CollectionDenormalizerTest extends KernelTestCase
     public function testPaginatedResourceCollectionDenormalization(string $format): void
     {
         $entityCollection = new ArrayPaginator([new Puppy(1, 'foo'), new Puppy(2, 'bar'), new Puppy(3, 'baz')], 0, 2);
-        $dtoCollection = [new PuppyResourceDto('/puppies/1', 1, 'foo'), new PuppyResourceDto('/puppies/2', 2, 'bar')];
+        $dtoCollection = [new PuppyResourceDto('/puppies/1', 'foo'), new PuppyResourceDto('/puppies/2', 'bar')];
 
         /** @var SerializerInterface $serializer */
         $serializer = static::$container->get(SerializerInterface::class);
@@ -75,7 +75,7 @@ class CollectionDenormalizerTest extends KernelTestCase
         }
 
         $entityCollection = new ArrayPaginator([new Puppy(1, 'foo'), new Puppy(2, 'bar'), new Puppy(3, 'baz')], 2, 2);
-        $dtoCollection = [new PuppyResourceDto('/puppies/3', 3, 'baz')];
+        $dtoCollection = [new PuppyResourceDto('/puppies/3', 'baz')];
 
         /** @var SerializerInterface $serializer */
         $serializer = static::$container->get(SerializerInterface::class);

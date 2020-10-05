@@ -9,13 +9,26 @@ class PuppyResourceDto implements ApiResourceDtoInterface
 {
     use ApiResourceDtoTrait;
 
-    public $id;
+    /**
+     * @var string
+     */
     public $superName;
 
-    public function __construct(string $iri, int $id, string $superName)
+    /**
+     * @var ColorResourceDto|null
+     */
+    public $color;
+
+    /**
+     * @var HairResourceDto[]|null
+     */
+    public $hairs;
+
+    public function __construct(string $iri, string $superName, ?ColorResourceDto $color = null, ?array $hairs = [])
     {
         $this->iri = $iri;
-        $this->id = $id;
         $this->superName = $superName;
+        $this->color = $color;
+        $this->hairs = $hairs;
     }
 }
