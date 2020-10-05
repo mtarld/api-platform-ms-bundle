@@ -37,7 +37,7 @@ class ExistenceCheckerTest extends KernelTestCase
 
         $httpClient = $this->createMock(HttpClientInterface::class);
         $httpClient
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('request')
             ->with(
                 'POST',
@@ -66,7 +66,7 @@ class ExistenceCheckerTest extends KernelTestCase
 
         static::$container->set('test.http_client', $httpClient);
         $existences = static::$container->get('api_platform_ms.api_resource.existence_checker')->getExistenceStatuses('bar', ['1', '2']);
-        $this->assertEquals(['1' => true, '2' => false], $existences);
+        self::assertEquals(['1' => true, '2' => false], $existences);
     }
 
     public function testErroredMicroserviceResponse(): void

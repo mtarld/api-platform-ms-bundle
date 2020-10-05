@@ -35,7 +35,7 @@ class ApiResourceExistValidatorTest extends KernelTestCase
     {
         $existenceChecker = $this->createMock(ExistenceChecker::class);
         $existenceChecker
-            ->expects($this->never())
+            ->expects(self::never())
             ->method('getExistenceStatuses')
         ;
 
@@ -55,8 +55,8 @@ class ApiResourceExistValidatorTest extends KernelTestCase
         $violations = static::$container->get(ValidatorInterface::class)->validate([1, 2], new ApiResourceExist([
             'microservice' => 'bar',
         ]));
-        $this->assertCount(1, $violations);
-        $this->assertSame("'2' does not exist in microservice 'bar'.", $violations->get(0)->getMessage());
+        self::assertCount(1, $violations);
+        self::assertSame("'2' does not exist in microservice 'bar'.", $violations->get(0)->getMessage());
     }
 
     public function testLogOnHttpException(): void
@@ -68,7 +68,7 @@ class ApiResourceExistValidatorTest extends KernelTestCase
 
         $logger = $this->createMock(LoggerInterface::class);
         $logger
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('debug')
             ->with("Unable to validate IRIs of microservice 'bar': HTTP 500 returned for \"https://localhost/api/bar_check_resource\".")
         ;
@@ -89,7 +89,7 @@ class ApiResourceExistValidatorTest extends KernelTestCase
 
         $logger = $this->createMock(LoggerInterface::class);
         $logger
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('debug')
         ;
         static::$container->set('test.logger', $logger);
@@ -112,7 +112,7 @@ class ApiResourceExistValidatorTest extends KernelTestCase
             'microservice' => 'bar',
             'skipOnError' => true,
         ]));
-        $this->assertCount(0, $violations);
+        self::assertCount(0, $violations);
 
         $this->expectException(RuntimeException::class);
         static::$container->get(ValidatorInterface::class)->validate([1, 2], new ApiResourceExist([

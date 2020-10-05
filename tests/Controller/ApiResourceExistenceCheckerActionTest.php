@@ -74,8 +74,8 @@ class ApiResourceExistenceCheckerActionTest extends WebTestCase
             'CONTENT_TYPE' => 'application/json',
         ], $payload);
 
-        $this->assertEquals(200, $client->getResponse()->getStatusCode());
-        $this->assertEquals($result, $client->getResponse()->getContent());
+        self::assertEquals(200, $client->getResponse()->getStatusCode());
+        self::assertEquals($result, $client->getResponse()->getContent());
     }
 
     public function successfulExistenceCheckDataProvider(): iterable

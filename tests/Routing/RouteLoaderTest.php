@@ -14,21 +14,21 @@ class RouteLoaderTest extends TestCase
     public function testResourceExistenceCheckerRoute(): void
     {
         $routes = (new RouteLoader('test'))();
-        $this->assertNotNull($route = $routes->get('test_check_resource'));
+        self::assertNotNull($route = $routes->get('test_check_resource'));
 
-        $this->assertSame('/test_check_resource', $route->getPath());
-        $this->assertSame(['POST'], $route->getMethods());
-        $this->assertSame(ApiResourceExistenceCheckerAction::class, $route->getDefault('_controller'));
-        $this->assertSame('', $route->getHost());
-        $this->assertEquals([], $route->getRequirements());
+        self::assertSame('/test_check_resource', $route->getPath());
+        self::assertSame(['POST'], $route->getMethods());
+        self::assertSame(ApiResourceExistenceCheckerAction::class, $route->getDefault('_controller'));
+        self::assertSame('', $route->getHost());
+        self::assertEquals([], $route->getRequirements());
 
         $routes = (new RouteLoader('test', ['foo', 'bar']))();
-        $this->assertNotNull($route = $routes->get('test_check_resource'));
+        self::assertNotNull($route = $routes->get('test_check_resource'));
 
-        $this->assertSame('/test_check_resource', $route->getPath());
-        $this->assertSame(['POST'], $route->getMethods());
-        $this->assertSame(ApiResourceExistenceCheckerAction::class, $route->getDefault('_controller'));
-        $this->assertSame('{host}', $route->getHost());
-        $this->assertEquals(['host' => 'foo|bar'], $route->getRequirements());
+        self::assertSame('/test_check_resource', $route->getPath());
+        self::assertSame(['POST'], $route->getMethods());
+        self::assertSame(ApiResourceExistenceCheckerAction::class, $route->getDefault('_controller'));
+        self::assertSame('{host}', $route->getHost());
+        self::assertEquals(['host' => 'foo|bar'], $route->getRequirements());
     }
 }

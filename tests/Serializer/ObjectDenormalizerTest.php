@@ -32,7 +32,7 @@ class ObjectDenormalizerTest extends KernelTestCase
 
         /** @var Puppy $deserializedEntity */
         $deserializedEntity = $serializer->deserialize($serializedEntity, PuppyDto::class, $format);
-        $this->assertEquals(new PuppyDto(1, 'foo'), $deserializedEntity);
+        self::assertEquals(new PuppyDto(1, 'foo'), $deserializedEntity);
     }
 
     public function formatsDataProvider(): iterable

@@ -36,7 +36,7 @@ class ConstraintViolationListDenormalizerTest extends KernelTestCase
         $serializer = static::$container->get(SerializerInterface::class);
         $serializedViolations = $serializer->serialize($violations, $format);
 
-        $this->assertEquals(
+        self::assertEquals(
             new ConstraintViolationList([
                 new ConstraintViolation('This is a violation!', null, [], null, 'property', null),
                 new ConstraintViolation('This is a violation as well!', null, [], null, 'anotherProperty', null),
