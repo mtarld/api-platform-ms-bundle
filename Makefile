@@ -7,20 +7,17 @@ clean-code: ## Run PHP CS Fixer
 test: test-code test-qa ## Run code and QA tests
 
 test-code: ## Run code tests
-	./vendor/bin/phpunit
+	./vendor/bin/phpunit --testdox
 
-test-qa: test-phpcs test-psalm test-phpmd test-phpcpd ## Run QA tests
+test-qa: test-phpcs test-psalm test-phpmd ## Run QA tests
 
-test-phpcs: ## Run codestyle tests
+test-phpcs: ## Run coding standard tests
 	./vendor/bin/php-cs-fixer --diff --dry-run --using-cache=no -v fix src
 
-test-psalm: ## Run static analysis tests
+test-psalm: ## Run Psalm static analysis
 	./vendor/bin/psalm --show-info=true --long-progress
 
-test-phpmd: ## Run mess detector tests
+test-phpmd: ## Run PHPMD static analysis
 	./vendor/bin/phpmd --exclude Tests/Fixtures src/ text phpmd.xml
 
-test-phpcpd: ## Run copy/paste tests
-	./vendor/bin/phpcpd --exclude Tests src/
-
-.PHONY: clean-code test test-code test-qa test-phpcs test-psalm test-phpmd test-phpcpd
+.PHONY: clean-code test test-code test-qa test-phpcs test-psalm test-phpmd

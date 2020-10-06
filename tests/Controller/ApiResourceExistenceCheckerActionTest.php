@@ -3,8 +3,10 @@
 namespace Mtarld\ApiPlatformMsBundle\Tests\Controller;
 
 use ApiPlatform\Core\Api\IriConverterInterface;
+use ApiPlatform\Core\Bridge\Symfony\Validator\Exception\ValidationException;
 use Exception;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
+use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 
 /**
  * @group resource-existence
@@ -16,36 +18,39 @@ class ApiResourceExistenceCheckerActionTest extends WebTestCase
      */
     public function testExistenceCheckWithUnsupportedContentType(): void
     {
-        $client = static::createClient();
-        $client->request('POST', '/foo_check_resource', [], [], [
-            'CONTENT_TYPE' => 'unsupported',
-        ]);
+        $this->expectException(BadRequestHttpException::class);
 
-        $this->assertEquals(400, $client->getResponse()->getStatusCode());
+        $client = static::createClient();
+        $client->catchExceptions(false);
+
+        $client->request('POST', '/foo_check_resource', [], [], ['CONTENT_TYPE' => 'unsupported']);
     }
 
     /**
      * @dataProvider existenceCheckBadRequestWithWrongBodyDataProvider
      * @testdox Bad request with content: $content
      */
-    public function testExistenceCheckBadRequestWithWrongContent(?string $content): void
+    public function testExistenceCheckBadRequestWithWrongContent(?string $content, string $exceptionFqcn): void
     {
+        $this->expectException($exceptionFqcn);
+
         $client = static::createClient();
+        $client->catchExceptions(false);
+
         $client->request('POST', '/foo_check_resource', [], [], ['CONTENT_TYPE' => 'application/json'], $content);
-        $this->assertEquals(400, $client->getResponse()->getStatusCode());
     }
 
     public function existenceCheckBadRequestWithWrongBodyDataProvider(): iterable
     {
-        yield [null];
-        yield [''];
-        yield ['{}'];
-        yield ['{"iris": null}'];
-        yield ['{"iris": "null}'];
-        yield ['{"iris": "foo"}'];
-        yield ['{"iris": [null]}'];
-        yield ['{"iris": [""]}'];
-        yield ['{"iris": [1]}'];
+        yield [null, BadRequestHttpException::class];
+        yield ['', BadRequestHttpException::class];
+        yield ['{}', BadRequestHttpException::class];
+        yield ['{"iris": null}', BadRequestHttpException::class];
+        yield ['{"iris": "null}', BadRequestHttpException::class];
+        yield ['{"iris": "foo"}', BadRequestHttpException::class];
+        yield ['{"iris": [null]}', ValidationException::class];
+        yield ['{"iris": [""]}', ValidationException::class];
+        yield ['{"iris": [1]}', ValidationException::class];
     }
 
     /**
