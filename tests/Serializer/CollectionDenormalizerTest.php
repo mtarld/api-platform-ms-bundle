@@ -37,12 +37,12 @@ class CollectionDenormalizerTest extends KernelTestCase
 
         /** @var Collection $deserializedCollection */
         $deserializedCollection = $serializer->deserialize($serializedCollection, Collection::class.'<'.PuppyResourceDto::class.'>', $format);
-        $this->assertEquals(new Collection($dtoCollection, 3), $deserializedCollection);
+        self::assertEquals(new Collection($dtoCollection, 3), $deserializedCollection);
 
-        $this->assertFalse($deserializedCollection->hasPagination());
+        self::assertFalse($deserializedCollection->hasPagination());
 
         foreach ($deserializedCollection as $i => $item) {
-            $this->assertEquals($dtoCollection[$i], $item);
+            self::assertEquals($dtoCollection[$i], $item);
         }
     }
 
@@ -61,17 +61,17 @@ class CollectionDenormalizerTest extends KernelTestCase
 
         /** @var Collection $deserializedCollection */
         $deserializedCollection = $serializer->deserialize($serializedCollection, Collection::class.'<'.PuppyResourceDto::class.'>', $format);
-        $this->assertEquals(new Collection($dtoCollection, 3, new Pagination('/?page=1', '/?page=1', '/?page=2', null, '/?page=2')), $deserializedCollection);
+        self::assertEquals(new Collection($dtoCollection, 3, new Pagination('/?page=1', '/?page=1', '/?page=2', null, '/?page=2')), $deserializedCollection);
 
-        $this->assertTrue($deserializedCollection->hasPagination());
-        $this->assertEquals('/?page=1', $deserializedCollection->getPagination()->getCurrent());
-        $this->assertNull($deserializedCollection->getPagination()->getPrevious());
-        $this->assertEquals('/?page=2', $deserializedCollection->getPagination()->getNext());
-        $this->assertEquals('/?page=1', $deserializedCollection->getPagination()->getFirst());
-        $this->assertEquals('/?page=2', $deserializedCollection->getPagination()->getLast());
+        self::assertTrue($deserializedCollection->hasPagination());
+        self::assertEquals('/?page=1', $deserializedCollection->getPagination()->getCurrent());
+        self::assertNull($deserializedCollection->getPagination()->getPrevious());
+        self::assertEquals('/?page=2', $deserializedCollection->getPagination()->getNext());
+        self::assertEquals('/?page=1', $deserializedCollection->getPagination()->getFirst());
+        self::assertEquals('/?page=2', $deserializedCollection->getPagination()->getLast());
 
         foreach ($deserializedCollection as $i => $deserializedElement) {
-            $this->assertEquals($dtoCollection[$i], $deserializedElement);
+            self::assertEquals($dtoCollection[$i], $deserializedElement);
         }
 
         $entityCollection = new ArrayPaginator([new Puppy(1, 'foo'), new Puppy(2, 'bar'), new Puppy(3, 'baz')], 2, 2);
@@ -83,16 +83,16 @@ class CollectionDenormalizerTest extends KernelTestCase
 
         /** @var Collection $deserializedCollection */
         $deserializedCollection = $serializer->deserialize($serializedCollection, Collection::class.'<'.PuppyResourceDto::class.'>', $format);
-        $this->assertEquals(new Collection($dtoCollection, 3, new Pagination('/?page=2', '/?page=1', '/?page=2', '/?page=1', null)), $deserializedCollection);
+        self::assertEquals(new Collection($dtoCollection, 3, new Pagination('/?page=2', '/?page=1', '/?page=2', '/?page=1', null)), $deserializedCollection);
 
-        $this->assertTrue($deserializedCollection->hasPagination());
-        $this->assertEquals('/?page=2', $deserializedCollection->getPagination()->getCurrent());
-        $this->assertEquals('/?page=1', $deserializedCollection->getPagination()->getPrevious());
-        $this->assertNull($deserializedCollection->getPagination()->getNext());
-        $this->assertEquals('/?page=1', $deserializedCollection->getPagination()->getFirst());
-        $this->assertEquals('/?page=2', $deserializedCollection->getPagination()->getLast());
+        self::assertTrue($deserializedCollection->hasPagination());
+        self::assertEquals('/?page=2', $deserializedCollection->getPagination()->getCurrent());
+        self::assertEquals('/?page=1', $deserializedCollection->getPagination()->getPrevious());
+        self::assertNull($deserializedCollection->getPagination()->getNext());
+        self::assertEquals('/?page=1', $deserializedCollection->getPagination()->getFirst());
+        self::assertEquals('/?page=2', $deserializedCollection->getPagination()->getLast());
 
-        $this->assertEquals($dtoCollection[0], $deserializedCollection->getIterator()->current());
+        self::assertEquals($dtoCollection[0], $deserializedCollection->getIterator()->current());
     }
 
     /**
@@ -110,11 +110,11 @@ class CollectionDenormalizerTest extends KernelTestCase
         /** @var Collection $deserializedCollection */
         $deserializedCollection = $serializer->deserialize($serializedCollection, Collection::class.'<'.PuppyDto::class.'>', $format);
 
-        $this->assertEquals(new Collection($dtoCollection, 3), $deserializedCollection);
-        $this->assertFalse($deserializedCollection->hasPagination());
+        self::assertEquals(new Collection($dtoCollection, 3), $deserializedCollection);
+        self::assertFalse($deserializedCollection->hasPagination());
 
         foreach ($deserializedCollection as $i => $item) {
-            $this->assertEquals($dtoCollection[$i], $item);
+            self::assertEquals($dtoCollection[$i], $item);
         }
     }
 

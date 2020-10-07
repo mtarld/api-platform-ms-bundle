@@ -36,7 +36,7 @@ class HttpRepositoryTest extends KernelTestCase
 
         $httpClient = $this->createMock(HttpClientInterface::class);
         $httpClient
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('request')
             ->with(
                 'GET',
@@ -58,7 +58,7 @@ class HttpRepositoryTest extends KernelTestCase
         $httpRepository = static::$container->get(PuppyHttpRepository::class);
 
         $puppyDto = $httpRepository->findOneByIri('/puppies/1');
-        $this->assertEquals(new PuppyResourceDto('/puppies/1', 1, 'foo'), $puppyDto);
+        self::assertEquals(new PuppyResourceDto('/puppies/1', 1, 'foo'), $puppyDto);
     }
 
     public function testFindMissingResourceByIri(): void
@@ -73,7 +73,7 @@ class HttpRepositoryTest extends KernelTestCase
         $httpRepository = static::$container->get(PuppyHttpRepository::class);
 
         $puppyDto = $httpRepository->findOneByIri('/puppies/1');
-        $this->assertNull($puppyDto);
+        self::assertNull($puppyDto);
     }
 
     public function testFindResourceBy(): void
@@ -89,7 +89,7 @@ class HttpRepositoryTest extends KernelTestCase
 
         $httpClient = $this->createMock(HttpClientInterface::class);
         $httpClient
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('request')
             ->with(
                 'GET',
@@ -111,8 +111,8 @@ class HttpRepositoryTest extends KernelTestCase
         $httpRepository = static::$container->get(PuppyHttpRepository::class);
 
         $puppyDtos = $httpRepository->findBy('superName', ['foo', 'bar']);
-        $this->assertCount(2, $puppyDtos);
-        $this->assertNotNull($puppyDtos->getMicroservice());
+        self::assertCount(2, $puppyDtos);
+        self::assertNotNull($puppyDtos->getMicroservice());
     }
 
     public function testFindOneExistingResourceBy(): void
@@ -128,7 +128,7 @@ class HttpRepositoryTest extends KernelTestCase
 
         $httpClient = $this->createMock(HttpClientInterface::class);
         $httpClient
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('request')
             ->with(
                 'GET',
@@ -150,7 +150,7 @@ class HttpRepositoryTest extends KernelTestCase
         $httpRepository = static::$container->get(PuppyHttpRepository::class);
 
         $puppyDto = $httpRepository->findOneBy('superName', 'foo');
-        $this->assertEquals(new PuppyResourceDto('/puppies/1', 1, 'foo'), $puppyDto);
+        self::assertEquals(new PuppyResourceDto('/puppies/1', 1, 'foo'), $puppyDto);
     }
 
     public function testFindOneMissingResourceBy(): void
@@ -166,7 +166,7 @@ class HttpRepositoryTest extends KernelTestCase
 
         $httpClient = $this->createMock(HttpClientInterface::class);
         $httpClient
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('request')
             ->with(
                 'GET',
@@ -188,7 +188,7 @@ class HttpRepositoryTest extends KernelTestCase
         $httpRepository = static::$container->get(PuppyHttpRepository::class);
 
         $puppyDto = $httpRepository->findOneBy('superName', 'foo');
-        $this->assertNull($puppyDto);
+        self::assertNull($puppyDto);
     }
 
     public function testFindAllResources(): void
@@ -204,7 +204,7 @@ class HttpRepositoryTest extends KernelTestCase
 
         $httpClient = $this->createMock(HttpClientInterface::class);
         $httpClient
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('request')
             ->with(
                 'GET',
@@ -226,7 +226,7 @@ class HttpRepositoryTest extends KernelTestCase
         $httpRepository = static::$container->get(PuppyHttpRepository::class);
 
         $puppyDtos = $httpRepository->findAll();
-        $this->assertCount(2, $puppyDtos);
-        $this->assertNotNull($puppyDtos->getMicroservice());
+        self::assertCount(2, $puppyDtos);
+        self::assertNotNull($puppyDtos->getMicroservice());
     }
 }

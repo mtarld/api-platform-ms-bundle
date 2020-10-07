@@ -49,10 +49,10 @@ class PaginatedCollectionIteratorTest extends KernelTestCase
 
         $index = 0;
         foreach ($iterator->iterateOver($collection) as $element) {
-            $this->assertEquals($expectedElements[$index++], $element);
+            self::assertEquals($expectedElements[$index++], $element);
         }
 
-        $this->assertEquals(5, $index);
+        self::assertEquals(5, $index);
     }
 
     public function testIterateOverPaginatedCollectionWithoutMicroserviceMetadata(): void
@@ -73,7 +73,7 @@ class PaginatedCollectionIteratorTest extends KernelTestCase
     {
         $httpClient = $this->createMock(HttpClientInterface::class);
         $httpClient
-            ->expects($this->exactly(2))
+            ->expects(self::exactly(2))
             ->method('request')
             ->withConsecutive([
                 'GET',

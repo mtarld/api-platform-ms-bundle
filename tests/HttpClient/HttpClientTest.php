@@ -25,7 +25,7 @@ class HttpClientTest extends KernelTestCase
     {
         $httpClient = $this->createMock(HttpClientInterface::class);
         $httpClient
-            ->expects($this->exactly(2))
+            ->expects(self::exactly(2))
             ->method('request')
             ->withConsecutive([
                 'GET',
@@ -71,7 +71,7 @@ class HttpClientTest extends KernelTestCase
     {
         $httpClient = $this->createMock(HttpClientInterface::class);
         $httpClient
-            ->expects($this->exactly(2))
+            ->expects(self::exactly(2))
             ->method('request')
             ->withConsecutive([
                 'GET',
