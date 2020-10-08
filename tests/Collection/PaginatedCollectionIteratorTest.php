@@ -31,17 +31,17 @@ class PaginatedCollectionIteratorTest extends KernelTestCase
         $microservices = static::$container->get('api_platform_ms.microservice_pool');
 
         $collection = new Collection([
-            new PuppyResourceDto('/api/puppies/1', 1, 'foo'),
-            new PuppyResourceDto('/api/puppies/2', 1, 'bar'),
+            new PuppyResourceDto('/api/puppies/1', 'foo'),
+            new PuppyResourceDto('/api/puppies/2', 'bar'),
         ], 5, new Pagination('/api/puppies?page=1', '/api/puppies?page=1', '/api/puppies?page=3', null, '/api/puppies?page=2'));
         $collection = $collection->withMicroservice($microservices->get('bar'));
 
         $expectedElements = [
-            new PuppyResourceDto('/api/puppies/1', 1, 'foo'),
-            new PuppyResourceDto('/api/puppies/2', 1, 'bar'),
-            new PuppyResourceDto('/api/puppies/3', 3, 'baz'),
-            new PuppyResourceDto('/api/puppies/4', 4, 'oof'),
-            new PuppyResourceDto('/api/puppies/5', 5, 'rab'),
+            new PuppyResourceDto('/api/puppies/1', 'foo'),
+            new PuppyResourceDto('/api/puppies/2', 'bar'),
+            new PuppyResourceDto('/api/puppies/3', 'baz'),
+            new PuppyResourceDto('/api/puppies/4', 'oof'),
+            new PuppyResourceDto('/api/puppies/5', 'rab'),
         ];
 
         /** @var PaginatedCollectionIterator $iterator */
@@ -58,8 +58,8 @@ class PaginatedCollectionIteratorTest extends KernelTestCase
     public function testIterateOverPaginatedCollectionWithoutMicroserviceMetadata(): void
     {
         $collection = new Collection([
-            new PuppyResourceDto('/api/puppies/1', 1, 'foo'),
-            new PuppyResourceDto('/api/puppies/2', 1, 'bar'),
+            new PuppyResourceDto('/api/puppies/1', 'foo'),
+            new PuppyResourceDto('/api/puppies/2', 'bar'),
         ], 5, new Pagination('/api/puppies?page=1', '/api/puppies?page=1', '/api/puppies?page=3', null, '/api/puppies?page=2'));
 
         /** @var PaginatedCollectionIterator $iterator */

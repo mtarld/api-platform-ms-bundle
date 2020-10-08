@@ -13,9 +13,6 @@ use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
  */
 class ApiResourceExistenceCheckerActionTest extends WebTestCase
 {
-    /**
-     * @group ttt
-     */
     public function testExistenceCheckWithUnsupportedContentType(): void
     {
         $this->expectException(BadRequestHttpException::class);

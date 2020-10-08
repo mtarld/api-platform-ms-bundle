@@ -9,7 +9,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
 /**
  * @ApiResource(normalizationContext={"groups"={"read"}})
  */
-class Puppy
+class Hair
 {
     /**
      * @var int
@@ -20,31 +20,23 @@ class Puppy
     public $id;
 
     /**
-     * @var string
+     * @var int
      *
      * @Groups({"read"})
      */
-    public $superName;
+    public $length;
 
     /**
-     * @var Color|null
+     * @var Color
      *
      * @Groups({"read"})
      */
     public $color;
 
-    /**
-     * @var Hair[]|null
-     *
-     * @Groups({"read"})
-     */
-    public $hairs;
-
-    public function __construct(int $id, string $superName, ?Color $color = null, ?array $hairs = [])
+    public function __construct(int $id, int $length, Color $color)
     {
         $this->id = $id;
-        $this->superName = $superName;
+        $this->length = $length;
         $this->color = $color;
-        $this->hairs = $hairs;
     }
 }

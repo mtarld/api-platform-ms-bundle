@@ -47,7 +47,7 @@ jobs:
               run: composer install --prefer-dist
 
             - name: Run Psalm
-              run: vendor/bin/psalm -c psalm.xml --root src --long-progress --output-format=github
+              run: vendor/bin/psalm -c psalm.xml -r src --long-progress --show-info=true --find-unused-psalm-suppress --output-format=github
 
     phpmd:
         runs-on: ubuntu-latest

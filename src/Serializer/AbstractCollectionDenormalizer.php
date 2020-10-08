@@ -12,7 +12,6 @@ use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
 /**
  * @internal
  * @SuppressWarnings(PHPMD.UnusedFormalParameter)
- * @psalm-template T as array|object
  */
 abstract class AbstractCollectionDenormalizer implements DenormalizerInterface, DenormalizerAwareInterface, CacheableSupportsMethodInterface
 {
@@ -21,7 +20,7 @@ abstract class AbstractCollectionDenormalizer implements DenormalizerInterface, 
     abstract protected function getFormat(): string;
 
     /**
-     * @psalm-return array<T>
+     * @return array<object>
      */
     abstract protected function denormalizeElements(array $data, string $enclosedType, array $context): array;
 
@@ -35,7 +34,7 @@ abstract class AbstractCollectionDenormalizer implements DenormalizerInterface, 
      * @param string $type
      * @param string $format
      *
-     * @psalm-return \Mtarld\ApiPlatformMsBundle\Collection\Collection<T>
+     * @psalm-return \Mtarld\ApiPlatformMsBundle\Collection\Collection<object>
      */
     public function denormalize($data, $type, $format = null, array $context = []): Collection
     {
@@ -76,10 +75,16 @@ abstract class AbstractCollectionDenormalizer implements DenormalizerInterface, 
         return true;
     }
 
+    /**
+     * @return array<object>
+     */
     protected function denormalizeRawElements(array $data, string $enclosedType, array $context): array
     {
-        return array_map(function (array $element) use ($enclosedType, $context) {
-            return $this->denormalizer->denormalize($element, $enclosedType, $this->getFormat(), $context);
+        return array_map(function (array $elementData) use ($enclosedType, $context) {
+            /** @var object $rawElement */
+            $rawElement = $this->denormalizer->denormalize($elementData, $enclosedType, $this->getFormat(), $context);
+
+            return $rawElement;
         }, $data);
     }
 

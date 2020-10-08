@@ -12,10 +12,16 @@ class CollectionDenormalizer extends AbstractCollectionDenormalizer
 {
     use HalDenormalizerTrait;
 
+    /**
+     * @return array<object>
+     */
     protected function denormalizeElements(array $data, string $enclosedType, array $context): array
     {
-        return array_map(function (array $element) use ($enclosedType, $context) {
-            return $this->denormalizer->denormalize($element, $enclosedType, $this->getFormat(), $context);
+        return array_map(function (array $elementData) use ($enclosedType, $context) {
+            /** @var object $element */
+            $element = $this->denormalizer->denormalize($elementData, $enclosedType, $this->getFormat(), $context);
+
+            return $element;
         }, $data['_embedded']['item']);
     }
 

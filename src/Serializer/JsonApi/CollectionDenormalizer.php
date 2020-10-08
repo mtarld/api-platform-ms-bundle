@@ -12,10 +12,16 @@ class CollectionDenormalizer extends AbstractCollectionDenormalizer
 {
     use JsonApiDenormalizerTrait;
 
+    /**
+     * @return array<object>
+     */
     protected function denormalizeElements(array $data, string $enclosedType, array $context): array
     {
-        return array_map(function (array $element) use ($enclosedType, $context) {
-            return $this->denormalizer->denormalize(['data' => $element], $enclosedType, $this->getFormat(), $context);
+        return array_map(function (array $elementData) use ($enclosedType, $context) {
+            /** @var object $element */
+            $element = $this->denormalizer->denormalize(['data' => $elementData], $enclosedType, $this->getFormat(), $context);
+
+            return $element;
         }, $data['data']);
     }
 

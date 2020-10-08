@@ -26,20 +26,15 @@ class ObjectDenormalizer implements ContextAwareDenormalizerInterface, Denormali
     {
         $context[self::ALREADY_CALLED] = true;
 
-        if (array_key_exists('data', $data)) {
+        if (isset($data['data'])) {
             $data = $data['data'];
         }
 
-        if (array_key_exists('attributes', $data)) {
+        if (isset($data['attributes'])) {
             $data = $data['attributes'];
         }
 
-        foreach ($data as $key => $value) {
-            if (in_array($key, ReservedAttributeNameConverter::JSON_API_RESERVED_ATTRIBUTES, true)) {
-                $data[array_flip(ReservedAttributeNameConverter::JSON_API_RESERVED_ATTRIBUTES)[$key]] = $value;
-                unset($data[$key]);
-            }
-        }
+        $data = $this->convertReservedAttributeNames($data);
 
         return $this->denormalizer->denormalize($data, $type, $format, $context);
     }
@@ -51,5 +46,25 @@ class ObjectDenormalizer implements ContextAwareDenormalizerInterface, Denormali
     public function supportsDenormalization($data, $type, $format = null, array $context = []): bool
     {
         return false === ($context[self::ALREADY_CALLED] ?? false) && $this->getFormat() === $format;
+    }
+
+    private function convertReservedAttributeNames(array $data): array
+    {
+        $reservedAttributes = array_flip(ReservedAttributeNameConverter::JSON_API_RESERVED_ATTRIBUTES);
+
+        foreach ($data as $key => $value) {
+            // Collection
+            if (is_array($value)) {
+                $data[$key] = $this->convertReservedAttributeNames($data[$key]);
+            }
+
+            // Item
+            if (isset($reservedAttributes[$key])) {
+                $data[$reservedAttributes[$key]] = $value;
+                unset($data[$key]);
+            }
+        }
+
+        return $data;
     }
 }

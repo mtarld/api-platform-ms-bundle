@@ -20,4 +20,9 @@ class ApiResourceDenormalizer extends AbstractApiResourceDenormalizer
     {
         return $data;
     }
+
+    protected function prepareEmbeddedData(array $data): array
+    {
+        return $data;
+    }
 }
