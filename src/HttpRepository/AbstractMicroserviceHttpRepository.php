@@ -37,11 +37,17 @@ abstract class AbstractMicroserviceHttpRepository
     abstract protected function getResourceDto(): string;
 
     /**
+     * @psalm-param array<mixed> $additionalQueryParams
+     *
      * @throws HttpExceptionInterface
      */
-    public function findOneByIri(string $iri): ?ApiResourceDtoInterface
+    public function findOneByIri(string $iri, array $additionalQueryParams = []): ?ApiResourceDtoInterface
     {
         try {
+            if (!empty($additionalQueryParams)) {
+                $iri .= '?'.http_build_query($additionalQueryParams);
+            }
+
             /** @var ApiResourceDtoInterface|null $resource */
             $resource = $this->serializer->deserialize(
                 $this->request('GET', $iri)->getContent(),
@@ -61,10 +67,13 @@ abstract class AbstractMicroserviceHttpRepository
 
     /**
      * @psalm-param scalar $value
+     * @psalm-param array<mixed> $additionalQueryParams
+     *
+     * @throws ExceptionInterface
      */
-    public function findOneBy(string $property, $value): ?ApiResourceDtoInterface
+    public function findOneBy(string $property, $value, array $additionalQueryParams = []): ?ApiResourceDtoInterface
     {
-        $items = iterator_to_array($this->findBy($property, [$value]));
+        $items = iterator_to_array($this->findBy($property, [$value], $additionalQueryParams));
         $item = reset($items);
 
         return false !== $item ? $item : null;
@@ -72,26 +81,29 @@ abstract class AbstractMicroserviceHttpRepository
 
     /**
      * @psalm-param array<scalar> $values
+     * @psalm-param array<mixed> $additionalQueryParams
      * @psalm-return Collection<ApiResourceDtoInterface>
      *
      * @throws ExceptionInterface
      */
-    public function findBy(string $property, array $values): Collection
+    public function findBy(string $property, array $values, array $additionalQueryParams = []): Collection
     {
-        return $this->requestCollection([$property => $values]);
+        return $this->requestCollection([$property => $values] + $additionalQueryParams);
     }
 
     /**
      * @psalm-return Collection<ApiResourceDtoInterface>
+     * @psalm-param array<mixed> $additionalQueryParams
      *
      * @throws ExceptionInterface
      */
-    public function findAll(): Collection
+    public function findAll(array $additionalQueryParams = []): Collection
     {
-        return $this->requestCollection();
+        return $this->requestCollection($additionalQueryParams);
     }
 
     /**
+     * @psalm-param array<mixed> $queryParams
      * @psalm-return Collection<ApiResourceDtoInterface>
      *
      * @throws ExceptionInterface
