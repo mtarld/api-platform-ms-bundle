@@ -127,7 +127,7 @@ class HttpClientTest extends KernelTestCase
 
         $microserviceHttpClient->request('GET', '/puppies');
 
-        $microserviceHttpClient->setHttpClient($secondHttpClient);
+        $microserviceHttpClient->setWrappedHttpClient($secondHttpClient);
         $microserviceHttpClient->request('GET', '/puppies');
     }
 }

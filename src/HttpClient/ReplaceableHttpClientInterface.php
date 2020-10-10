@@ -4,7 +4,10 @@ namespace Mtarld\ApiPlatformMsBundle\HttpClient;
 
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 
+/**
+ * @internal
+ */
 interface ReplaceableHttpClientInterface
 {
-    public function setHttpClient(HttpClientInterface $httpClient): void;
+    public function setWrappedHttpClient(HttpClientInterface $httpClient): void;
 }

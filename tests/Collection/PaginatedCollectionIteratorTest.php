@@ -120,7 +120,7 @@ class PaginatedCollectionIteratorTest extends KernelTestCase
             self::assertEquals($expectedElements[$index++], $element);
 
             if (3 === $index) {
-                $iterator->setHttpClient($secondHttpClient);
+                $iterator->setWrappedHttpClient($secondHttpClient);
             }
         }
     }

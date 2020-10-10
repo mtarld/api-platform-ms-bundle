@@ -263,7 +263,7 @@ class HttpRepositoryTest extends KernelTestCase
         $puppyDto = $httpRepository->findOneByIri('/puppies/1');
         self::assertEquals(new PuppyResourceDto('/puppies/1', 'foo'), $puppyDto);
 
-        $httpRepository->setHttpClient($secondHttpClient);
+        $httpRepository->setWrappedHttpClient($secondHttpClient);
 
         $puppyDto = $httpRepository->findOneByIri('/puppies/1');
         self::assertEquals(new PuppyResourceDto('/puppies/1', 'foo'), $puppyDto);
