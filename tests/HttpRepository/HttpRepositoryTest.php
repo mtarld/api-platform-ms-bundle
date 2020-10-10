@@ -93,7 +93,7 @@ class HttpRepositoryTest extends KernelTestCase
             ->method('request')
             ->with(
                 'GET',
-                '/api/puppies?superName%5B0%5D=foo&superName%5B1%5D=bar',
+                '/api/puppies?superName%5B0%5D=foo&superName%5B1%5D=bar&groups%5B0%5D=translations',
                 [
                     'base_uri' => 'https://localhost',
                     'headers' => [
@@ -110,7 +110,7 @@ class HttpRepositoryTest extends KernelTestCase
         /** @var PuppyHttpRepository $httpRepository */
         $httpRepository = static::$container->get(PuppyHttpRepository::class);
 
-        $puppyDtos = $httpRepository->findBy('superName', ['foo', 'bar']);
+        $puppyDtos = $httpRepository->findBy('superName', ['foo', 'bar'], ['groups' => ['translations']]);
         self::assertCount(2, $puppyDtos);
         self::assertNotNull($puppyDtos->getMicroservice());
     }
@@ -208,7 +208,7 @@ class HttpRepositoryTest extends KernelTestCase
             ->method('request')
             ->with(
                 'GET',
-                '/api/puppies',
+                '/api/puppies?itemsPerPage=2',
                 [
                     'base_uri' => 'https://localhost',
                     'headers' => [
@@ -225,7 +225,7 @@ class HttpRepositoryTest extends KernelTestCase
         /** @var PuppyHttpRepository $httpRepository */
         $httpRepository = static::$container->get(PuppyHttpRepository::class);
 
-        $puppyDtos = $httpRepository->findAll();
+        $puppyDtos = $httpRepository->findAll(['itemsPerPage' => 2]);
         self::assertCount(2, $puppyDtos);
         self::assertNotNull($puppyDtos->getMicroservice());
     }
