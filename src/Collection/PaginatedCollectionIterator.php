@@ -5,6 +5,8 @@ namespace Mtarld\ApiPlatformMsBundle\Collection;
 use Iterator;
 use Mtarld\ApiPlatformMsBundle\Exception\CollectionNotIterableException;
 use Mtarld\ApiPlatformMsBundle\HttpClient\GenericHttpClient;
+use Mtarld\ApiPlatformMsBundle\HttpClient\ReplaceableHttpClientInterface;
+use Mtarld\ApiPlatformMsBundle\HttpClient\ReplaceableHttpClientTrait;
 use Mtarld\ApiPlatformMsBundle\Microservice\Microservice;
 use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Contracts\HttpClient\Exception\ExceptionInterface;
@@ -13,8 +15,10 @@ use Symfony\Contracts\HttpClient\Exception\ExceptionInterface;
  * @final
  * @psalm-template T of object
  */
-class PaginatedCollectionIterator
+class PaginatedCollectionIterator implements ReplaceableHttpClientInterface
 {
+    use ReplaceableHttpClientTrait;
+
     private $httpClient;
     private $serializer;
 

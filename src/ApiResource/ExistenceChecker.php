@@ -5,6 +5,8 @@ namespace Mtarld\ApiPlatformMsBundle\ApiResource;
 use Mtarld\ApiPlatformMsBundle\Dto\ApiResourceExistenceCheckerPayload;
 use Mtarld\ApiPlatformMsBundle\Dto\ApiResourceExistenceCheckerView;
 use Mtarld\ApiPlatformMsBundle\HttpClient\GenericHttpClient;
+use Mtarld\ApiPlatformMsBundle\HttpClient\ReplaceableHttpClientInterface;
+use Mtarld\ApiPlatformMsBundle\HttpClient\ReplaceableHttpClientTrait;
 use Mtarld\ApiPlatformMsBundle\Microservice\MicroservicePool;
 use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Contracts\HttpClient\Exception\ExceptionInterface;
@@ -12,8 +14,10 @@ use Symfony\Contracts\HttpClient\Exception\ExceptionInterface;
 /**
  * @final
  */
-class ExistenceChecker
+class ExistenceChecker implements ReplaceableHttpClientInterface
 {
+    use ReplaceableHttpClientTrait;
+
     private $httpClient;
     private $serializer;
     private $microservices;

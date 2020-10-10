@@ -229,4 +229,43 @@ class HttpRepositoryTest extends KernelTestCase
         self::assertCount(2, $puppyDtos);
         self::assertNotNull($puppyDtos->getMicroservice());
     }
+
+    public function testSwitchHttpClient(): void
+    {
+        /** @var SerializerInterface $serializer */
+        $serializer = static::$container->get(SerializerInterface::class);
+
+        $response = $this->createMock(ResponseInterface::class);
+        $response
+            ->method('getContent')
+            ->willReturn($serializer->serialize(new Puppy(1, 'foo'), 'jsonld'))
+        ;
+
+        $firstHttpClient = $this->createMock(HttpClientInterface::class);
+        $firstHttpClient
+            ->expects(self::once())
+            ->method('request')
+            ->willReturn($response)
+        ;
+
+        $secondHttpClient = $this->createMock(HttpClientInterface::class);
+        $secondHttpClient
+            ->expects(self::once())
+            ->method('request')
+            ->willReturn($response)
+        ;
+
+        static::$container->set('test.http_client', $firstHttpClient);
+
+        /** @var PuppyHttpRepository $httpRepository */
+        $httpRepository = static::$container->get(PuppyHttpRepository::class);
+
+        $puppyDto = $httpRepository->findOneByIri('/puppies/1');
+        self::assertEquals(new PuppyResourceDto('/puppies/1', 'foo'), $puppyDto);
+
+        $httpRepository->setHttpClient($secondHttpClient);
+
+        $puppyDto = $httpRepository->findOneByIri('/puppies/1');
+        self::assertEquals(new PuppyResourceDto('/puppies/1', 'foo'), $puppyDto);
+    }
 }

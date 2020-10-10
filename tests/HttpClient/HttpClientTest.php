@@ -64,10 +64,7 @@ class HttpClientTest extends KernelTestCase
         $genericHttpClient->request($microservice, 'POST', '/puppies', ['foo' => 'bar'], 'application/json', 'json');
     }
 
-    /**
-     * @group wip
-     */
-    public function testSpecificClient(): void
+    public function testSpecificMicroserviceHttpClient(): void
     {
         $httpClient = $this->createMock(HttpClientInterface::class);
         $httpClient
@@ -105,5 +102,32 @@ class HttpClientTest extends KernelTestCase
 
         $microserviceHttpClient->request('GET', '/puppies');
         $microserviceHttpClient->request('POST', '/puppies', ['foo' => 'bar'], 'application/json', 'json');
+    }
+
+    public function testSwitchHttpClient(): void
+    {
+        $firstHttpClient = $this->createMock(HttpClientInterface::class);
+        $firstHttpClient
+            ->expects(self::once())
+            ->method('request')
+            ->willReturn($this->createMock(ResponseInterface::class))
+        ;
+
+        $secondHttpClient = $this->createMock(HttpClientInterface::class);
+        $secondHttpClient
+            ->expects(self::once())
+            ->method('request')
+            ->willReturn($this->createMock(ResponseInterface::class))
+        ;
+
+        static::$container->set('test.http_client', $firstHttpClient);
+
+        /** @var MicroserviceHttpClientInterface $microserviceHttpClient */
+        $microserviceHttpClient = static::$container->get('api_platform_ms.http_client.microservice.bar');
+
+        $microserviceHttpClient->request('GET', '/puppies');
+
+        $microserviceHttpClient->setHttpClient($secondHttpClient);
+        $microserviceHttpClient->request('GET', '/puppies');
     }
 }
