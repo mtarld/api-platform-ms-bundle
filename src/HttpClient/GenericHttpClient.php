@@ -9,7 +9,7 @@ use Symfony\Contracts\HttpClient\HttpClientInterface;
 use Symfony\Contracts\HttpClient\ResponseInterface;
 
 /**
- * @final @internal
+ * @final
  */
 class GenericHttpClient
 {
@@ -58,12 +58,12 @@ class GenericHttpClient
         return $this->httpClient->request($method, $uri, $options);
     }
 
-    public function getHttpClient(): HttpClientInterface
+    public function getWrappedHttpClient(): HttpClientInterface
     {
         return $this->httpClient;
     }
 
-    public function setHttpClient(HttpClientInterface $httpClient): void
+    public function setWrappedHttpClient(HttpClientInterface $httpClient): void
     {
         $this->httpClient = $httpClient;
     }

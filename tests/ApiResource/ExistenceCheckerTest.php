@@ -118,7 +118,7 @@ class ExistenceCheckerTest extends KernelTestCase
         $existenceChecker = static::$container->get('api_platform_ms.api_resource.existence_checker');
         $existenceChecker->getExistenceStatuses('bar', ['1']);
 
-        $existenceChecker->setHttpClient($secondHttpClient);
+        $existenceChecker->setWrappedHttpClient($secondHttpClient);
         $existenceChecker->getExistenceStatuses('bar', ['1']);
     }
 }

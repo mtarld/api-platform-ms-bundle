@@ -6,7 +6,7 @@ use Mtarld\ApiPlatformMsBundle\Microservice\MicroservicePool;
 use Symfony\Contracts\HttpClient\ResponseInterface;
 
 /**
- * @final @internal
+ * @final
  */
 class MicroserviceHttpClient implements MicroserviceHttpClientInterface
 {
