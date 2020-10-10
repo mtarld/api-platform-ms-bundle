@@ -5,6 +5,8 @@ namespace Mtarld\ApiPlatformMsBundle\HttpRepository;
 use Mtarld\ApiPlatformMsBundle\Collection\Collection;
 use Mtarld\ApiPlatformMsBundle\Dto\ApiResourceDtoInterface;
 use Mtarld\ApiPlatformMsBundle\HttpClient\GenericHttpClient;
+use Mtarld\ApiPlatformMsBundle\HttpClient\ReplaceableHttpClientInterface;
+use Mtarld\ApiPlatformMsBundle\HttpClient\ReplaceableHttpClientTrait;
 use Mtarld\ApiPlatformMsBundle\Microservice\Microservice;
 use Mtarld\ApiPlatformMsBundle\Microservice\MicroservicePool;
 use Symfony\Component\Serializer\SerializerInterface;
@@ -13,8 +15,10 @@ use Symfony\Contracts\HttpClient\Exception\ExceptionInterface;
 use Symfony\Contracts\HttpClient\Exception\HttpExceptionInterface;
 use Symfony\Contracts\HttpClient\ResponseInterface;
 
-abstract class AbstractMicroserviceHttpRepository
+abstract class AbstractMicroserviceHttpRepository implements ReplaceableHttpClientInterface
 {
+    use ReplaceableHttpClientTrait;
+
     protected $serializer;
     protected $httpClient;
 

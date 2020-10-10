@@ -55,6 +55,76 @@ class PaginatedCollectionIteratorTest extends KernelTestCase
         self::assertEquals(5, $index);
     }
 
+    public function testSwitchHttpClientDuringIteration(): void
+    {
+        $firstHttpClient = $this->createMock(HttpClientInterface::class);
+        $firstHttpClient
+            ->expects(self::once())
+            ->method('request')
+            ->with(
+                'GET',
+                '/api/puppies?page=2',
+                [
+                    'base_uri' => 'https://localhost',
+                    'headers' => [
+                        'Content-Type' => 'application/ld+json',
+                        'Accept' => 'application/ld+json',
+                    ],
+                ]
+            )
+            ->willReturn($this->getPartialCollectionResponses()[0])
+        ;
+
+        static::$container->set('test.http_client', $firstHttpClient);
+
+        $secondHttpClient = $this->createMock(HttpClientInterface::class);
+        $secondHttpClient
+            ->expects(self::once())
+            ->method('request')
+            ->with(
+                'GET',
+                '/api/puppies?page=3',
+                [
+                    'base_uri' => 'https://localhost',
+                    'headers' => [
+                        'Content-Type' => 'application/ld+json',
+                        'Accept' => 'application/ld+json',
+                    ],
+                ]
+            )
+            ->willReturn($this->getPartialCollectionResponses()[1])
+        ;
+
+        /** @var MicroservicePool $microservices */
+        $microservices = static::$container->get('api_platform_ms.microservice_pool');
+
+        $collection = new Collection([
+            new PuppyResourceDto('/api/puppies/1', 'foo'),
+            new PuppyResourceDto('/api/puppies/2', 'bar'),
+        ], 5, new Pagination('/api/puppies?page=1', '/api/puppies?page=1', '/api/puppies?page=2', null, '/api/puppies?page=2'));
+        $collection = $collection->withMicroservice($microservices->get('bar'));
+
+        $expectedElements = [
+            new PuppyResourceDto('/api/puppies/1', 'foo'),
+            new PuppyResourceDto('/api/puppies/2', 'bar'),
+            new PuppyResourceDto('/api/puppies/3', 'baz'),
+            new PuppyResourceDto('/api/puppies/4', 'oof'),
+            new PuppyResourceDto('/api/puppies/5', 'rab'),
+        ];
+
+        /** @var PaginatedCollectionIterator $iterator */
+        $iterator = static::$container->get(PaginatedCollectionIterator::class);
+
+        $index = 0;
+        foreach ($iterator->iterateOver($collection) as $element) {
+            self::assertEquals($expectedElements[$index++], $element);
+
+            if (3 === $index) {
+                $iterator->setHttpClient($secondHttpClient);
+            }
+        }
+    }
+
     public function testIterateOverPaginatedCollectionWithoutMicroserviceMetadata(): void
     {
         $collection = new Collection([

@@ -90,4 +90,35 @@ class ExistenceCheckerTest extends KernelTestCase
         static::$container->set('test.http_client', $httpClient);
         static::$container->get('api_platform_ms.api_resource.existence_checker')->getExistenceStatuses('bar', ['1', '2']);
     }
+
+    public function testSwitchHttpClient(): void
+    {
+        $response = $this->createMock(ResponseInterface::class);
+        $response
+            ->method('getContent')
+            ->willReturn('{"existences":{"1": true}}')
+        ;
+
+        $firstHttpClient = $this->createMock(HttpClientInterface::class);
+        $firstHttpClient
+            ->expects(self::once())
+            ->method('request')
+            ->willReturn($response)
+        ;
+
+        $secondHttpClient = $this->createMock(HttpClientInterface::class);
+        $secondHttpClient
+            ->expects(self::once())
+            ->method('request')
+            ->willReturn($response)
+        ;
+
+        static::$container->set('test.http_client', $firstHttpClient);
+
+        $existenceChecker = static::$container->get('api_platform_ms.api_resource.existence_checker');
+        $existenceChecker->getExistenceStatuses('bar', ['1']);
+
+        $existenceChecker->setHttpClient($secondHttpClient);
+        $existenceChecker->getExistenceStatuses('bar', ['1']);
+    }
 }

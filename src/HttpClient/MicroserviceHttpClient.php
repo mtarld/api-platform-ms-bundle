@@ -10,6 +10,8 @@ use Symfony\Contracts\HttpClient\ResponseInterface;
  */
 class MicroserviceHttpClient implements MicroserviceHttpClientInterface
 {
+    use ReplaceableHttpClientTrait;
+
     private $httpClient;
     private $microservices;
     private $microserviceName;
