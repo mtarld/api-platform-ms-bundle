@@ -6,6 +6,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [0.2.0] - Unreleased
+* Added `create`, `update` and `delete` methods in `AbstractHttpMicroserviceRepository`
 * Allowed to replace nested Symfony HttpClient during runtime thanks to `setWrappedHttpClient`
 * Removed useless `api_platform_ms.http_repository.http_repository` service definition
 * Added query params to `AbstractHttpMicroserviceRepository`

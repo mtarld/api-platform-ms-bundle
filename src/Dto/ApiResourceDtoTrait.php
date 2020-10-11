@@ -5,11 +5,11 @@ namespace Mtarld\ApiPlatformMsBundle\Dto;
 trait ApiResourceDtoTrait
 {
     /**
-     * @var string
+     * @var string|null
      */
     protected $iri;
 
-    public function getIri(): string
+    public function getIri(): ?string
     {
         return $this->iri;
     }
