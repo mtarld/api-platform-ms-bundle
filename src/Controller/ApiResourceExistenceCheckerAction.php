@@ -12,6 +12,12 @@ use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\Serializer\SerializerInterface;
 use Throwable;
 
+// Help opcache.preload discover always-needed symbols
+class_exists(ApiResourceExistenceCheckerPayload::class);
+class_exists(ApiResourceExistenceCheckerView::class);
+class_exists(BadRequestHttpException::class);
+class_exists(JsonResponse::class);
+
 /**
  * @final @internal
  */

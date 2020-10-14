@@ -11,6 +11,10 @@ use Mtarld\ApiPlatformMsBundle\Microservice\Microservice;
 use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Contracts\HttpClient\Exception\ExceptionInterface;
 
+// Help opcache.preload discover always-needed symbols
+class_exists(Collection::class);
+class_exists(CollectionNotIterableException::class);
+
 /**
  * @final
  * @psalm-template T of object

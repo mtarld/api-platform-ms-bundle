@@ -7,6 +7,9 @@ use Symfony\Component\Serializer\Normalizer\ContextAwareDenormalizerInterface;
 use Symfony\Component\Serializer\Normalizer\DenormalizerAwareInterface;
 use Symfony\Component\Serializer\Normalizer\DenormalizerAwareTrait;
 
+// Help opcache.preload discover always-needed symbols
+class_exists(ReservedAttributeNameConverter::class);
+
 /**
  * @final @internal
  * @SuppressWarnings(PHPMD.UnusedFormalParameter)

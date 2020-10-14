@@ -8,6 +8,11 @@ use Mtarld\ApiPlatformMsBundle\Exception\MicroserviceNotConfiguredException;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 use Traversable;
 
+// Help opcache.preload discover always-needed symbols
+class_exists(Microservice::class);
+class_exists(MicroserviceConfigurationException::class);
+class_exists(MicroserviceNotConfiguredException::class);
+
 /**
  * @final
  */

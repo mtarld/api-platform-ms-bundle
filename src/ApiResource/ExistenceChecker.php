@@ -11,6 +11,10 @@ use Mtarld\ApiPlatformMsBundle\Microservice\MicroservicePool;
 use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Contracts\HttpClient\Exception\ExceptionInterface;
 
+// Help opcache.preload discover always-needed symbols
+class_exists(ApiResourceExistenceCheckerPayload::class);
+class_exists(ApiResourceExistenceCheckerView::class);
+
 /**
  * @final
  */
