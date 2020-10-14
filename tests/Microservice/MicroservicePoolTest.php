@@ -7,6 +7,7 @@ use Mtarld\ApiPlatformMsBundle\Exception\MicroserviceNotConfiguredException;
 use Mtarld\ApiPlatformMsBundle\Microservice\Microservice;
 use Mtarld\ApiPlatformMsBundle\Microservice\MicroservicePool;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 /**
  * @group microservice
@@ -49,10 +50,16 @@ class MicroservicePoolTest extends KernelTestCase
 
     public function testMicroserviceConfigurationFormatValidation(): void
     {
-        /** @var MicroservicePool $pool */
-        $pool = static::$container->get(MicroservicePool::class);
+        $pool = new MicroservicePool(static::$container->get(ValidatorInterface::class), [
+            'microservice' => [
+                'base_uri' => 'https://localhost',
+                'api_path' => '/api',
+                'format' => 'wrong_format',
+            ],
+        ]);
 
         $this->expectException(MicroserviceConfigurationException::class);
-        $pool->get('wrong_format');
+        $this->expectExceptionMessage("'microservice' microservice is wrongly configured. 'format': 'wrong_format' format is not enabled.");
+        $pool->get('microservice');
     }
 }

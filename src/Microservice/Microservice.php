@@ -23,6 +23,7 @@ class Microservice
 
     /**
      * @Assert\NotBlank
+     * @Mtarld\ApiPlatformMsBundle\Validator\FormatEnabled
      */
     private $format;
 

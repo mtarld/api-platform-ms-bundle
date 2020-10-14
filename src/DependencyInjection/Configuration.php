@@ -28,7 +28,7 @@ class Configuration implements ConfigurationInterface
                         ->children()
                             ->scalarNode('base_uri')->isRequired()->end()
                             ->scalarNode('api_path')->end()
-                            ->scalarNode('format')->isRequired()->end()
+                            ->enumNode('format')->values(array_keys(ApiPlatformMsExtension::FORMAT_CONFIGURATION_FILE_MAPPING))->isRequired()->end()
                         ->end()
                     ->end()
                 ->end()
