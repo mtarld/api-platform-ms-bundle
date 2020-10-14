@@ -5,11 +5,11 @@ namespace Mtarld\ApiPlatformMsBundle\DependencyInjection;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Extension\Extension;
-use Symfony\Component\DependencyInjection\Loader\XmlFileLoader;
+use Symfony\Component\DependencyInjection\Loader\PhpFileLoader;
 
 // Help opcache.preload discover always-needed symbols
 class_exists(FileLocator::class);
-class_exists(XmlFileLoader::class);
+class_exists(PhpFileLoader::class);
 
 /**
  * @final @internal
@@ -26,12 +26,12 @@ class ApiPlatformMsExtension extends Extension
      */
     public function load(array $configs, ContainerBuilder $container): void
     {
-        $loader = new XmlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
-        $loader->load('services.xml');
+        $loader = new PhpFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
+        $loader->load('services.php');
 
-        $loader->load('hydra.xml');
-        $loader->load('jsonapi.xml');
-        $loader->load('hal.xml');
+        $loader->load('hydra.php');
+        $loader->load('jsonapi.php');
+        $loader->load('hal.php');
 
         if (null === $configuration = $this->getConfiguration($configs, $container)) {
             return;

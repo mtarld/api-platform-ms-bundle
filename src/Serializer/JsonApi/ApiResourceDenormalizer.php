@@ -41,7 +41,8 @@ class ApiResourceDenormalizer extends AbstractApiResourceDenormalizer
         $indexedEmbeddedElements = [];
 
         foreach ($data['included'] as $embeddedElement) {
-            $indexedEmbeddedElements[$type = $embeddedElement['type']] = $indexedEmbeddedElements[$type] ?? [];
+            $type = $embeddedElement['type'];
+            $indexedEmbeddedElements[$type] = $indexedEmbeddedElements[$type] ?? [];
             $indexedEmbeddedElements[$type][$embeddedElement['id']] = $embeddedElement;
         }
 
