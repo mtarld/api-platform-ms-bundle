@@ -11,6 +11,8 @@ api_platform:
 framework:
   secret: ThisIsSecret
   test: true
+  router:
+    utf8: true
 
 api_platform_ms:
   name: foo
@@ -19,12 +21,12 @@ api_platform_ms:
       base_uri: https://localhost
       api_path: /api
       format: jsonld
+    baz:
+      base_uri: /baz
+      format: jsonapi
     wrong_uri:
       base_uri: wrong
-      format: jsonld
-    wrong_format:
-      base_uri: https://localhost
-      format: json
+      format: jsonhal
 
 services:
   _defaults:

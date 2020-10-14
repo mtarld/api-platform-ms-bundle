@@ -18,8 +18,6 @@ class_exists(MicroserviceNotConfiguredException::class);
  */
 class MicroservicePool implements IteratorAggregate
 {
-    private const SUPPORTED_FORMATS = ['jsonld', 'jsonapi', 'jsonhal'];
-
     private $validator;
 
     /**
@@ -83,10 +81,6 @@ class MicroservicePool implements IteratorAggregate
         $violations = $this->validator->validate($microservice);
         if ($violations->has(0)) {
             throw new MicroserviceConfigurationException($microservice->getName(), sprintf("'%s': %s", $violations->get(0)->getPropertyPath(), (string) $violations->get(0)->getMessage()));
-        }
-
-        if (!in_array($microservice->getFormat(), self::SUPPORTED_FORMATS)) {
-            throw new MicroserviceConfigurationException($microservice->getName(), sprintf("'%s' format isn't supported by API Platform microservice bundle, which are %s", $microservice->getFormat(), implode(',', self::SUPPORTED_FORMATS)));
         }
     }
 }

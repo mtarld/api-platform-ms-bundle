@@ -16,6 +16,12 @@ class_exists(PhpFileLoader::class);
  */
 class ApiPlatformMsExtension extends Extension
 {
+    public const FORMAT_CONFIGURATION_FILE_MAPPING = [
+        'jsonld' => 'hydra.php',
+        'jsonapi' => 'jsonapi.php',
+        'jsonhal' => 'hal.php',
+    ];
+
     public function getAlias(): string
     {
         return 'api_platform_ms';
@@ -29,20 +35,31 @@ class ApiPlatformMsExtension extends Extension
         $loader = new PhpFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('services.php');
 
-        $loader->load('hydra.php');
-        $loader->load('jsonapi.php');
-        $loader->load('hal.php');
-
         if (null === $configuration = $this->getConfiguration($configs, $container)) {
             return;
         }
 
         $config = $this->processConfiguration($configuration, $configs);
 
+        $formats = array_values(
+            array_unique(
+                array_map(static function (array $microservice): string {
+                    return $microservice['format'];
+                }, array_filter($config['microservices'], static function (array $microservice): bool {
+                    return isset(self::FORMAT_CONFIGURATION_FILE_MAPPING[$microservice['format']]);
+                }))
+            )
+        );
+
+        foreach ($formats as $format) {
+            $loader->load(self::FORMAT_CONFIGURATION_FILE_MAPPING[$format]);
+        }
+
         $container->setAlias('api_platform_ms.http_client', $config['http_client']);
 
         $container->setParameter('api_platform_ms.name', $config['name']);
         $container->setParameter('api_platform_ms.hosts', $config['hosts']);
         $container->setParameter('api_platform_ms.microservices', $config['microservices']);
+        $container->setParameter('api_platform_ms.enabled_formats', $formats);
     }
 }

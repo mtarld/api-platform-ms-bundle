@@ -9,6 +9,7 @@ use Mtarld\ApiPlatformMsBundle\HttpClient\GenericHttpClient;
 use Mtarld\ApiPlatformMsBundle\Microservice\MicroservicePool;
 use Mtarld\ApiPlatformMsBundle\Routing\RouteLoader;
 use Mtarld\ApiPlatformMsBundle\Validator\ApiResourceExistValidator;
+use Mtarld\ApiPlatformMsBundle\Validator\FormatEnabledValidator;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ReferenceConfigurator;
 
@@ -56,6 +57,11 @@ return static function (ContainerConfigurator $container): void {
             ])
             ->tag('validator.constraint_validator')
         ->alias(ApiResourceExistValidator::class, 'api_platform_ms.validator.api_resource_exist')
+        ->set('api_platform_ms.validator.format_enabled', FormatEnabledValidator::class)
+            ->args([
+                param('api_platform_ms.enabled_formats'),
+            ])
+            ->tag('validator.constraint_validator')
         ->set('api_platform_ms.collection.paginated_collection_iterator', PaginatedCollectionIterator::class)
             ->args([
                 service('api_platform_ms.http_client.generic'),
