@@ -4,8 +4,8 @@ To improve the code separation, you may want to get rid of the HTTP related stuf
 Therefore, it may be useful to have an abstract repository that encapsulate HTTP calls.
 
 ## Description
-The `AbstractMicroserviceHttpRepository` is an extendable repository that you could configure to fetch resources.
-It will take care of HTTP calls and deserialization so you'll only have to deal with DTOs:
+The `AbstractMicroserviceHttpRepository` is an extendable repository that you could configure to fetch and alter resources.
+It will take care of HTTP calls and serialization/deserialization so you'll only have to deal with DTOs:
 
 ## Example
 ```php
@@ -51,11 +51,12 @@ class ProductController extends AbstractController
         ]);
     }
 
-    public function firstEverProduct(ProductHttpRepository $productHttpRepository)
+    public function updateFirstProduct(ProductHttpRepository $productHttpRepository)
     {
-        return $this->render('product.html.twig', [
-            'product' => $productHttpRepository->findOneByIri('/products/1'),
-        ]);
+        $product = $productHttpRepository->findOneByIri('/products/1');
+        $product->setName('new name');
+
+        $productHttpRepository->update($product);
     }
 }
 ```

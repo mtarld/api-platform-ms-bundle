@@ -36,7 +36,7 @@
     </rule>
     <rule ref="rulesets/codesize.xml/CyclomaticComplexity">
         <properties>
-            <property name="reportLevel" value="7" />
+            <property name="reportLevel" value="8" />
             <property name="showClassesComplexity" value="true" />
             <property name="showMethodsComplexity" value="true" />
         </properties>

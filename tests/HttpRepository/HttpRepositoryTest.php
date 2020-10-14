@@ -2,13 +2,17 @@
 
 namespace Mtarld\ApiPlatformMsBundle\Tests\HttpRepository;
 
+use Mtarld\ApiPlatformMsBundle\Exception\ResourceValidationException;
 use Mtarld\ApiPlatformMsBundle\Tests\Fixtures\App\src\Dto\PuppyResourceDto;
 use Mtarld\ApiPlatformMsBundle\Tests\Fixtures\App\src\Entity\Puppy;
 use Mtarld\ApiPlatformMsBundle\Tests\Fixtures\App\src\HttpRepository\PuppyHttpRepository;
+use RuntimeException;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\HttpClient\MockHttpClient;
 use Symfony\Component\HttpClient\Response\MockResponse;
 use Symfony\Component\Serializer\SerializerInterface;
+use Symfony\Component\Validator\ConstraintViolation;
+use Symfony\Component\Validator\ConstraintViolationList;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 use Symfony\Contracts\HttpClient\ResponseInterface;
 
@@ -267,5 +271,200 @@ class HttpRepositoryTest extends KernelTestCase
 
         $puppyDto = $httpRepository->findOneByIri('/puppies/1');
         self::assertEquals(new PuppyResourceDto('/puppies/1', 'foo'), $puppyDto);
+    }
+
+    public function testCreateResource(): void
+    {
+        /** @var SerializerInterface $serializer */
+        $serializer = static::$container->get(SerializerInterface::class);
+
+        $response = $this->createMock(ResponseInterface::class);
+        $response
+            ->method('getContent')
+            ->willReturn($serializer->serialize(new Puppy(1, 'foo'), 'jsonld'))
+        ;
+
+        $httpClient = $this->createMock(HttpClientInterface::class);
+        $httpClient
+            ->expects(self::once())
+            ->method('request')
+            ->with(
+                'POST',
+                '/api/puppies?user=me',
+                [
+                    'base_uri' => 'https://localhost',
+                    'headers' => [
+                        'Content-Type' => 'application/ld+json',
+                        'Accept' => 'application/ld+json',
+                    ],
+                    'body' => '{"iri":null,"super_name":"foo","color":null,"hairs":[]}',
+                ]
+            )
+            ->willReturn($response)
+        ;
+
+        static::$container->set('test.http_client', $httpClient);
+
+        /** @var PuppyHttpRepository $httpRepository */
+        $httpRepository = static::$container->get(PuppyHttpRepository::class);
+
+        $createdPuppyDto = $httpRepository->create(new PuppyResourceDto(null, 'foo'), ['user' => 'me']);
+        self::assertEquals(new PuppyResourceDto('/puppies/1', 'foo'), $createdPuppyDto);
+    }
+
+    public function testCreateResourceWithViolations(): void
+    {
+        $this->expectException(ResourceValidationException::class);
+
+        /** @var SerializerInterface $serializer */
+        $serializer = static::$container->get(SerializerInterface::class);
+
+        $httpClient = new MockHttpClient([
+            new MockResponse(
+                $serializer->serialize(new ConstraintViolationList([
+                    new ConstraintViolation('This is a violation', null, [], new Puppy(1, 'foo'), 'superName', null),
+                ]), 'jsonld'),
+                ['http_code' => 400]
+            ),
+        ]);
+
+        static::$container->set('test.http_client', $httpClient);
+
+        /** @var PuppyHttpRepository $httpRepository */
+        $httpRepository = static::$container->get(PuppyHttpRepository::class);
+        $httpRepository->create(new PuppyResourceDto(null, 'foo'));
+    }
+
+    public function testUpdateResource(): void
+    {
+        /** @var SerializerInterface $serializer */
+        $serializer = static::$container->get(SerializerInterface::class);
+
+        $response = $this->createMock(ResponseInterface::class);
+        $response
+            ->method('getContent')
+            ->willReturn($serializer->serialize(new Puppy(1, 'foo'), 'jsonld'))
+        ;
+
+        $httpClient = $this->createMock(HttpClientInterface::class);
+        $httpClient
+            ->expects(self::once())
+            ->method('request')
+            ->with(
+                'PUT',
+                '/api/puppies/1?user=me',
+                [
+                    'base_uri' => 'https://localhost',
+                    'headers' => [
+                        'Content-Type' => 'application/ld+json',
+                        'Accept' => 'application/ld+json',
+                    ],
+                    'body' => '{"iri":"\/puppies\/1","super_name":"foo","color":null,"hairs":[]}',
+                ]
+            )
+            ->willReturn($response)
+        ;
+
+        static::$container->set('test.http_client', $httpClient);
+
+        /** @var PuppyHttpRepository $httpRepository */
+        $httpRepository = static::$container->get(PuppyHttpRepository::class);
+
+        $createdPuppyDto = $httpRepository->update(new PuppyResourceDto('/puppies/1', 'foo'), ['user' => 'me']);
+        self::assertEquals(new PuppyResourceDto('/puppies/1', 'foo'), $createdPuppyDto);
+    }
+
+    public function testUpdateResourceWithViolations(): void
+    {
+        $this->expectException(ResourceValidationException::class);
+
+        /** @var SerializerInterface $serializer */
+        $serializer = static::$container->get(SerializerInterface::class);
+
+        $httpClient = new MockHttpClient([
+            new MockResponse(
+                $serializer->serialize(new ConstraintViolationList([
+                    new ConstraintViolation('This is a violation', null, [], new Puppy(1, 'foo'), 'superName', null),
+                ]), 'jsonld'),
+                ['http_code' => 400]
+            ),
+        ]);
+
+        static::$container->set('test.http_client', $httpClient);
+
+        /** @var PuppyHttpRepository $httpRepository */
+        $httpRepository = static::$container->get(PuppyHttpRepository::class);
+        $httpRepository->update(new PuppyResourceDto('/puppies/1', 'foo'));
+    }
+
+    public function testUpdateResourceWithoutIri(): void
+    {
+        $this->expectException(RuntimeException::class);
+        $this->expectExceptionMessage('Cannot update a resource without iri');
+
+        /** @var PuppyHttpRepository $httpRepository */
+        $httpRepository = static::$container->get(PuppyHttpRepository::class);
+        $httpRepository->update(new PuppyResourceDto(null, 'foo'));
+    }
+
+    public function testDeleteResource(): void
+    {
+        $httpClient = $this->createMock(HttpClientInterface::class);
+        $httpClient
+            ->expects(self::once())
+            ->method('request')
+            ->with(
+                'DELETE',
+                '/api/puppies/1?user=me',
+                [
+                    'base_uri' => 'https://localhost',
+                    'headers' => [
+                        'Content-Type' => 'application/ld+json',
+                        'Accept' => 'application/ld+json',
+                    ],
+                ]
+            )
+            ->willReturn($this->createMock(ResponseInterface::class))
+        ;
+
+        static::$container->set('test.http_client', $httpClient);
+
+        /** @var PuppyHttpRepository $httpRepository */
+        $httpRepository = static::$container->get(PuppyHttpRepository::class);
+
+        $httpRepository->delete(new PuppyResourceDto('/puppies/1', 'foo'), ['user' => 'me']);
+    }
+
+    public function testDeleteResourceWithViolations(): void
+    {
+        $this->expectException(ResourceValidationException::class);
+
+        /** @var SerializerInterface $serializer */
+        $serializer = static::$container->get(SerializerInterface::class);
+
+        $httpClient = new MockHttpClient([
+            new MockResponse(
+                $serializer->serialize(new ConstraintViolationList([
+                    new ConstraintViolation('This is a violation', null, [], new Puppy(1, 'foo'), 'superName', null),
+                ]), 'jsonld'),
+                ['http_code' => 400]
+            ),
+        ]);
+
+        static::$container->set('test.http_client', $httpClient);
+
+        /** @var PuppyHttpRepository $httpRepository */
+        $httpRepository = static::$container->get(PuppyHttpRepository::class);
+        $httpRepository->delete(new PuppyResourceDto('/puppies/1', 'foo'));
+    }
+
+    public function testDeleteResourceWithoutIri(): void
+    {
+        $this->expectException(RuntimeException::class);
+        $this->expectExceptionMessage('Cannot update a resource without iri');
+
+        /** @var PuppyHttpRepository $httpRepository */
+        $httpRepository = static::$container->get(PuppyHttpRepository::class);
+        $httpRepository->delete(new PuppyResourceDto(null, 'foo'));
     }
 }

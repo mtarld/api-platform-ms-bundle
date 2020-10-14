@@ -4,12 +4,19 @@ namespace Mtarld\ApiPlatformMsBundle\HttpRepository;
 
 use Mtarld\ApiPlatformMsBundle\Collection\Collection;
 use Mtarld\ApiPlatformMsBundle\Dto\ApiResourceDtoInterface;
+use Mtarld\ApiPlatformMsBundle\Exception\ResourceValidationException;
 use Mtarld\ApiPlatformMsBundle\HttpClient\GenericHttpClient;
 use Mtarld\ApiPlatformMsBundle\HttpClient\ReplaceableHttpClientInterface;
 use Mtarld\ApiPlatformMsBundle\HttpClient\ReplaceableHttpClientTrait;
 use Mtarld\ApiPlatformMsBundle\Microservice\Microservice;
 use Mtarld\ApiPlatformMsBundle\Microservice\MicroservicePool;
+use RuntimeException;
+use Symfony\Component\HttpClient\Exception\ClientException;
+use Symfony\Component\HttpClient\Exception\RedirectionException;
+use Symfony\Component\HttpClient\Exception\ServerException;
+use Symfony\Component\Serializer\Exception\ExceptionInterface as SerializerExceptionInterface;
 use Symfony\Component\Serializer\SerializerInterface;
+use Symfony\Component\Validator\ConstraintViolationList;
 use Symfony\Contracts\HttpClient\Exception\ClientExceptionInterface;
 use Symfony\Contracts\HttpClient\Exception\ExceptionInterface;
 use Symfony\Contracts\HttpClient\Exception\HttpExceptionInterface;
@@ -48,13 +55,9 @@ abstract class AbstractMicroserviceHttpRepository implements ReplaceableHttpClie
     public function findOneByIri(string $iri, array $additionalQueryParams = []): ?ApiResourceDtoInterface
     {
         try {
-            if (!empty($additionalQueryParams)) {
-                $iri .= '?'.http_build_query($additionalQueryParams);
-            }
-
             /** @var ApiResourceDtoInterface|null $resource */
             $resource = $this->serializer->deserialize(
-                $this->request('GET', $iri)->getContent(),
+                $this->request('GET', $this->buildUri($iri, $additionalQueryParams))->getContent(),
                 $this->getResourceDto(),
                 $this->getMicroservice()->getFormat()
             );
@@ -107,6 +110,92 @@ abstract class AbstractMicroserviceHttpRepository implements ReplaceableHttpClie
     }
 
     /**
+     * @psalm-param array<mixed> $additionalQueryParams
+     *
+     * @throws ResourceValidationException
+     * @throws ExceptionInterface
+     */
+    public function create(ApiResourceDtoInterface $resource, array $additionalQueryParams = []): ApiResourceDtoInterface
+    {
+        try {
+            $response = $this->request('POST', $this->buildUri($this->getResourceEndpoint(), $additionalQueryParams), $resource, null, 'json');
+
+            /** @var ApiResourceDtoInterface $createdResource */
+            $createdResource = $this->serializer->deserialize($response->getContent(), $this->getResourceDto(), $this->getMicroservice()->getFormat());
+        } catch (ClientException $e) {
+            if ((400 === $e->getCode()) && null !== $violations = $this->createConstraintViolationListFromResponse($e->getResponse())) {
+                throw new ResourceValidationException($resource, $violations);
+            }
+
+            throw $e;
+        }
+
+        return $createdResource;
+    }
+
+    /**
+     * @psalm-param array<mixed> $additionalQueryParams
+     *
+     * @throws ResourceValidationException
+     * @throws ExceptionInterface
+     * @throws RuntimeException
+     */
+    public function update(ApiResourceDtoInterface $resource, array $additionalQueryParams = []): ApiResourceDtoInterface
+    {
+        if (null === $iri = $resource->getIri()) {
+            throw new RuntimeException('Cannot update a resource without iri');
+        }
+
+        try {
+            $response = $this->request('PUT', $this->buildUri($iri, $additionalQueryParams), $resource, null, 'json');
+
+            /** @var ApiResourceDtoInterface $updatedResource */
+            $updatedResource = $this->serializer->deserialize($response->getContent(), $this->getResourceDto(), $this->getMicroservice()->getFormat());
+        } catch (ClientException $e) {
+            if ((400 === $e->getCode()) && null !== $violations = $this->createConstraintViolationListFromResponse($e->getResponse())) {
+                throw new ResourceValidationException($resource, $violations);
+            }
+
+            throw $e;
+        }
+
+        return $updatedResource;
+    }
+
+    /**
+     * @psalm-param array<mixed> $additionalQueryParams
+     *
+     * @throws ResourceValidationException
+     * @throws ExceptionInterface
+     * @throws RuntimeException
+     */
+    public function delete(ApiResourceDtoInterface $resource, array $additionalQueryParams = []): void
+    {
+        if (null === $iri = $resource->getIri()) {
+            throw new RuntimeException('Cannot update a resource without iri');
+        }
+
+        $response = $this->request('DELETE', $this->buildUri($iri, $additionalQueryParams));
+        $statusCode = $response->getStatusCode();
+
+        if (500 <= $statusCode) {
+            throw new ServerException($response);
+        }
+
+        if (400 <= $statusCode) {
+            if (null !== $violations = $this->createConstraintViolationListFromResponse($response)) {
+                throw new ResourceValidationException($resource, $violations);
+            }
+
+            throw new ClientException($response);
+        }
+
+        if (300 <= $statusCode) {
+            throw new RedirectionException($response);
+        }
+    }
+
+    /**
      * @psalm-param array<mixed> $queryParams
      * @psalm-return Collection<ApiResourceDtoInterface>
      *
@@ -114,11 +203,7 @@ abstract class AbstractMicroserviceHttpRepository implements ReplaceableHttpClie
      */
     protected function requestCollection(array $queryParams = []): Collection
     {
-        $uri = $this->getResourceEndpoint();
-        if (!empty($queryParams)) {
-            $uri .= '?'.http_build_query($queryParams);
-        }
-        $response = $this->request('GET', $uri);
+        $response = $this->request('GET', $this->buildUri($this->getResourceEndpoint(), $queryParams));
 
         /** @var Collection $collection */
         $collection = $this->serializer->deserialize(
@@ -135,13 +220,30 @@ abstract class AbstractMicroserviceHttpRepository implements ReplaceableHttpClie
      *
      * @throws ExceptionInterface
      */
-    protected function request(string $method, string $uri, $body = null): ResponseInterface
+    protected function request(string $method, string $uri, $body = null, ?string $mimeType = null, ?string $bodyFormat = null): ResponseInterface
     {
-        return $this->httpClient->request($this->getMicroservice(), $method, $uri, $body);
+        return $this->httpClient->request($this->getMicroservice(), $method, $uri, $body, $mimeType, $bodyFormat);
     }
 
     private function getMicroservice(): Microservice
     {
         return $this->microservices->get($this->getMicroserviceName());
+    }
+
+    private function createConstraintViolationListFromResponse(ResponseInterface $response): ?ConstraintViolationList
+    {
+        try {
+            /** @var ConstraintViolationList $violations */
+            $violations = $this->serializer->deserialize($response->getContent(false), ConstraintViolationList::class, $this->getMicroservice()->getFormat());
+        } catch (SerializerExceptionInterface $e) {
+            return null;
+        }
+
+        return $violations;
+    }
+
+    private function buildUri(string $uri, array $queryParams): string
+    {
+        return [] !== $queryParams ? sprintf('%s?%s', $uri, http_build_query($queryParams)) : $uri;
     }
 }
