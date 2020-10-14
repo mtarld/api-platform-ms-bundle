@@ -22,6 +22,16 @@ use Symfony\Contracts\HttpClient\Exception\ExceptionInterface;
 use Symfony\Contracts\HttpClient\Exception\HttpExceptionInterface;
 use Symfony\Contracts\HttpClient\ResponseInterface;
 
+// Help opcache.preload discover always-needed symbols
+class_exists(ClientException::class);
+class_exists(ClientExceptionInterface::class);
+class_exists(Collection::class);
+class_exists(ConstraintViolationList::class);
+class_exists(RedirectionException::class);
+class_exists(ResourceValidationException::class);
+class_exists(ServerException::class);
+class_exists(SerializerExceptionInterface::class);
+
 abstract class AbstractMicroserviceHttpRepository implements ReplaceableHttpClientInterface
 {
     use ReplaceableHttpClientTrait;
@@ -122,7 +132,7 @@ abstract class AbstractMicroserviceHttpRepository implements ReplaceableHttpClie
 
             /** @var ApiResourceDtoInterface $createdResource */
             $createdResource = $this->serializer->deserialize($response->getContent(), $this->getResourceDto(), $this->getMicroservice()->getFormat());
-        } catch (ClientException $e) {
+        } catch (ClientExceptionInterface $e) {
             if ((400 === $e->getCode()) && null !== $violations = $this->createConstraintViolationListFromResponse($e->getResponse())) {
                 throw new ResourceValidationException($resource, $violations);
             }
@@ -151,7 +161,7 @@ abstract class AbstractMicroserviceHttpRepository implements ReplaceableHttpClie
 
             /** @var ApiResourceDtoInterface $updatedResource */
             $updatedResource = $this->serializer->deserialize($response->getContent(), $this->getResourceDto(), $this->getMicroservice()->getFormat());
-        } catch (ClientException $e) {
+        } catch (ClientExceptionInterface $e) {
             if ((400 === $e->getCode()) && null !== $violations = $this->createConstraintViolationListFromResponse($e->getResponse())) {
                 throw new ResourceValidationException($resource, $violations);
             }

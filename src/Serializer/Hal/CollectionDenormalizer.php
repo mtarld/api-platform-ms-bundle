@@ -5,6 +5,9 @@ namespace Mtarld\ApiPlatformMsBundle\Serializer\Hal;
 use Mtarld\ApiPlatformMsBundle\Collection\Pagination;
 use Mtarld\ApiPlatformMsBundle\Serializer\AbstractCollectionDenormalizer;
 
+// Help opcache.preload discover always-needed symbols
+class_exists(Pagination::class);
+
 /**
  * @final @internal
  */

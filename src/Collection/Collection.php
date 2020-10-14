@@ -8,6 +8,10 @@ use Iterator;
 use IteratorAggregate;
 use Mtarld\ApiPlatformMsBundle\Microservice\Microservice;
 
+// Help opcache.preload discover always-needed symbols
+class_exists(ArrayIterator::class);
+class_exists(Pagination::class);
+
 /**
  * @final
  * @psalm-template T of object

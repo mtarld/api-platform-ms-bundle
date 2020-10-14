@@ -7,6 +7,10 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Extension\Extension;
 use Symfony\Component\DependencyInjection\Loader\XmlFileLoader;
 
+// Help opcache.preload discover always-needed symbols
+class_exists(FileLocator::class);
+class_exists(XmlFileLoader::class);
+
 /**
  * @final @internal
  */

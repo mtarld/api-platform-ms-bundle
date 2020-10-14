@@ -10,6 +10,10 @@ use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\ConstraintValidator;
 use Throwable;
 
+// Help opcache.preload discover always-needed symbols
+class_exists(LogicException::class);
+class_exists(RuntimeException::class);
+
 /**
  * @final
  * @psalm-suppress PropertyNotSetInConstructor

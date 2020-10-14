@@ -5,6 +5,9 @@ namespace Mtarld\ApiPlatformMsBundle\Serializer\JsonApi;
 use Mtarld\ApiPlatformMsBundle\Serializer\AbstractConstraintViolationListDenormalizer;
 use Symfony\Component\Validator\ConstraintViolation;
 
+// Help opcache.preload discover always-needed symbols
+class_exists(ConstraintViolation::class);
+
 /**
  * @final @internal
  */

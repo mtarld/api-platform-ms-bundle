@@ -7,6 +7,11 @@ use Symfony\Bundle\FrameworkBundle\Routing\RouteLoaderInterface;
 use Symfony\Component\Routing\Route;
 use Symfony\Component\Routing\RouteCollection;
 
+// Help opcache.preload discover always-needed symbols
+class_exists(ApiResourceExistenceCheckerAction::class);
+class_exists(Route::class);
+class_exists(RouteCollection::class);
+
 /**
  * @final
  *
