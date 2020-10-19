@@ -67,7 +67,7 @@ return static function (ContainerConfigurator $container): void {
                 service('api_platform_ms.http_client.generic'),
                 service('serializer'),
             ])
-        ->alias(PaginatedCollectionIterator::class, 'api_platform_ms.validator.api_resource_exist')
+        ->alias(PaginatedCollectionIterator::class, 'api_platform_ms.collection.paginated_collection_iterator')
     ;
 };
 
