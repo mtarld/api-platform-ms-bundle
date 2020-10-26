@@ -28,6 +28,11 @@
                 <referencedMethod name="PHPUnit\Framework\MockObject\Builder\InvocationMocker::withConsecutive" />
             </errorLevel>
         </InternalMethod>
+        <DeprecatedMethod>
+            <errorLevel type="suppress">
+                <referencedMethod name="Mtarld\ApiPlatformMsBundle\Collection\PaginatedCollectionIterator::iterateOver"/>
+            </errorLevel>
+        </DeprecatedMethod>
     </issueHandlers>
 
     <plugins>

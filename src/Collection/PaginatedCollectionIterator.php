@@ -34,19 +34,17 @@ class PaginatedCollectionIterator implements ReplaceableHttpClientInterface
 
     /**
      * @psalm-param Collection<T> $collection
-     * @psalm-return Iterator<T>
+     * @psalm-return Iterator<Iterator<T>>
      *
      * @throws ExceptionInterface
      */
-    public function iterateOver(Collection $collection): Iterator
+    public function iteratePages(Collection $collection): Iterator
     {
         if (null === $collection->getMicroservice()) {
             throw new CollectionNotIterableException("Collection isn't iterable because it doesn't hold microservice metadata");
         }
 
-        foreach ($collection as $element) {
-            yield $element;
-        }
+        yield $collection;
 
         if (null === $pagination = $collection->getPagination()) {
             return;
@@ -58,7 +56,33 @@ class PaginatedCollectionIterator implements ReplaceableHttpClientInterface
 
         $nextPart = $this->getNextCollectionPart($collection, $nextPage);
 
-        yield from $this->iterateOver($nextPart);
+        yield from $this->iteratePages($nextPart);
+    }
+
+    /**
+     * @deprecated since version 0.3.0, will be removed in 1.0. Use {@see \Mtarld\ApiPlatformMsBundle\Collection\PaginatedCollectionIterator::iterateItems()} instead.
+     *
+     * @psalm-param Collection<T> $collection
+     * @psalm-return Iterator<T>
+     *
+     * @throws ExceptionInterface
+     */
+    public function iterateOver(Collection $collection): Iterator
+    {
+        foreach ($this->iteratePages($collection) as $page) {
+            yield from $page;
+        }
+    }
+
+    /**
+     * @psalm-param Collection<T> $collection
+     * @psalm-return Iterator<T>
+     *
+     * @throws ExceptionInterface
+     */
+    public function iterateItems(Collection $collection): Iterator
+    {
+        return $this->iterateOver($collection);
     }
 
     /**
