@@ -19,7 +19,6 @@ use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\Validator\ConstraintViolationList;
 use Symfony\Contracts\HttpClient\Exception\ClientExceptionInterface;
 use Symfony\Contracts\HttpClient\Exception\ExceptionInterface;
-use Symfony\Contracts\HttpClient\Exception\HttpExceptionInterface;
 use Symfony\Contracts\HttpClient\ResponseInterface;
 
 // Help opcache.preload discover always-needed symbols
@@ -32,6 +31,9 @@ class_exists(ResourceValidationException::class);
 class_exists(ServerException::class);
 class_exists(SerializerExceptionInterface::class);
 
+/**
+ * @SuppressWarnings(PHPMD.TooManyPublicMethods)
+ */
 abstract class AbstractMicroserviceHttpRepository implements ReplaceableHttpClientInterface
 {
     use ReplaceableHttpClientTrait;
@@ -60,9 +62,9 @@ abstract class AbstractMicroserviceHttpRepository implements ReplaceableHttpClie
     /**
      * @psalm-param array<mixed> $additionalQueryParams
      *
-     * @throws HttpExceptionInterface
+     * @throws ExceptionInterface
      */
-    public function findOneByIri(string $iri, array $additionalQueryParams = []): ?ApiResourceDtoInterface
+    public function fetchOneByIri(string $iri, array $additionalQueryParams = []): ?ApiResourceDtoInterface
     {
         try {
             /** @var ApiResourceDtoInterface|null $resource */
@@ -83,6 +85,34 @@ abstract class AbstractMicroserviceHttpRepository implements ReplaceableHttpClie
     }
 
     /**
+     * @deprecated since version 0.3.0, will be removed in 1.0. Use {@see \Mtarld\ApiPlatformMsBundle\HttpRepository\AbstractMicroserviceHttpRepository::fetchOneByIri()} instead.
+     *
+     * @psalm-param array<mixed> $additionalQueryParams
+     *
+     * @throws ExceptionInterface
+     */
+    public function findOneByIri(string $iri, array $additionalQueryParams = []): ?ApiResourceDtoInterface
+    {
+        return $this->fetchOneByIri($iri, $additionalQueryParams);
+    }
+
+    /**
+     * @psalm-param array<mixed> $criteria
+     * @psalm-param array<mixed> $additionalQueryParams
+     *
+     * @throws ExceptionInterface
+     */
+    public function fetchOneBy(array $criteria, array $additionalQueryParams = []): ?ApiResourceDtoInterface
+    {
+        $items = iterator_to_array($this->fetchBy($criteria, $additionalQueryParams));
+        $item = reset($items);
+
+        return false !== $item ? $item : null;
+    }
+
+    /**
+     * @deprecated since version 0.3.0, will be removed in 1.0. Use {@see \Mtarld\ApiPlatformMsBundle\HttpRepository\AbstractMicroserviceHttpRepository::fetchOneBy()} instead.
+     *
      * @psalm-param scalar $value
      * @psalm-param array<mixed> $additionalQueryParams
      *
@@ -90,13 +120,24 @@ abstract class AbstractMicroserviceHttpRepository implements ReplaceableHttpClie
      */
     public function findOneBy(string $property, $value, array $additionalQueryParams = []): ?ApiResourceDtoInterface
     {
-        $items = iterator_to_array($this->findBy($property, [$value], $additionalQueryParams));
-        $item = reset($items);
-
-        return false !== $item ? $item : null;
+        return $this->fetchOneBy([$property => $value], $additionalQueryParams);
     }
 
     /**
+     * @psalm-param array<scalar|array<scalar>> $criteria
+     * @psalm-param array<mixed> $additionalQueryParams
+     * @psalm-return Collection<ApiResourceDtoInterface>
+     *
+     * @throws ExceptionInterface
+     */
+    public function fetchBy(array $criteria, array $additionalQueryParams = []): Collection
+    {
+        return $this->requestCollection($criteria + $additionalQueryParams);
+    }
+
+    /**
+     * @deprecated since version 0.3.0, will be removed in 1.0. Use {@see \Mtarld\ApiPlatformMsBundle\HttpRepository\AbstractMicroserviceHttpRepository::fetchBy()} instead.
+     *
      * @psalm-param array<scalar> $values
      * @psalm-param array<mixed> $additionalQueryParams
      * @psalm-return Collection<ApiResourceDtoInterface>
@@ -105,7 +146,7 @@ abstract class AbstractMicroserviceHttpRepository implements ReplaceableHttpClie
      */
     public function findBy(string $property, array $values, array $additionalQueryParams = []): Collection
     {
-        return $this->requestCollection([$property => $values] + $additionalQueryParams);
+        return $this->fetchBy([$property => $values], $additionalQueryParams);
     }
 
     /**
@@ -114,9 +155,22 @@ abstract class AbstractMicroserviceHttpRepository implements ReplaceableHttpClie
      *
      * @throws ExceptionInterface
      */
-    public function findAll(array $additionalQueryParams = []): Collection
+    public function fetchAll(array $additionalQueryParams = []): Collection
     {
         return $this->requestCollection($additionalQueryParams);
+    }
+
+    /**
+     * @deprecated since version 0.3.0, will be removed in 1.0. Use {@see \Mtarld\ApiPlatformMsBundle\HttpRepository\AbstractMicroserviceHttpRepository::fetchAll()} instead.
+     *
+     * @psalm-return Collection<ApiResourceDtoInterface>
+     * @psalm-param array<mixed> $additionalQueryParams
+     *
+     * @throws ExceptionInterface
+     */
+    public function findAll(array $additionalQueryParams = []): Collection
+    {
+        return $this->fetchAll($additionalQueryParams);
     }
 
     /**
