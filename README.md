@@ -83,6 +83,9 @@ And you're ready to go ! :rocket:
 - [**HTTP client wrappers**](src/Resources/doc/tools/http-wrapper.md):
   Clients that adapt HTTP calls according to the targeted microservice configuration.
 
+- [**Authentication header providers**](src/Resources/doc/tools/authentication-header-provider.md):
+Providers that dynamically inject authentication headers in requests.
+
 - [**ConstraintViolation list denormalizer**](src/Resources/doc/tools/constraint-violation-list.md)
   Allows you to create a `ConstraintViolationList` instance from a serialized string.
 

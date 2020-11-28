@@ -34,25 +34,22 @@ services:
     autoconfigure: true
     public: true
 
+  Mtarld\ApiPlatformMsBundle\Tests\Fixtures\App\src\:
+    resource: '%kernel.project_dir%/src'
+    exclude: '%kernel.project_dir%/src/{Dto,Entity}'
+
   test.iri_converter:
     alias: api_platform.iri_converter
-    public: true
 
   test.existence_checker:
     alias: api_platform_ms.api_resource.existence_checker
-    public: true
 
   test.http_client:
     alias: api_platform_ms.http_client
-    public: true
 
   test.logger:
     alias: logger
-    public: true
 
   Mtarld\ApiPlatformMsBundle\Collection\PaginatedCollectionIterator: ~
 
-  Mtarld\ApiPlatformMsBundle\Tests\Fixtures\App\src\HttpRepository\PuppyHttpRepository: ~
-
   Symfony\Component\Serializer\NameConverter\CamelCaseToSnakeCaseNameConverter: ~
-

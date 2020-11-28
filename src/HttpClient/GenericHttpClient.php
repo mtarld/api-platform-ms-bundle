@@ -22,12 +22,19 @@ class GenericHttpClient
     private $serializer;
     private $httpClient;
 
+    /**
+     * @var iterable<AuthenticationHeaderProviderInterface>
+     */
+    private $authenticationHeaderProviders;
+
     public function __construct(
         SerializerInterface $serializer,
-        HttpClientInterface $httpClient
+        HttpClientInterface $httpClient,
+        iterable $authenticationHeaderProviders = []
     ) {
         $this->serializer = $serializer;
         $this->httpClient = $httpClient;
+        $this->authenticationHeaderProviders = $authenticationHeaderProviders;
     }
 
     /**
@@ -53,6 +60,15 @@ class GenericHttpClient
 
         if (null !== $body) {
             $options['body'] = $this->serializer->serialize($body, $bodyFormat);
+        }
+
+        // Only the first authentication header provider that supports the context will add the authentication header.
+        foreach ($this->authenticationHeaderProviders as $provider) {
+            if ($provider->supports(['method' => $method, 'uri' => $uri, 'options' => $options, 'microservice' => $microservice])) {
+                $options['headers'] += [$provider->getHeader() => $provider->getValue()];
+
+                break;
+            }
         }
 
         return $this->httpClient->request($method, $uri, $options);
