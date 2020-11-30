@@ -61,7 +61,7 @@ class HttpRepositoryTest extends KernelTestCase
         /** @var PuppyHttpRepository $httpRepository */
         $httpRepository = static::$container->get(PuppyHttpRepository::class);
 
-        $puppyDto = $httpRepository->findOneByIri('/puppies/1');
+        $puppyDto = $httpRepository->fetchOneByIri('/puppies/1');
         self::assertEquals(new PuppyResourceDto('/puppies/1', 'foo'), $puppyDto);
     }
 
@@ -76,7 +76,7 @@ class HttpRepositoryTest extends KernelTestCase
         /** @var PuppyHttpRepository $httpRepository */
         $httpRepository = static::$container->get(PuppyHttpRepository::class);
 
-        $puppyDto = $httpRepository->findOneByIri('/puppies/1');
+        $puppyDto = $httpRepository->fetchOneByIri('/puppies/1');
         self::assertNull($puppyDto);
     }
 
@@ -114,7 +114,7 @@ class HttpRepositoryTest extends KernelTestCase
         /** @var PuppyHttpRepository $httpRepository */
         $httpRepository = static::$container->get(PuppyHttpRepository::class);
 
-        $puppyDtos = $httpRepository->findBy('superName', ['foo', 'bar'], ['groups' => ['translations']]);
+        $puppyDtos = $httpRepository->fetchBy(['superName' => ['foo', 'bar']], ['groups' => ['translations']]);
         self::assertCount(2, $puppyDtos);
         self::assertNotNull($puppyDtos->getMicroservice());
     }
@@ -136,7 +136,7 @@ class HttpRepositoryTest extends KernelTestCase
             ->method('request')
             ->with(
                 'GET',
-                '/api/puppies?superName%5B0%5D=foo',
+                '/api/puppies?superName=foo',
                 [
                     'base_uri' => 'https://localhost',
                     'headers' => [
@@ -153,7 +153,7 @@ class HttpRepositoryTest extends KernelTestCase
         /** @var PuppyHttpRepository $httpRepository */
         $httpRepository = static::$container->get(PuppyHttpRepository::class);
 
-        $puppyDto = $httpRepository->findOneBy('superName', 'foo');
+        $puppyDto = $httpRepository->fetchOneBy(['superName' => 'foo']);
         self::assertEquals(new PuppyResourceDto('/puppies/1', 'foo'), $puppyDto);
     }
 
@@ -174,7 +174,7 @@ class HttpRepositoryTest extends KernelTestCase
             ->method('request')
             ->with(
                 'GET',
-                '/api/puppies?superName%5B0%5D=foo',
+                '/api/puppies?superName%5B0%5D=foo&superName%5B1%5D=bar',
                 [
                     'base_uri' => 'https://localhost',
                     'headers' => [
@@ -191,7 +191,7 @@ class HttpRepositoryTest extends KernelTestCase
         /** @var PuppyHttpRepository $httpRepository */
         $httpRepository = static::$container->get(PuppyHttpRepository::class);
 
-        $puppyDto = $httpRepository->findOneBy('superName', 'foo');
+        $puppyDto = $httpRepository->fetchOneBy(['superName' => ['foo', 'bar']]);
         self::assertNull($puppyDto);
     }
 
@@ -229,7 +229,7 @@ class HttpRepositoryTest extends KernelTestCase
         /** @var PuppyHttpRepository $httpRepository */
         $httpRepository = static::$container->get(PuppyHttpRepository::class);
 
-        $puppyDtos = $httpRepository->findAll(['itemsPerPage' => 2]);
+        $puppyDtos = $httpRepository->fetchAll(['itemsPerPage' => 2]);
         self::assertCount(2, $puppyDtos);
         self::assertNotNull($puppyDtos->getMicroservice());
     }
@@ -264,12 +264,12 @@ class HttpRepositoryTest extends KernelTestCase
         /** @var PuppyHttpRepository $httpRepository */
         $httpRepository = static::$container->get(PuppyHttpRepository::class);
 
-        $puppyDto = $httpRepository->findOneByIri('/puppies/1');
+        $puppyDto = $httpRepository->fetchOneByIri('/puppies/1');
         self::assertEquals(new PuppyResourceDto('/puppies/1', 'foo'), $puppyDto);
 
         $httpRepository->setWrappedHttpClient($secondHttpClient);
 
-        $puppyDto = $httpRepository->findOneByIri('/puppies/1');
+        $puppyDto = $httpRepository->fetchOneByIri('/puppies/1');
         self::assertEquals(new PuppyResourceDto('/puppies/1', 'foo'), $puppyDto);
     }
 

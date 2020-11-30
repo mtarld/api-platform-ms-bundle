@@ -16,9 +16,11 @@ class ProductHttpRepository extends AbstractMicroserviceHttpRepository
     /**
      * Custom method
      */
-    public function findOneByName(string $name): ?ProductDto
+    public function fetchOneByName(string $name): ?ProductDto
     {
-        return parent::findOneBy('name', $name);
+        return parent::fetchOneBy([
+            'name' => $name,
+        ]);
     }
 
     protected function getMicroserviceName(): string
@@ -47,13 +49,13 @@ class ProductController extends AbstractController
     public function byName(Request $request, ProductHttpRepository $productHttpRepository)
     {
         return $this->render('product.html.twig', [
-            'product' => $productHttpRepository->findOneByName($request->query->get('name')),
+            'product' => $productHttpRepository->fetchOneByName($request->query->get('name')),
         ]);
     }
 
     public function updateFirstProduct(ProductHttpRepository $productHttpRepository)
     {
-        $product = $productHttpRepository->findOneByIri('/products/1');
+        $product = $productHttpRepository->fetchOneByIri('/products/1');
         $product->setName('new name');
 
         $productHttpRepository->update($product);
