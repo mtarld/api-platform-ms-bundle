@@ -2,6 +2,9 @@
 
 namespace Mtarld\ApiPlatformMsBundle\Tests\Fixtures\App\src\Dto;
 
+/**
+ * @author Mathias Arlaud <mathias.arlaud@gmail.com>
+ */
 class PuppyDto
 {
     /**

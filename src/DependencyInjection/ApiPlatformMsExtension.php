@@ -13,6 +13,8 @@ class_exists(PhpFileLoader::class);
 
 /**
  * @final @internal
+ *
+ * @author Mathias Arlaud <mathias.arlaud@gmail.com>
  */
 class ApiPlatformMsExtension extends Extension
 {

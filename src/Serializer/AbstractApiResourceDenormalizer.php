@@ -13,6 +13,8 @@ class_exists(ApiResourceDtoInterface::class);
 /**
  * @internal
  * @SuppressWarnings(PHPMD.UnusedFormalParameter)
+ *
+ * @author Mathias Arlaud <mathias.arlaud@gmail.com>
  */
 abstract class AbstractApiResourceDenormalizer implements DenormalizerInterface, DenormalizerAwareInterface
 {

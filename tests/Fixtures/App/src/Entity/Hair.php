@@ -8,6 +8,8 @@ use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ApiResource(normalizationContext={"groups"={"read"}})
+ *
+ * @author Mathias Arlaud <mathias.arlaud@gmail.com>
  */
 class Hair
 {

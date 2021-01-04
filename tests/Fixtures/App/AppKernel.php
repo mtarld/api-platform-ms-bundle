@@ -12,6 +12,9 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpKernel\Kernel;
 use Symfony\Component\Routing\RouteCollectionBuilder;
 
+/**
+ * @author Mathias Arlaud <mathias.arlaud@gmail.com>
+ */
 class AppKernel extends Kernel
 {
     use MicroKernelTrait;

@@ -11,6 +11,8 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 /**
  * @group microservice
+ *
+ * @author Mathias Arlaud <mathias.arlaud@gmail.com>
  */
 class MicroservicePoolTest extends KernelTestCase
 {

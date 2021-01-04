@@ -15,6 +15,8 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
 /**
  * @group resource-existence
  * @group validator
+ *
+ * @author Mathias Arlaud <mathias.arlaud@gmail.com>
  */
 class ApiResourceExistValidatorTest extends KernelTestCase
 {

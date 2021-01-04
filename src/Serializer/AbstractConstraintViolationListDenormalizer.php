@@ -13,6 +13,8 @@ class_exists(ConstraintViolationList::class);
 /**
  * @internal
  * @SuppressWarnings(PHPMD.UnusedFormalParameter)
+ *
+ * @author Mathias Arlaud <mathias.arlaud@gmail.com>
  */
 abstract class AbstractConstraintViolationListDenormalizer implements DenormalizerInterface, CacheableSupportsMethodInterface
 {

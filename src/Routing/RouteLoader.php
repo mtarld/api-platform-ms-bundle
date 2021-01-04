@@ -13,9 +13,9 @@ class_exists(Route::class);
 class_exists(RouteCollection::class);
 
 /**
- * @final
+ * @final @internal
  *
- * @internal
+ * @author Mathias Arlaud <mathias.arlaud@gmail.com>
  */
 class RouteLoader implements RouteLoaderInterface
 {

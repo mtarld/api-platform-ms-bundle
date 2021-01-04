@@ -15,6 +15,8 @@ class_exists(Pagination::class);
 /**
  * @final
  * @psalm-template T of object
+ *
+ * @author Mathias Arlaud <mathias.arlaud@gmail.com>
  */
 class Collection implements IteratorAggregate, Countable
 {

@@ -17,6 +17,8 @@ class_exists(RuntimeException::class);
 /**
  * @final
  * @psalm-suppress PropertyNotSetInConstructor
+ *
+ * @author Mathias Arlaud <mathias.arlaud@gmail.com>
  */
 class ApiResourceExistValidator extends ConstraintValidator
 {

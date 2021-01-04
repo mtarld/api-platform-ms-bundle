@@ -8,6 +8,8 @@ use Symfony\Component\Validator\ConstraintValidator;
 /**
  * @final @internal
  * @psalm-suppress PropertyNotSetInConstructor
+ *
+ * @author Mathias Arlaud <mathias.arlaud@gmail.com>
  */
 class FormatEnabledValidator extends ConstraintValidator
 {
