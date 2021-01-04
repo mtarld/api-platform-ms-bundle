@@ -67,5 +67,17 @@ class ApiPlatformMsExtension extends Extension
         $container->setParameter('api_platform_ms.enabled_formats', $formats);
 
         $container->registerForAutoconfiguration(AuthenticationHeaderProviderInterface::class)->addTag('api_platform_ms.authentication_header_provider');
+
+        if (!$config['log_request']) {
+            $container->removeDefinition('api_platform_ms.request_logger_listener');
+        }
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getConfiguration(array $config, ContainerBuilder $container)
+    {
+        return new Configuration($container->getParameter('kernel.debug'));
     }
 }
