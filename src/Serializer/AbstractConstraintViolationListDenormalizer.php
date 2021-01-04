@@ -29,6 +29,8 @@ abstract class AbstractConstraintViolationListDenormalizer implements Denormaliz
     /**
      * @psalm-param class-string<ConstraintViolationList> $type
      *
+     * @param mixed  $data
+     * @param string $type
      * @param string $format
      *
      * @psalm-suppress MoreSpecificImplementedParamType
@@ -41,6 +43,7 @@ abstract class AbstractConstraintViolationListDenormalizer implements Denormaliz
     }
 
     /**
+     * @param mixed  $data
      * @param string $type
      * @param string $format
      */

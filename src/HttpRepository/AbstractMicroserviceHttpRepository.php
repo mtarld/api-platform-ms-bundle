@@ -62,7 +62,7 @@ abstract class AbstractMicroserviceHttpRepository implements ReplaceableHttpClie
     abstract protected function getResourceDto(): string;
 
     /**
-     * @psalm-param array<mixed> $additionalQueryParams
+     * @psalm-param array<array-key, mixed> $additionalQueryParams
      *
      * @throws ExceptionInterface
      */
@@ -89,7 +89,7 @@ abstract class AbstractMicroserviceHttpRepository implements ReplaceableHttpClie
     /**
      * @deprecated since version 0.3.0, will be removed in 1.0. Use {@see \Mtarld\ApiPlatformMsBundle\HttpRepository\AbstractMicroserviceHttpRepository::fetchOneByIri()} instead.
      *
-     * @psalm-param array<mixed> $additionalQueryParams
+     * @psalm-param array<array-key, mixed> $additionalQueryParams
      *
      * @throws ExceptionInterface
      */
@@ -99,8 +99,8 @@ abstract class AbstractMicroserviceHttpRepository implements ReplaceableHttpClie
     }
 
     /**
-     * @psalm-param array<mixed> $criteria
-     * @psalm-param array<mixed> $additionalQueryParams
+     * @psalm-param array<array-key, mixed> $criteria
+     * @psalm-param array<array-key, mixed> $additionalQueryParams
      *
      * @throws ExceptionInterface
      */
@@ -115,8 +115,8 @@ abstract class AbstractMicroserviceHttpRepository implements ReplaceableHttpClie
     /**
      * @deprecated since version 0.3.0, will be removed in 1.0. Use {@see \Mtarld\ApiPlatformMsBundle\HttpRepository\AbstractMicroserviceHttpRepository::fetchOneBy()} instead.
      *
-     * @psalm-param scalar $value
-     * @psalm-param array<mixed> $additionalQueryParams
+     * @psalm-param mixed $value
+     * @psalm-param array<array-key, mixed> $additionalQueryParams
      *
      * @throws ExceptionInterface
      */
@@ -126,8 +126,8 @@ abstract class AbstractMicroserviceHttpRepository implements ReplaceableHttpClie
     }
 
     /**
-     * @psalm-param array<scalar|array<scalar>> $criteria
-     * @psalm-param array<mixed> $additionalQueryParams
+     * @psalm-param array<array-key, mixed> $criteria
+     * @psalm-param array<array-key, mixed> $additionalQueryParams
      * @psalm-return Collection<ApiResourceDtoInterface>
      *
      * @throws ExceptionInterface
@@ -140,8 +140,8 @@ abstract class AbstractMicroserviceHttpRepository implements ReplaceableHttpClie
     /**
      * @deprecated since version 0.3.0, will be removed in 1.0. Use {@see \Mtarld\ApiPlatformMsBundle\HttpRepository\AbstractMicroserviceHttpRepository::fetchBy()} instead.
      *
-     * @psalm-param array<scalar> $values
-     * @psalm-param array<mixed> $additionalQueryParams
+     * @param array<mixed> $values
+     * @psalm-param array<array-key, mixed> $additionalQueryParams
      * @psalm-return Collection<ApiResourceDtoInterface>
      *
      * @throws ExceptionInterface
@@ -152,8 +152,8 @@ abstract class AbstractMicroserviceHttpRepository implements ReplaceableHttpClie
     }
 
     /**
+     * @psalm-param array<array-key, mixed> $additionalQueryParams
      * @psalm-return Collection<ApiResourceDtoInterface>
-     * @psalm-param array<mixed> $additionalQueryParams
      *
      * @throws ExceptionInterface
      */
@@ -165,8 +165,8 @@ abstract class AbstractMicroserviceHttpRepository implements ReplaceableHttpClie
     /**
      * @deprecated since version 0.3.0, will be removed in 1.0. Use {@see \Mtarld\ApiPlatformMsBundle\HttpRepository\AbstractMicroserviceHttpRepository::fetchAll()} instead.
      *
+     * @psalm-param array<array-key, mixed> $additionalQueryParams
      * @psalm-return Collection<ApiResourceDtoInterface>
-     * @psalm-param array<mixed> $additionalQueryParams
      *
      * @throws ExceptionInterface
      */
@@ -176,7 +176,7 @@ abstract class AbstractMicroserviceHttpRepository implements ReplaceableHttpClie
     }
 
     /**
-     * @psalm-param array<mixed> $additionalQueryParams
+     * @psalm-param array<array-key, mixed> $additionalQueryParams
      *
      * @throws ResourceValidationException
      * @throws ExceptionInterface
@@ -200,7 +200,7 @@ abstract class AbstractMicroserviceHttpRepository implements ReplaceableHttpClie
     }
 
     /**
-     * @psalm-param array<mixed> $additionalQueryParams
+     * @psalm-param array<array-key, mixed> $additionalQueryParams
      *
      * @throws ResourceValidationException
      * @throws ExceptionInterface
@@ -229,7 +229,7 @@ abstract class AbstractMicroserviceHttpRepository implements ReplaceableHttpClie
     }
 
     /**
-     * @psalm-param array<mixed> $additionalQueryParams
+     * @psalm-param array<array-key, mixed> $additionalQueryParams
      *
      * @throws ResourceValidationException
      * @throws ExceptionInterface
@@ -262,7 +262,7 @@ abstract class AbstractMicroserviceHttpRepository implements ReplaceableHttpClie
     }
 
     /**
-     * @psalm-param array<mixed> $queryParams
+     * @psalm-param array<array-key, mixed> $queryParams
      * @psalm-return Collection<ApiResourceDtoInterface>
      *
      * @throws ExceptionInterface
