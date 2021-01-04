@@ -14,6 +14,8 @@ use Symfony\Component\Serializer\SerializerInterface;
 /**
  * @group denormalizer
  * @group resource
+ *
+ * @author Mathias Arlaud <mathias.arlaud@gmail.com>
  */
 class ApiResourceDenormalizerTest extends KernelTestCase
 {

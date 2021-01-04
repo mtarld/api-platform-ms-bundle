@@ -19,6 +19,8 @@ use Symfony\Contracts\HttpClient\ResponseInterface;
 /**
  * @group repository
  * @group http
+ *
+ * @author Mathias Arlaud <mathias.arlaud@gmail.com>
  */
 class HttpRepositoryTest extends KernelTestCase
 {

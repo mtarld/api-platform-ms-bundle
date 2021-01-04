@@ -11,6 +11,8 @@ use Symfony\Component\Validator\ConstraintViolationList;
 /**
  * @group denormalizer
  * @group constraint-violation-list
+ *
+ * @author Mathias Arlaud <mathias.arlaud@gmail.com>
  */
 class ConstraintViolationListDenormalizerTest extends KernelTestCase
 {

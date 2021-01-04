@@ -8,6 +8,8 @@ use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 /**
  * @final @internal
+ *
+ * @author Mathias Arlaud <mathias.arlaud@gmail.com>
  */
 class Configuration implements ConfigurationInterface
 {

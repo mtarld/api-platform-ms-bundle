@@ -18,6 +18,8 @@ class_exists(CollectionNotIterableException::class);
 /**
  * @final
  * @psalm-template T of object
+ *
+ * @author Mathias Arlaud <mathias.arlaud@gmail.com>
  */
 class PaginatedCollectionIterator implements ReplaceableHttpClientInterface
 {

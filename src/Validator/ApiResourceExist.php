@@ -5,9 +5,11 @@ namespace Mtarld\ApiPlatformMsBundle\Validator;
 use Symfony\Component\Validator\Constraint;
 
 /**
- * @final
  * @Annotation
+ * @final
  * @psalm-suppress PropertyNotSetInConstructor
+ *
+ * @author Mathias Arlaud <mathias.arlaud@gmail.com>
  */
 class ApiResourceExist extends Constraint
 {

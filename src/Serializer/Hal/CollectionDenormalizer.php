@@ -10,6 +10,8 @@ class_exists(Pagination::class);
 
 /**
  * @final @internal
+ *
+ * @author Mathias Arlaud <mathias.arlaud@gmail.com>
  */
 class CollectionDenormalizer extends AbstractCollectionDenormalizer
 {

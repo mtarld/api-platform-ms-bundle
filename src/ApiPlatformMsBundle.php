@@ -11,6 +11,8 @@ class_exists(CreateHttpClientsPass::class);
 
 /**
  * @final
+ *
+ * @author Mathias Arlaud <mathias.arlaud@gmail.com>
  */
 class ApiPlatformMsBundle extends Bundle
 {

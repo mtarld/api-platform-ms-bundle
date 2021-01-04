@@ -17,6 +17,8 @@ class_exists(ApiResourceExistenceCheckerView::class);
 
 /**
  * @final
+ *
+ * @author Mathias Arlaud <mathias.arlaud@gmail.com>
  */
 class ExistenceChecker implements ReplaceableHttpClientInterface
 {

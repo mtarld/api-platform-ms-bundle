@@ -33,6 +33,8 @@ class_exists(SerializerExceptionInterface::class);
 
 /**
  * @SuppressWarnings(PHPMD.TooManyPublicMethods)
+ *
+ * @author Mathias Arlaud <mathias.arlaud@gmail.com>
  */
 abstract class AbstractMicroserviceHttpRepository implements ReplaceableHttpClientInterface
 {

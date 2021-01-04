@@ -6,6 +6,8 @@ use Symfony\Component\Serializer\NameConverter\NameConverterInterface;
 
 /**
  * @internal
+ *
+ * @author Mathias Arlaud <mathias.arlaud@gmail.com>
  */
 trait NameConverterAwareTrait
 {

@@ -13,6 +13,8 @@ use Throwable;
 /**
  * @group resource-existence
  * @group http
+ *
+ * @author Mathias Arlaud <mathias.arlaud@gmail.com>
  */
 class ExistenceCheckerTest extends KernelTestCase
 {

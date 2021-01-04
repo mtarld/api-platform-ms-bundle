@@ -20,6 +20,8 @@ class_exists(JsonResponse::class);
 
 /**
  * @final @internal
+ *
+ * @author Mathias Arlaud <mathias.arlaud@gmail.com>
  */
 class ApiResourceExistenceCheckerAction
 {

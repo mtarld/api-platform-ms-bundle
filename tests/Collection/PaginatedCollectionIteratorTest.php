@@ -15,6 +15,8 @@ use Symfony\Contracts\HttpClient\ResponseInterface;
 /**
  * @group collection
  * @group http
+ *
+ * @author Mathias Arlaud <mathias.arlaud@gmail.com>
  */
 class PaginatedCollectionIteratorTest extends KernelTestCase
 {

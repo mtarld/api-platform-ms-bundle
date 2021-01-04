@@ -13,6 +13,8 @@ use Symfony\Contracts\HttpClient\ResponseInterface;
 /**
  * @group http
  * @group client
+ *
+ * @author Mathias Arlaud <mathias.arlaud@gmail.com>
  */
 class HttpClientTest extends KernelTestCase
 {

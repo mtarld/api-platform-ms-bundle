@@ -10,6 +10,9 @@ use Symfony\Component\DependencyInjection\Definition;
 // Help opcache.preload discover always-needed symbols
 class_exists(MicroserviceHttpClient::class);
 
+/**
+ * @author Mathias Arlaud <mathias.arlaud@gmail.com>
+ */
 class CreateHttpClientsPass implements CompilerPassInterface
 {
     public function process(ContainerBuilder $container): void

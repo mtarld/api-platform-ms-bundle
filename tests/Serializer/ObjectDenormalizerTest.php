@@ -10,6 +10,8 @@ use Symfony\Component\Serializer\SerializerInterface;
 /**
  * @group denormalizer
  * @group object
+ *
+ * @author Mathias Arlaud <mathias.arlaud@gmail.com>
  */
 class ObjectDenormalizerTest extends KernelTestCase
 {

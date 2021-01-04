@@ -10,6 +10,8 @@ use Symfony\Contracts\HttpClient\ResponseInterface;
 
 /**
  * @final
+ *
+ * @author Mathias Arlaud <mathias.arlaud@gmail.com>
  */
 class GenericHttpClient
 {

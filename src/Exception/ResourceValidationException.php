@@ -5,6 +5,9 @@ namespace Mtarld\ApiPlatformMsBundle\Exception;
 use Symfony\Component\Validator\ConstraintViolationList;
 use Symfony\Component\Validator\Exception\RuntimeException;
 
+/**
+ * @author Mathias Arlaud <mathias.arlaud@gmail.com>
+ */
 class ResourceValidationException extends RuntimeException
 {
     /**

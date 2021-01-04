@@ -13,6 +13,8 @@ class_exists(ReservedAttributeNameConverter::class);
 /**
  * @final @internal
  * @SuppressWarnings(PHPMD.UnusedFormalParameter)
+ *
+ * @author Mathias Arlaud <mathias.arlaud@gmail.com>
  */
 class ObjectDenormalizer implements ContextAwareDenormalizerInterface, DenormalizerAwareInterface
 {

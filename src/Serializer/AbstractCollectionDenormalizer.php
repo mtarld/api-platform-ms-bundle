@@ -15,6 +15,8 @@ class_exists(Collection::class);
 /**
  * @internal
  * @SuppressWarnings(PHPMD.UnusedFormalParameter)
+ *
+ * @author Mathias Arlaud <mathias.arlaud@gmail.com>
  */
 abstract class AbstractCollectionDenormalizer implements DenormalizerInterface, DenormalizerAwareInterface, CacheableSupportsMethodInterface
 {

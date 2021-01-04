@@ -4,8 +4,9 @@ namespace Mtarld\ApiPlatformMsBundle\Collection;
 
 /**
  * @final
- *
  * @psalm-immutable
+ *
+ * @author Mathias Arlaud <mathias.arlaud@gmail.com>
  */
 class Pagination
 {
