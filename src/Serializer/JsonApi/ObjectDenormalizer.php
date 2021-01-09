@@ -24,6 +24,7 @@ class ObjectDenormalizer implements ContextAwareDenormalizerInterface, Denormali
     use DenormalizerAwareTrait;
 
     /**
+     * @param mixed  $data
      * @param string $type
      * @param string $format
      */
@@ -45,6 +46,7 @@ class ObjectDenormalizer implements ContextAwareDenormalizerInterface, Denormali
     }
 
     /**
+     * @param mixed  $data
      * @param string $type
      * @param string $format
      */

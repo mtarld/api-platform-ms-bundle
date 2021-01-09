@@ -19,6 +19,7 @@ class ObjectDenormalizer implements DenormalizerInterface, DenormalizerAwareInte
     use DenormalizerAwareTrait;
 
     /**
+     * @param mixed  $data
      * @param string $type
      * @param string $format
      */
@@ -28,6 +29,7 @@ class ObjectDenormalizer implements DenormalizerInterface, DenormalizerAwareInte
     }
 
     /**
+     * @param mixed  $data
      * @param string $type
      * @param string $format
      */
