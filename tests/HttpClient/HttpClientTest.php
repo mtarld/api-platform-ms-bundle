@@ -6,6 +6,8 @@ use Mtarld\ApiPlatformMsBundle\HttpClient\GenericHttpClient;
 use Mtarld\ApiPlatformMsBundle\HttpClient\MicroserviceHttpClientInterface;
 use Mtarld\ApiPlatformMsBundle\Microservice\Microservice;
 use Mtarld\ApiPlatformMsBundle\Microservice\MicroservicePool;
+use Mtarld\ApiPlatformMsBundle\Tests\Fixtures\App\src\Authentication\BasicAuthenticationHeaderProvider;
+use Mtarld\ApiPlatformMsBundle\Tests\Fixtures\App\src\Authentication\BearerAuthenticationHeaderProvider;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 use Symfony\Contracts\HttpClient\ResponseInterface;
@@ -131,5 +133,39 @@ class HttpClientTest extends KernelTestCase
 
         $microserviceHttpClient->setWrappedHttpClient($secondHttpClient);
         $microserviceHttpClient->request('GET', '/puppies');
+    }
+
+    /**
+     * @dataProvider authenticationHeadersDataProvider
+     */
+    public function testAuthenticationHeaders(string $microservice, string $method, $uri, array $expectedAuthenticationHeader): void
+    {
+        $httpClient = $this->createMock(HttpClientInterface::class);
+        $httpClient
+            ->expects(self::once())
+            ->method('request')
+            ->with(
+                $method,
+                $uri,
+                [
+                    'base_uri' => 'https://localhost',
+                    'headers' => ['Content-Type' => 'application/ld+json', 'Accept' => 'application/ld+json'] + $expectedAuthenticationHeader,
+                ]
+            )
+            ->willReturn($this->createMock(ResponseInterface::class))
+        ;
+        static::$container->set('test.http_client', $httpClient);
+
+        static::$container->get(BasicAuthenticationHeaderProvider::class)->setEnabled(true);
+        static::$container->get(BearerAuthenticationHeaderProvider::class)->setEnabled(true);
+
+        static::$container->get(GenericHttpClient::class)->request(static::$container->get(MicroservicePool::class)->get($microservice), $method, $uri);
+    }
+
+    public function authenticationHeadersDataProvider(): iterable
+    {
+        yield ['bar', 'POST', '/api/puppies', []];
+        yield ['bar', 'GET', '/api/puppies', ['Authorization' => 'Basic password']];
+        yield ['bar', 'DELETE', '/api/dummies', ['Authorization' => 'Bearer bearer']];
     }
 }

@@ -2,12 +2,14 @@
 
 namespace Mtarld\ApiPlatformMsBundle\DependencyInjection;
 
+use Mtarld\ApiPlatformMsBundle\HttpClient\AuthenticationHeaderProviderInterface;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Extension\Extension;
 use Symfony\Component\DependencyInjection\Loader\PhpFileLoader;
 
 // Help opcache.preload discover always-needed symbols
+class_exists(AuthenticationHeaderProviderInterface::class);
 class_exists(FileLocator::class);
 class_exists(PhpFileLoader::class);
 
@@ -63,5 +65,7 @@ class ApiPlatformMsExtension extends Extension
         $container->setParameter('api_platform_ms.hosts', $config['hosts']);
         $container->setParameter('api_platform_ms.microservices', $config['microservices']);
         $container->setParameter('api_platform_ms.enabled_formats', $formats);
+
+        $container->registerForAutoconfiguration(AuthenticationHeaderProviderInterface::class)->addTag('api_platform_ms.authentication_header_provider');
     }
 }

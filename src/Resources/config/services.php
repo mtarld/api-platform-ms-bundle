@@ -12,6 +12,7 @@ use Mtarld\ApiPlatformMsBundle\Validator\ApiResourceExistValidator;
 use Mtarld\ApiPlatformMsBundle\Validator\FormatEnabledValidator;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ReferenceConfigurator;
+use function Symfony\Component\DependencyInjection\Loader\Configurator\tagged_iterator;
 
 return static function (ContainerConfigurator $container): void {
     $container->services()
@@ -40,6 +41,7 @@ return static function (ContainerConfigurator $container): void {
             ->args([
                 service('serializer'),
                 service('api_platform_ms.http_client'),
+                tagged_iterator('api_platform_ms.authentication_header_provider'),
             ])
         ->alias(GenericHttpClient::class, 'api_platform_ms.http_client.generic')
         ->set('api_platform_ms.api_resource.existence_checker', ExistenceChecker::class)
