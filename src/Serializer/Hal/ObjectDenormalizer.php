@@ -10,6 +10,8 @@ use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
 /**
  * @final @internal
  * @SuppressWarnings(PHPMD.UnusedFormalParameter)
+ *
+ * @author Mathias Arlaud <mathias.arlaud@gmail.com>
  */
 class ObjectDenormalizer implements DenormalizerInterface, DenormalizerAwareInterface, CacheableSupportsMethodInterface
 {
@@ -17,6 +19,7 @@ class ObjectDenormalizer implements DenormalizerInterface, DenormalizerAwareInte
     use DenormalizerAwareTrait;
 
     /**
+     * @param mixed  $data
      * @param string $type
      * @param string $format
      */
@@ -26,6 +29,7 @@ class ObjectDenormalizer implements DenormalizerInterface, DenormalizerAwareInte
     }
 
     /**
+     * @param mixed  $data
      * @param string $type
      * @param string $format
      */

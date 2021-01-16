@@ -8,6 +8,8 @@ use PHPUnit\Framework\TestCase;
 
 /**
  * @group routing
+ *
+ * @author Mathias Arlaud <mathias.arlaud@gmail.com>
  */
 class RouteLoaderTest extends TestCase
 {

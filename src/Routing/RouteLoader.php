@@ -13,9 +13,9 @@ class_exists(Route::class);
 class_exists(RouteCollection::class);
 
 /**
- * @final
+ * @final @internal
  *
- * @internal
+ * @author Mathias Arlaud <mathias.arlaud@gmail.com>
  */
 class RouteLoader implements RouteLoaderInterface
 {
@@ -23,7 +23,7 @@ class RouteLoader implements RouteLoaderInterface
     private $hosts;
 
     /**
-     * @psalm-param array<string> $hosts
+     * @param array<string> $hosts
      */
     public function __construct(string $name, array $hosts = [])
     {

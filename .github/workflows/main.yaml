@@ -30,7 +30,7 @@ jobs:
             - name: Setup PHP
               uses: shivammathur/setup-php@v2
               with:
-                  php-version: '7.4'
+                  php-version: '8.0'
 
             - name: Get composer cache directory
               id: composercache
@@ -82,7 +82,7 @@ jobs:
         runs-on: ubuntu-latest
         strategy:
             matrix:
-                php-versions: ['7.2', '7.3', '7.4']
+                php-versions: ['7.2', '7.3', '7.4', '8.0']
             fail-fast: false
         name: PHP ${{ matrix.php-versions }} tests
         steps:

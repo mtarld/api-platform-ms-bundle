@@ -2,7 +2,6 @@
 
 namespace Mtarld\ApiPlatformMsBundle\Tests\Validator;
 
-use LogicException;
 use Mtarld\ApiPlatformMsBundle\ApiResource\ExistenceChecker;
 use Mtarld\ApiPlatformMsBundle\Validator\ApiResourceExist;
 use Psr\Log\LoggerInterface;
@@ -10,11 +9,15 @@ use RuntimeException;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\HttpClient\MockHttpClient;
 use Symfony\Component\HttpClient\Response\MockResponse;
+use Symfony\Component\Validator\Exception\InvalidOptionsException;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
+use TypeError;
 
 /**
  * @group resource-existence
  * @group validator
+ *
+ * @author Mathias Arlaud <mathias.arlaud@gmail.com>
  */
 class ApiResourceExistValidatorTest extends KernelTestCase
 {
@@ -25,10 +28,18 @@ class ApiResourceExistValidatorTest extends KernelTestCase
 
     public function testMissingMicroserviceOption(): void
     {
-        $this->expectException(LogicException::class);
-        $this->expectExceptionMessage(sprintf("You must specify 'microservice' attribute of '%s'", ApiResourceExist::class));
+        $this->expectException(InvalidOptionsException::class);
+        $this->expectExceptionMessage(sprintf('The options "value" do not exist in constraint "%s"', ApiResourceExist::class));
 
-        static::$container->get(ValidatorInterface::class)->validate(1, new ApiResourceExist());
+        new ApiResourceExist();
+    }
+
+    public function testInvalidMicroserviceOption(): void
+    {
+        $this->expectException(TypeError::class);
+        $this->expectExceptionMessage(sprintf('"%s::__construct()": Expected argument $microservice to be a string, got "int".', ApiResourceExist::class));
+
+        new ApiResourceExist(1);
     }
 
     public function testDoNothingWhenNull(): void
@@ -40,9 +51,7 @@ class ApiResourceExistValidatorTest extends KernelTestCase
         ;
 
         static::$container->set('test.existence_checker', $existenceChecker);
-        static::$container->get(ValidatorInterface::class)->validate(null, new ApiResourceExist([
-            'microservice' => 'foo',
-        ]));
+        static::$container->get(ValidatorInterface::class)->validate(null, new ApiResourceExist('foo'));
     }
 
     public function testViolationsWhenNotExists(): void
@@ -52,9 +61,7 @@ class ApiResourceExistValidatorTest extends KernelTestCase
         ]);
         static::$container->set('test.http_client', $httpClient);
 
-        $violations = static::$container->get(ValidatorInterface::class)->validate([1, 2], new ApiResourceExist([
-            'microservice' => 'bar',
-        ]));
+        $violations = static::$container->get(ValidatorInterface::class)->validate([1, 2], new ApiResourceExist('bar'));
         self::assertCount(1, $violations);
         self::assertSame("'2' does not exist in microservice 'bar'.", $violations->get(0)->getMessage());
     }
@@ -74,10 +81,7 @@ class ApiResourceExistValidatorTest extends KernelTestCase
         ;
         static::$container->set('test.logger', $logger);
 
-        static::$container->get(ValidatorInterface::class)->validate([1, 2], new ApiResourceExist([
-            'microservice' => 'bar',
-            'skipOnError' => true,
-        ]));
+        static::$container->get(ValidatorInterface::class)->validate([1, 2], new ApiResourceExist('bar', true));
     }
 
     public function testOnWronglyFormattedResponse(): void
@@ -94,10 +98,7 @@ class ApiResourceExistValidatorTest extends KernelTestCase
         ;
         static::$container->set('test.logger', $logger);
 
-        static::$container->get(ValidatorInterface::class)->validate([1, 2], new ApiResourceExist([
-            'microservice' => 'bar',
-            'skipOnError' => true,
-        ]));
+        static::$container->get(ValidatorInterface::class)->validate([1, 2], new ApiResourceExist('bar', true));
     }
 
     public function testSkipOnError(): void
@@ -108,15 +109,34 @@ class ApiResourceExistValidatorTest extends KernelTestCase
         ]);
         static::$container->set('test.http_client', $httpClient);
 
-        $violations = static::$container->get(ValidatorInterface::class)->validate([1, 2], new ApiResourceExist([
-            'microservice' => 'bar',
-            'skipOnError' => true,
-        ]));
+        $violations = static::$container->get(ValidatorInterface::class)->validate([1, 2], new ApiResourceExist('bar', true));
         self::assertCount(0, $violations);
 
         $this->expectException(RuntimeException::class);
-        static::$container->get(ValidatorInterface::class)->validate([1, 2], new ApiResourceExist([
-            'microservice' => 'bar',
-        ]));
+        static::$container->get(ValidatorInterface::class)->validate([1, 2], new ApiResourceExist('bar'));
+    }
+
+    /**
+     * @dataProvider php8AndDoctrineConstraintsDataProvider
+     */
+    public function testPhp8AndDoctrineConstraints(ApiResourceExist $constraint): void
+    {
+        $existenceChecker = $this->createMock(ExistenceChecker::class);
+        $existenceChecker
+            ->expects(self::once())
+            ->method('getExistenceStatuses')
+        ;
+
+        static::$container->set('test.existence_checker', $existenceChecker);
+        static::$container->get(ValidatorInterface::class)->validate([1], $constraint);
+    }
+
+    public function php8AndDoctrineConstraintsDataProvider(): iterable
+    {
+        yield 'Doctrine annotations' => [new ApiResourceExist(['microservice' => 'foo'])];
+
+        if (\PHP_VERSION_ID >= 80000) {
+            yield 'named parameters' => [eval('return new Mtarld\ApiPlatformMsBundle\Validator\ApiResourceExist(microservice: "foo");')];
+        }
     }
 }

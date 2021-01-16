@@ -6,8 +6,11 @@ use LogicException;
 use Mtarld\ApiPlatformMsBundle\ApiResource\ExistenceChecker;
 use Psr\Log\LoggerAwareTrait;
 use RuntimeException;
+use Symfony\Component\Serializer\Exception\ExceptionInterface as SerializerExceptionInterface;
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\ConstraintValidator;
+use Symfony\Component\Validator\Exception\UnexpectedTypeException;
+use Symfony\Contracts\HttpClient\Exception\ExceptionInterface as HttpClientExceptionInterface;
 use Throwable;
 
 // Help opcache.preload discover always-needed symbols
@@ -17,6 +20,8 @@ class_exists(RuntimeException::class);
 /**
  * @final
  * @psalm-suppress PropertyNotSetInConstructor
+ *
+ * @author Mathias Arlaud <mathias.arlaud@gmail.com>
  */
 class ApiResourceExistValidator extends ConstraintValidator
 {
@@ -30,26 +35,25 @@ class ApiResourceExistValidator extends ConstraintValidator
     }
 
     /**
-     * @param ApiResourceExist $constraint
      * @psalm-param string|array<string>|null $value
      *
      * @psalm-suppress MoreSpecificImplementedParamType
      */
     public function validate($value, Constraint $constraint): void
     {
-        if (empty($constraint->microservice)) {
-            throw new LogicException(sprintf("You must specify 'microservice' attribute of '%s'", ApiResourceExist::class));
+        if (!$constraint instanceof ApiResourceExist) {
+            throw new UnexpectedTypeException($constraint, ApiResourceExist::class);
         }
 
         if (null === $value) {
             return;
         }
 
-        $this->validateIris(is_array($value) ? $value : [$value], $constraint);
+        $this->validateIris((array) $value, $constraint);
     }
 
     /**
-     * @psalm-param array<string> $iris
+     * @param array<string> $iris
      */
     private function validateIris(array $iris, ApiResourceExist $constraint): void
     {
@@ -65,7 +69,7 @@ class ApiResourceExistValidator extends ConstraintValidator
                     ;
                 }
             }
-        } catch (Throwable $e) {
+        } catch (HttpClientExceptionInterface | SerializerExceptionInterface $e) {
             $this->handleExistenceCheckerHttpException($e, $constraint);
         }
     }

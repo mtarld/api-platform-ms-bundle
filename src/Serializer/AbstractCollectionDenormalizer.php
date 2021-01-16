@@ -15,6 +15,8 @@ class_exists(Collection::class);
 /**
  * @internal
  * @SuppressWarnings(PHPMD.UnusedFormalParameter)
+ *
+ * @author Mathias Arlaud <mathias.arlaud@gmail.com>
  */
 abstract class AbstractCollectionDenormalizer implements DenormalizerInterface, DenormalizerAwareInterface, CacheableSupportsMethodInterface
 {
@@ -34,6 +36,7 @@ abstract class AbstractCollectionDenormalizer implements DenormalizerInterface, 
     abstract protected function getPagination(array $data): ?Pagination;
 
     /**
+     * @param mixed  $data
      * @param string $type
      * @param string $format
      *
@@ -53,6 +56,7 @@ abstract class AbstractCollectionDenormalizer implements DenormalizerInterface, 
     }
 
     /**
+     * @param mixed  $data
      * @param string $type
      * @param string $format
      */

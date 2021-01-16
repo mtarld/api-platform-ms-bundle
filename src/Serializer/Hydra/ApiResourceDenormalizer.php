@@ -6,6 +6,8 @@ use Mtarld\ApiPlatformMsBundle\Serializer\AbstractApiResourceDenormalizer;
 
 /**
  * @final @internal
+ *
+ * @author Mathias Arlaud <mathias.arlaud@gmail.com>
  */
 class ApiResourceDenormalizer extends AbstractApiResourceDenormalizer
 {

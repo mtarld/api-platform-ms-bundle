@@ -7,6 +7,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [0.3.0] - Unreleased
 * Added authentication header providers
+* Added PHP8 support
 * Deprecated `findOneByIri`, `findOneBy`, `findBy`, `findAll` methods in `AbstractMicroserviceHttpRepository`
 * Added `fetchOneByIri`, `fetchOneBy`, `fetchBy`, `fetchAll` methods in `AbstractMicroserviceHttpRepository`
 * Deprecated `PaginatedCollectionIterator::iterateOver`

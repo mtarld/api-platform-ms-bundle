@@ -10,8 +10,10 @@ use Symfony\Contracts\HttpClient\ResponseInterface;
 
 /**
  * @final
+ *
+ * @author Mathias Arlaud <mathias.arlaud@gmail.com>
  */
-class GenericHttpClient
+class GenericHttpClient implements ReplaceableHttpClientInterface
 {
     private const MIME_TYPES = [
         'jsonld' => 'application/ld+json',
@@ -72,11 +74,6 @@ class GenericHttpClient
         }
 
         return $this->httpClient->request($method, $uri, $options);
-    }
-
-    public function getWrappedHttpClient(): HttpClientInterface
-    {
-        return $this->httpClient;
     }
 
     public function setWrappedHttpClient(HttpClientInterface $httpClient): void

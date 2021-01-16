@@ -6,6 +6,8 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @final
+ *
+ * @author Mathias Arlaud <mathias.arlaud@gmail.com>
  */
 class Microservice
 {

@@ -13,6 +13,8 @@ class_exists(ApiResourceDtoInterface::class);
 /**
  * @internal
  * @SuppressWarnings(PHPMD.UnusedFormalParameter)
+ *
+ * @author Mathias Arlaud <mathias.arlaud@gmail.com>
  */
 abstract class AbstractApiResourceDenormalizer implements DenormalizerInterface, DenormalizerAwareInterface
 {
@@ -27,6 +29,7 @@ abstract class AbstractApiResourceDenormalizer implements DenormalizerInterface,
     abstract protected function prepareEmbeddedData(array $data): array;
 
     /**
+     * @param mixed  $data
      * @param string $type
      * @param string $format
      */
@@ -41,6 +44,7 @@ abstract class AbstractApiResourceDenormalizer implements DenormalizerInterface,
     }
 
     /**
+     * @param mixed  $data
      * @param string $type
      * @param string $format
      */

@@ -14,6 +14,8 @@ use Symfony\Component\Serializer\SerializerInterface;
 /**
  * @group denormalizer
  * @group collection
+ *
+ * @author Mathias Arlaud <mathias.arlaud@gmail.com>
  */
 class CollectionDenormalizerTest extends KernelTestCase
 {

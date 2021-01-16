@@ -5,6 +5,9 @@ namespace Mtarld\ApiPlatformMsBundle\HttpClient;
 use Symfony\Contracts\HttpClient\Exception\HttpExceptionInterface;
 use Symfony\Contracts\HttpClient\ResponseInterface;
 
+/**
+ * @author Mathias Arlaud <mathias.arlaud@gmail.com>
+ */
 interface MicroserviceHttpClientInterface extends ReplaceableHttpClientInterface
 {
     /**

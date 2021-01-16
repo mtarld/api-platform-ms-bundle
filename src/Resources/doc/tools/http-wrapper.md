@@ -12,6 +12,10 @@ This service could be retrieve by the id: `api_platform_ms.http.client.{microser
 If the targeted microservice could only be known at runtime, the `HttpClient` class allows
 you to request any microservice given as method argument.
 
+Furthermore, if you need to replace the real HTTP client during runtime
+(which could be useful when using [scoped clients](https://symfony.com/doc/current/http_client.html#scoping-client)),
+you can use the `setWrappedHttpClient` method of any `ReplaceableHttpClientInterface`.
+
 ## Example
 ```yaml
 services:
@@ -53,3 +57,33 @@ class ProductService
     }
 }
 ```
+#### Replacing the real HTTP client during runtime
+```php
+use Mtarld\ApiPlatformMsBundle\HttpClient\GenericHttpClient;
+use Mtarld\ApiPlatformMsBundle\HttpClient\MicroserviceHttpClientInterface;
+use Mtarld\ApiPlatformMsBundle\Microservice\MicroservicePool;
+
+class ProductService
+{
+    private $productHttpClient;
+    private $superPrivilegedClient;
+
+    public function __construct(
+        MicroserviceHttpClientInterface $productHttpClient,
+        HttpClientInterface $superPrivilegedClient
+    ) {
+        $this->productHttpClient = $productHttpClient;
+        $this->superPrivilegedClient = $superPrivilegedClient;
+    }
+
+    public function createProduct(): void
+    {
+        $response = $this->productHttpClient->request('PUT', '/products/uuid', ['enabled' => true]);
+
+        // retry with higher privileges
+        if (403 === $response->getStatusCode()) {
+            $this->productHttpClient->setWrappedHttpClient($this->superPrivilegedClient);
+            $this->productHttpClient->request('PUT', '/products/uuid', ['enabled' => true]);
+        }
+    }
+}
