@@ -18,10 +18,10 @@ class_exists(ReservedAttributeNameConverter::class);
  */
 class ObjectDenormalizer implements ContextAwareDenormalizerInterface, DenormalizerAwareInterface
 {
-    private const ALREADY_CALLED = 'jsonapi_object_denormalizer_already_called';
-
     use JsonApiDenormalizerTrait;
     use DenormalizerAwareTrait;
+
+    private const ALREADY_CALLED = 'jsonapi_object_denormalizer_already_called';
 
     /**
      * @param mixed  $data
