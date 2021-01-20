@@ -8,7 +8,7 @@ A Microservice tools bundle for API Platform.
 
 ## A microservice bundle ?
 In a microservice context where each microservices are API Platform instances,
-each instance mush behave as an API Platform data producer and an
+each instance must behave as an API Platform data producer and an
 API Platform data consumer.
 
 But API Platform isn't intended to behave like a client.
