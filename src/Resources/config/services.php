@@ -42,6 +42,7 @@ return static function (ContainerConfigurator $container): void {
                 service('serializer'),
                 service('api_platform_ms.http_client'),
                 tagged_iterator('api_platform_ms.authentication_header_provider'),
+                service('event_dispatcher'),
             ])
         ->alias(GenericHttpClient::class, 'api_platform_ms.http_client.generic')
         ->set('api_platform_ms.api_resource.existence_checker', ExistenceChecker::class)

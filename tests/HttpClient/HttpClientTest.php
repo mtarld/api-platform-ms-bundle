@@ -2,6 +2,7 @@
 
 namespace Mtarld\ApiPlatformMsBundle\Tests\HttpClient;
 
+use Mtarld\ApiPlatformMsBundle\Event\RequestEvent;
 use Mtarld\ApiPlatformMsBundle\HttpClient\GenericHttpClient;
 use Mtarld\ApiPlatformMsBundle\HttpClient\MicroserviceHttpClientInterface;
 use Mtarld\ApiPlatformMsBundle\Microservice\Microservice;
@@ -9,6 +10,8 @@ use Mtarld\ApiPlatformMsBundle\Microservice\MicroservicePool;
 use Mtarld\ApiPlatformMsBundle\Tests\Fixtures\App\src\Authentication\BasicAuthenticationHeaderProvider;
 use Mtarld\ApiPlatformMsBundle\Tests\Fixtures\App\src\Authentication\BearerAuthenticationHeaderProvider;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
+use Symfony\Component\Serializer\SerializerInterface;
+use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 use Symfony\Contracts\HttpClient\ResponseInterface;
 
@@ -162,10 +165,45 @@ class HttpClientTest extends KernelTestCase
         static::$container->get(GenericHttpClient::class)->request(static::$container->get(MicroservicePool::class)->get($microservice), $method, $uri);
     }
 
+    /**
+     * @dataProvider eventProvider
+     */
+    public function testEventIsDispatched(string $method, string $uri, string $format, string $mimeType): void
+    {
+        $options = [
+            'base_uri' => $uri,
+            'headers' => [
+                'Content-Type' => $mimeType,
+                'Accept' => $mimeType,
+            ],
+        ];
+
+        $httpClient = new GenericHttpClient(
+            $this->createMock(SerializerInterface::class),
+            $this->createMock(HttpClientInterface::class),
+            [],
+            $eventDispatcherSpy = $this->createMock(EventDispatcherInterface::class)
+        );
+
+        $microservice = $this->createMock(Microservice::class);
+        $microservice->method('getFormat')->willReturn($format);
+        $microservice->method('getBaseUri')->willReturn($uri);
+
+        $eventDispatcherSpy->expects($this->once())->method('dispatch')->with(new RequestEvent($microservice, $method, $uri, $options, null));
+
+        $httpClient->request($microservice, $method, $uri);
+    }
+
     public function authenticationHeadersDataProvider(): iterable
     {
         yield ['bar', 'POST', '/api/puppies', []];
         yield ['bar', 'GET', '/api/puppies', ['Authorization' => 'Basic password']];
         yield ['bar', 'DELETE', '/api/dummies', ['Authorization' => 'Bearer bearer']];
+    }
+
+    public function eventProvider(): iterable
+    {
+        yield ['GET', '/api/users', 'jsonld', 'application/ld+json'];
+        yield ['DELETE', '/api/clients', 'jsonhal', 'application/hal+json'];
     }
 }

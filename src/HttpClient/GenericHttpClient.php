@@ -2,11 +2,17 @@
 
 namespace Mtarld\ApiPlatformMsBundle\HttpClient;
 
+use Mtarld\ApiPlatformMsBundle\Event\RequestEvent;
 use Mtarld\ApiPlatformMsBundle\Microservice\Microservice;
 use Symfony\Component\Serializer\SerializerInterface;
+use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 use Symfony\Contracts\HttpClient\Exception\ExceptionInterface;
+use Symfony\Contracts\HttpClient\Exception\HttpExceptionInterface;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 use Symfony\Contracts\HttpClient\ResponseInterface;
+
+// Help opcache.preload discover always-needed symbols
+class_exists(RequestEvent::class);
 
 /**
  * @final
@@ -23,6 +29,7 @@ class GenericHttpClient implements ReplaceableHttpClientInterface
 
     private $serializer;
     private $httpClient;
+    private $dispatcher;
 
     /**
      * @var iterable<AuthenticationHeaderProviderInterface>
@@ -32,11 +39,13 @@ class GenericHttpClient implements ReplaceableHttpClientInterface
     public function __construct(
         SerializerInterface $serializer,
         HttpClientInterface $httpClient,
-        iterable $authenticationHeaderProviders = []
+        iterable $authenticationHeaderProviders = [],
+        ?EventDispatcherInterface $dispatcher = null
     ) {
         $this->serializer = $serializer;
         $this->httpClient = $httpClient;
         $this->authenticationHeaderProviders = $authenticationHeaderProviders;
+        $this->dispatcher = $dispatcher;
     }
 
     /**
@@ -73,7 +82,21 @@ class GenericHttpClient implements ReplaceableHttpClientInterface
             }
         }
 
-        return $this->httpClient->request($method, $uri, $options);
+        try {
+            $response = $this->httpClient->request($method, $uri, $options);
+        } catch (ExceptionInterface $exception) {
+            if ($exception instanceof HttpExceptionInterface) {
+                $response = $exception->getResponse();
+            }
+
+            throw $exception;
+        } finally {
+            if (null !== $this->dispatcher) {
+                $this->dispatcher->dispatch(new RequestEvent($microservice, $method, $uri, $options, $response ?? null));
+            }
+        }
+
+        return $response;
     }
 
     public function setWrappedHttpClient(HttpClientInterface $httpClient): void
