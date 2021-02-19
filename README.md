@@ -26,7 +26,7 @@ $ composer require mtarld/api-platform-ms-bundle
 ```
 Then, bundle should be registered. Just verify that `config\bundles.php` is containing :
 ```php
-Mtarld\ApiPlaformMsBundle\ApiPlaformMsBundle::class => ['all' => true],
+Mtarld\ApiPlatformMsBundle\ApiPlatformMsBundle::class => ['all' => true],
 ```
 
 ### Configuration
@@ -36,7 +36,7 @@ To do so, edit `config/packages/api_platform_ms.yaml` and `config/routes/api_pla
 ```yaml
 # config/packages/api_platform_ms.yaml
 
-api_plaform_ms:
+api_platform_ms:
     # HttpClient that will be used internally (default: 'Symfony\Contracts\HttpClient\HttpClientInterface')
     http_client: ~
 
