@@ -189,7 +189,9 @@ class HttpClientTest extends KernelTestCase
         $microservice->method('getFormat')->willReturn($format);
         $microservice->method('getBaseUri')->willReturn($uri);
 
-        $eventDispatcherSpy->expects($this->once())->method('dispatch')->with(new RequestEvent($microservice, $method, $uri, $options, null));
+        $response = $httpClient->request($microservice, $method, $uri);
+
+        $eventDispatcherSpy->expects($this->once())->method('dispatch')->with(new RequestEvent($microservice, $method, $uri, $options, $response));
 
         $httpClient->request($microservice, $method, $uri);
     }

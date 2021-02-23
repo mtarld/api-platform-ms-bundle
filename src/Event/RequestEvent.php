@@ -19,7 +19,7 @@ class RequestEvent
     private $options;
     private $response;
 
-    public function __construct(Microservice $microservice, string $method, string $uri, array $options, ?ResponseInterface $response = null)
+    public function __construct(Microservice $microservice, string $method, string $uri, array $options, ?ResponseInterface $response)
     {
         $this->microservice = $microservice;
         $this->method = $method;
