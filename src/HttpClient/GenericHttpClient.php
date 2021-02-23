@@ -7,7 +7,6 @@ use Mtarld\ApiPlatformMsBundle\Microservice\Microservice;
 use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 use Symfony\Contracts\HttpClient\Exception\ExceptionInterface;
-use Symfony\Contracts\HttpClient\Exception\HttpExceptionInterface;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 use Symfony\Contracts\HttpClient\ResponseInterface;
 
@@ -82,18 +81,10 @@ class GenericHttpClient implements ReplaceableHttpClientInterface
             }
         }
 
-        try {
-            $response = $this->httpClient->request($method, $uri, $options);
-        } catch (ExceptionInterface $exception) {
-            if ($exception instanceof HttpExceptionInterface) {
-                $response = $exception->getResponse();
-            }
+        $response = $this->httpClient->request($method, $uri, $options);
 
-            throw $exception;
-        } finally {
-            if (null !== $this->dispatcher) {
-                $this->dispatcher->dispatch(new RequestEvent($microservice, $method, $uri, $options, $response ?? null));
-            }
+        if (null !== $this->dispatcher) {
+            $this->dispatcher->dispatch(new RequestEvent($microservice, $method, $uri, $options));
         }
 
         return $response;

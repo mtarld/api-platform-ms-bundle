@@ -3,7 +3,6 @@
 namespace Mtarld\ApiPlatformMsBundle\Event;
 
 use Mtarld\ApiPlatformMsBundle\Microservice\Microservice;
-use Symfony\Contracts\HttpClient\ResponseInterface;
 
 /**
  * @final
@@ -17,15 +16,13 @@ class RequestEvent
     private $method;
     private $uri;
     private $options;
-    private $response;
 
-    public function __construct(Microservice $microservice, string $method, string $uri, array $options, ?ResponseInterface $response)
+    public function __construct(Microservice $microservice, string $method, string $uri, array $options)
     {
         $this->microservice = $microservice;
         $this->method = $method;
         $this->uri = $uri;
         $this->options = $options;
-        $this->response = $response;
     }
 
     public function getMicroservice(): Microservice
@@ -46,10 +43,5 @@ class RequestEvent
     public function getOptions(): array
     {
         return $this->options;
-    }
-
-    public function getResponse(): ?ResponseInterface
-    {
-        return $this->response;
     }
 }
