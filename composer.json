@@ -24,6 +24,7 @@
     "symfony/property-access": "^4.4|^5.0",
     "symfony/serializer": "^4.4|^5.0",
     "symfony/validator": "^4.4|^5.0",
+    "symfony/event-dispatcher": "^4.4|^5.0",
     "symfony/polyfill-php80": "^1.20"
   },
   "autoload": {
