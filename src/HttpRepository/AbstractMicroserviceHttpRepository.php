@@ -238,7 +238,7 @@ abstract class AbstractMicroserviceHttpRepository implements ReplaceableHttpClie
     public function partialUpdate(ApiResourceDtoInterface $resource, array $additionalQueryParams = []): ApiResourceDtoInterface
     {
         if (null === $iri = $resource->getIri()) {
-            throw new RuntimeException('Cannot update a resource without iri');
+            throw new RuntimeException('Cannot partially update a resource without iri');
         }
 
         try {
