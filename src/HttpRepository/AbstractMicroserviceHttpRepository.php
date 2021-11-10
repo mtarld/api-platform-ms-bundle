@@ -200,7 +200,8 @@ abstract class AbstractMicroserviceHttpRepository implements ReplaceableHttpClie
     }
 
     /**
-     * PUT
+     * Update a resource using PUT verb.
+     *
      * @psalm-param array<array-key, mixed> $additionalQueryParams
      *
      * @throws ResourceValidationException
