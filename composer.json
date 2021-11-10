@@ -39,7 +39,7 @@
   },
   "require-dev": {
     "doctrine/annotations": "^1.7",
-    "friendsofphp/php-cs-fixer": "^2.15",
+    "friendsofphp/php-cs-fixer": "^3.0",
     "phpmd/phpmd": "^2.8",
     "phpunit/phpunit": "^7.5|^8.4",
     "psalm/plugin-phpunit": "^0.15",
