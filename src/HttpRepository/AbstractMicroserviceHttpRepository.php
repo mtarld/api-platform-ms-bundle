@@ -218,7 +218,7 @@ abstract class AbstractMicroserviceHttpRepository implements ReplaceableHttpClie
             $response = $this->request('PUT', $this->buildUri($iri, $additionalQueryParams), $resource, null, 'json');
 
             /** @var ApiResourceDtoInterface */
-            return $this->serializer->deserialize($response->getContent(), $this->getResourceDto(), $this->getMicroservice()->getFormat());
+            $updatedResource = $this->serializer->deserialize($response->getContent(), $this->getResourceDto(), $this->getMicroservice()->getFormat());
         } catch (ClientExceptionInterface $e) {
             if ((400 === $e->getCode()) && null !== $violations = $this->createConstraintViolationListFromResponse($e->getResponse())) {
                 throw new ResourceValidationException($resource, $violations);
@@ -226,6 +226,8 @@ abstract class AbstractMicroserviceHttpRepository implements ReplaceableHttpClie
 
             throw $e;
         }
+
+        return $updatedResource; // late return needed for static analysis
     }
 
     /**
@@ -247,7 +249,7 @@ abstract class AbstractMicroserviceHttpRepository implements ReplaceableHttpClie
             $response = $this->request('PATCH', $this->buildUri($iri, $additionalQueryParams), $resource, 'application/merge-patch+json', 'json');
 
             /** @var ApiResourceDtoInterface */
-            return $this->serializer->deserialize($response->getContent(), $this->getResourceDto(), $this->getMicroservice()->getFormat());
+            $updatedResource = $this->serializer->deserialize($response->getContent(), $this->getResourceDto(), $this->getMicroservice()->getFormat());
         } catch (ClientExceptionInterface $e) {
             if ((400 === $e->getCode()) && null !== $violations = $this->createConstraintViolationListFromResponse($e->getResponse())) {
                 throw new ResourceValidationException($resource, $violations);
@@ -255,6 +257,8 @@ abstract class AbstractMicroserviceHttpRepository implements ReplaceableHttpClie
 
             throw $e;
         }
+
+        return $updatedResource; // late return needed for static analysis
     }
 
     /**
