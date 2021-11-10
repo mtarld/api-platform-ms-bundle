@@ -444,7 +444,7 @@ class HttpRepositoryTest extends KernelTestCase
         /** @var PuppyHttpRepository $httpRepository */
         $httpRepository = static::$container->get(PuppyHttpRepository::class);
 
-        $createdPuppyDto = $httpRepository->partialUpdate(new PuppyResourceDto('/puppies/1', 'foo'), ['user' => 'me']);
+        $updatedPuppyDto = $httpRepository->partialUpdate(new PuppyResourceDto('/puppies/1', 'foo'), ['user' => 'me']);
         self::assertEquals(new PuppyResourceDto('/puppies/1', 'foo'), $createdPuppyDto);
     }
 
