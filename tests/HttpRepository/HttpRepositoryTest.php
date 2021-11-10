@@ -445,7 +445,7 @@ class HttpRepositoryTest extends KernelTestCase
         $httpRepository = static::$container->get(PuppyHttpRepository::class);
 
         $updatedPuppyDto = $httpRepository->partialUpdate(new PuppyResourceDto('/puppies/1', 'foo'), ['user' => 'me']);
-        self::assertEquals(new PuppyResourceDto('/puppies/1', 'foo'), $createdPuppyDto);
+        self::assertEquals(new PuppyResourceDto('/puppies/1', 'foo'), $updatedPuppyDto);
     }
 
     public function testPartialUpdateResourceWithViolations(): void
@@ -474,7 +474,7 @@ class HttpRepositoryTest extends KernelTestCase
     public function testPartialUpdateResourceWithoutIri(): void
     {
         $this->expectException(RuntimeException::class);
-        $this->expectExceptionMessage('Cannot update a resource without iri');
+        $this->expectExceptionMessage('Cannot partially update a resource without iri');
 
         /** @var PuppyHttpRepository $httpRepository */
         $httpRepository = static::$container->get(PuppyHttpRepository::class);
