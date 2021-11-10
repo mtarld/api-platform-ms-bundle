@@ -409,6 +409,78 @@ class HttpRepositoryTest extends KernelTestCase
         $httpRepository->update(new PuppyResourceDto(null, 'foo'));
     }
 
+    public function testPartialUpdateResource(): void
+    {
+        /** @var SerializerInterface $serializer */
+        $serializer = static::$container->get(SerializerInterface::class);
+
+        $response = $this->createMock(ResponseInterface::class);
+        $response
+            ->method('getContent')
+            ->willReturn($serializer->serialize(new Puppy(1, 'foo'), 'jsonld'))
+        ;
+
+        $httpClient = $this->createMock(HttpClientInterface::class);
+        $httpClient
+            ->expects(self::once())
+            ->method('request')
+            ->with(
+                'PATCH',
+                '/api/puppies/1?user=me',
+                [
+                    'base_uri' => 'https://localhost',
+                    'headers' => [
+                        'Content-Type' => 'application/merge-patch+json',
+                        'Accept' => 'application/merge-patch+json',
+                    ],
+                    'body' => '{"iri":"\/puppies\/1","super_name":"foo","color":null,"hairs":[]}',
+                ]
+            )
+            ->willReturn($response)
+        ;
+
+        static::$container->set('test.http_client', $httpClient);
+
+        /** @var PuppyHttpRepository $httpRepository */
+        $httpRepository = static::$container->get(PuppyHttpRepository::class);
+
+        $createdPuppyDto = $httpRepository->partialUpdate(new PuppyResourceDto('/puppies/1', 'foo'), ['user' => 'me']);
+        self::assertEquals(new PuppyResourceDto('/puppies/1', 'foo'), $createdPuppyDto);
+    }
+
+    public function testPartialUpdateResourceWithViolations(): void
+    {
+        $this->expectException(ResourceValidationException::class);
+
+        /** @var SerializerInterface $serializer */
+        $serializer = static::$container->get(SerializerInterface::class);
+
+        $httpClient = new MockHttpClient([
+            new MockResponse(
+                $serializer->serialize(new ConstraintViolationList([
+                    new ConstraintViolation('This is a violation', null, [], new Puppy(1, 'foo'), 'superName', null),
+                ]), 'jsonld'),
+                ['http_code' => 400]
+            ),
+        ]);
+
+        static::$container->set('test.http_client', $httpClient);
+
+        /** @var PuppyHttpRepository $httpRepository */
+        $httpRepository = static::$container->get(PuppyHttpRepository::class);
+        $httpRepository->partialUpdate(new PuppyResourceDto('/puppies/1', 'foo'));
+    }
+
+    public function testPartialUpdateResourceWithoutIri(): void
+    {
+        $this->expectException(RuntimeException::class);
+        $this->expectExceptionMessage('Cannot update a resource without iri');
+
+        /** @var PuppyHttpRepository $httpRepository */
+        $httpRepository = static::$container->get(PuppyHttpRepository::class);
+        $httpRepository->partialUpdate(new PuppyResourceDto(null, 'foo'));
+    }
+
     public function testDeleteResource(): void
     {
         $httpClient = $this->createMock(HttpClientInterface::class);
