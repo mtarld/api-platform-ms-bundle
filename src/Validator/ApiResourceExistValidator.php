@@ -69,7 +69,7 @@ class ApiResourceExistValidator extends ConstraintValidator
                     ;
                 }
             }
-        } catch (HttpClientExceptionInterface | SerializerExceptionInterface $e) {
+        } catch (HttpClientExceptionInterface|SerializerExceptionInterface $e) {
             $this->handleExistenceCheckerHttpException($e, $constraint);
         }
     }
