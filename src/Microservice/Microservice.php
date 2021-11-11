@@ -29,12 +29,19 @@ class Microservice
      */
     private $format;
 
-    public function __construct(string $name, string $baseUri, string $apiPath, string $format)
+    /**
+     * @Assert\NotBlank
+     * @Mtarld\ApiPlatformMsBundle\Validator\PatchFormatEnabled
+     */
+    private $patchFormat;
+
+    public function __construct(string $name, string $baseUri, string $apiPath, string $format, string $patchFormat)
     {
         $this->name = $name;
         $this->baseUri = $baseUri;
         $this->apiPath = $apiPath;
         $this->format = $format;
+        $this->patchFormat = $patchFormat;
     }
 
     public function getName(): string
@@ -55,5 +62,10 @@ class Microservice
     public function getFormat(): string
     {
         return $this->format;
+    }
+
+    public function getPatchFormat(): string
+    {
+        return $this->patchFormat;
     }
 }

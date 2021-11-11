@@ -69,7 +69,7 @@ class MicroservicePool implements IteratorAggregate
 
         $config = $this->configs[$name];
 
-        $microservice = new Microservice($name, $config['base_uri'], $config['api_path'] ?? '', $config['format']);
+        $microservice = new Microservice($name, $config['base_uri'], $config['api_path'] ?? '', $config['format'], $config['patch_format'] ?? 'json');
         $this->validateMicroservice($microservice);
 
         return $microservice;
@@ -81,6 +81,7 @@ class MicroservicePool implements IteratorAggregate
     private function validateMicroservice(Microservice $microservice): void
     {
         $violations = $this->validator->validate($microservice);
+
         if ($violations->has(0)) {
             throw new MicroserviceConfigurationException($microservice->getName(), sprintf("'%s': %s", $violations->get(0)->getPropertyPath(), (string) $violations->get(0)->getMessage()));
         }

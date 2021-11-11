@@ -3,6 +3,7 @@
 namespace Mtarld\ApiPlatformMsBundle\HttpRepository;
 
 use Mtarld\ApiPlatformMsBundle\Collection\Collection;
+use Mtarld\ApiPlatformMsBundle\DependencyInjection\ApiPlatformMsExtension;
 use Mtarld\ApiPlatformMsBundle\Dto\ApiResourceDtoInterface;
 use Mtarld\ApiPlatformMsBundle\Exception\ResourceValidationException;
 use Mtarld\ApiPlatformMsBundle\HttpClient\GenericHttpClient;
@@ -246,7 +247,7 @@ abstract class AbstractMicroserviceHttpRepository implements ReplaceableHttpClie
         }
 
         try {
-            $response = $this->request('PATCH', $this->buildUri($iri, $additionalQueryParams), $resource, 'application/merge-patch+json', 'json');
+            $response = $this->request('PATCH', $this->buildUri($iri, $additionalQueryParams), $resource, ApiPlatformMsExtension::PATCH_FORMATS[$this->getMicroservice()->getPatchFormat()], 'json');
 
             /** @var ApiResourceDtoInterface */
             $updatedResource = $this->serializer->deserialize($response->getContent(), $this->getResourceDto(), $this->getMicroservice()->getFormat());

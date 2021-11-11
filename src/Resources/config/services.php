@@ -10,6 +10,7 @@ use Mtarld\ApiPlatformMsBundle\Microservice\MicroservicePool;
 use Mtarld\ApiPlatformMsBundle\Routing\RouteLoader;
 use Mtarld\ApiPlatformMsBundle\Validator\ApiResourceExistValidator;
 use Mtarld\ApiPlatformMsBundle\Validator\FormatEnabledValidator;
+use Mtarld\ApiPlatformMsBundle\Validator\PatchFormatEnabledValidator;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ReferenceConfigurator;
 use function Symfony\Component\DependencyInjection\Loader\Configurator\tagged_iterator;
@@ -63,6 +64,11 @@ return static function (ContainerConfigurator $container): void {
         ->set('api_platform_ms.validator.format_enabled', FormatEnabledValidator::class)
             ->args([
                 param('api_platform_ms.enabled_formats'),
+            ])
+            ->tag('validator.constraint_validator')
+        ->set('api_platform_ms.validator.patch_format_enabled', PatchFormatEnabledValidator::class)
+            ->args([
+                param('api_platform_ms.enabled_patch_formats'),
             ])
             ->tag('validator.constraint_validator')
         ->set('api_platform_ms.collection.paginated_collection_iterator', PaginatedCollectionIterator::class)

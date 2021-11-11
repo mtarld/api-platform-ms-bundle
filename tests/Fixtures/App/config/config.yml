@@ -6,6 +6,9 @@ api_platform:
     jsonld:   ['application/ld+json']
     jsonhal:  ['application/hal+json']
     jsonapi:  ['application/vnd.api+json']
+  patch_formats:
+    json: [ 'application/merge-patch+json' ]
+    jsonapi: [ 'application/vnd.api+json' ]
   name_converter: Symfony\Component\Serializer\NameConverter\CamelCaseToSnakeCaseNameConverter
 
 framework:
@@ -21,9 +24,11 @@ api_platform_ms:
       base_uri: https://localhost
       api_path: /api
       format: jsonld
+      patch_format: json
     baz:
       base_uri: /baz
       format: jsonapi
+      patch_format: jsonapi
     wrong_uri:
       base_uri: wrong
       format: jsonhal

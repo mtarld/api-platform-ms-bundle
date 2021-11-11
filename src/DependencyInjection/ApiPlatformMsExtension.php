@@ -26,6 +26,11 @@ class ApiPlatformMsExtension extends Extension
         'jsonhal' => 'hal.php',
     ];
 
+    public const PATCH_FORMATS = [
+        'json' => 'application/merge-patch+json',
+        'jsonapi' => 'application/vnd.api+json',
+    ];
+
     public function getAlias(): string
     {
         return 'api_platform_ms';
@@ -65,6 +70,7 @@ class ApiPlatformMsExtension extends Extension
         $container->setParameter('api_platform_ms.hosts', $config['hosts']);
         $container->setParameter('api_platform_ms.microservices', $config['microservices']);
         $container->setParameter('api_platform_ms.enabled_formats', $formats);
+        $container->setParameter('api_platform_ms.enabled_patch_formats', array_keys(self::PATCH_FORMATS));
 
         $container->registerForAutoconfiguration(AuthenticationHeaderProviderInterface::class)->addTag('api_platform_ms.authentication_header_provider');
     }
