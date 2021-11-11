@@ -11,33 +11,64 @@ use Symfony\Component\Config\Loader\LoaderInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpKernel\Kernel;
 use Symfony\Component\Routing\RouteCollectionBuilder;
+use Symfony\Component\Routing\Loader\Configurator\RoutingConfigurator;
 
 /**
  * @author Mathias Arlaud <mathias.arlaud@gmail.com>
  */
-class AppKernel extends Kernel
-{
-    use MicroKernelTrait;
-
-    public function registerBundles()
+if (Kernel::VERSION_ID <= 50100) {
+    class AppKernel extends Kernel
     {
-        return [
-            new FrameworkBundle(),
-            new TwigBundle(),
-            new ApiPlatformBundle(),
-            new ApiPlatformMsBundle(),
-        ];
+        use MicroKernelTrait;
+
+        public function registerBundles(): array
+        {
+            return [
+                new FrameworkBundle(),
+                new TwigBundle(),
+                new ApiPlatformBundle(),
+                new ApiPlatformMsBundle(),
+            ];
+        }
+
+        protected function configureRoutes(RouteCollectionBuilder $routes): void
+        {
+            $routes->import(__DIR__.'/config/routing.yml');
+        }
+
+        protected function configureContainer(ContainerBuilder $container, LoaderInterface $loader): void
+        {
+            $container->setParameter('kernel.project_dir', __DIR__);
+
+            $loader->load(__DIR__.'/config/config.yml');
+        }
     }
-
-    protected function configureRoutes(RouteCollectionBuilder $routes): void
+} else {
+    # Symfony > 5.1
+    class AppKernel extends Kernel
     {
-        $routes->import(__DIR__.'/config/routing.yml');
-    }
+        use MicroKernelTrait;
 
-    protected function configureContainer(ContainerBuilder $c, LoaderInterface $loader): void
-    {
-        $c->setParameter('kernel.project_dir', __DIR__);
+        public function registerBundles(): array
+        {
+            return [
+                new FrameworkBundle(),
+                new TwigBundle(),
+                new ApiPlatformBundle(),
+                new ApiPlatformMsBundle(),
+            ];
+        }
 
-        $loader->load(__DIR__.'/config/config.yml');
+        protected function configureRoutes(RoutingConfigurator $routes): void
+        {
+            $routes->import(__DIR__.'/config/routing.yml');
+        }
+
+        protected function configureContainer(ContainerBuilder $container, LoaderInterface $loader): void
+        {
+            $container->setParameter('kernel.project_dir', __DIR__);
+
+            $loader->load(__DIR__.'/config/config.yml');
+        }
     }
 }
