@@ -30,11 +30,11 @@ class AppKernel extends Kernel
         ];
     }
 
-    protected function configureRoutes(/* RouteCollectionBuilder|RoutingConfigurator */ $routes): void
+    /**
+     * @param RouteCollectionBuilder|RoutingConfigurator $routes
+     */
+    protected function configureRoutes($routes): void
     {
-        /** @var RouteCollectionBuilder|RoutingConfigurator $routes */
-        $routes = func_get_arg(0);
-
         $routes->import(__DIR__.'/config/routing.yml');
     }
 
