@@ -14,7 +14,7 @@ class_exists(Pagination::class);
 
 /**
  * @final
- * @psalm-template T of object
+ * @template T of object
  *
  * @author Mathias Arlaud <mathias.arlaud@gmail.com>
  */
@@ -30,7 +30,7 @@ class Collection implements IteratorAggregate, Countable
     private $microservice;
 
     /**
-     * @psalm-param array<T> $elements
+     * @param list<T> $elements
      */
     public function __construct(
         array $elements,
@@ -53,7 +53,7 @@ class Collection implements IteratorAggregate, Countable
     }
 
     /**
-     * @psalm-return Iterator<T>
+     * @return Iterator<T>
      */
     public function getIterator(): Iterator
     {
@@ -67,6 +67,8 @@ class Collection implements IteratorAggregate, Countable
 
     /**
      * @internal
+     *
+     * @return Collection<T>
      */
     public function withMicroservice(Microservice $microservice): self
     {

@@ -46,7 +46,6 @@ class ApiResourceExist extends Constraint
      * @param array<mixed>        $options
      *
      * @psalm-suppress DocblockTypeContradiction
-     * @psalm-suppress UninitializedProperty
      */
     public function __construct($microservice = null, ?bool $skipOnError = null, ?string $message = null, ?array $groups = null, $payload = null, array $options = [])
     {

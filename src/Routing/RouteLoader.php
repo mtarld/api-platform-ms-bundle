@@ -23,7 +23,7 @@ class RouteLoader implements RouteLoaderInterface
     private $hosts;
 
     /**
-     * @param array<string> $hosts
+     * @param list<string> $hosts
      */
     public function __construct(string $name, array $hosts = [])
     {

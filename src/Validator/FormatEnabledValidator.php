@@ -22,7 +22,7 @@ class FormatEnabledValidator extends ConstraintValidator
 
     /**
      * @param FormatEnabled $constraint
-     * @psalm-param string $value
+     * @param string        $value
      *
      * @psalm-suppress MoreSpecificImplementedParamType
      */

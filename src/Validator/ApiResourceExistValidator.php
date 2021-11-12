@@ -35,7 +35,7 @@ class ApiResourceExistValidator extends ConstraintValidator
     }
 
     /**
-     * @psalm-param string|array<string>|null $value
+     * @psalm-param string|list<string>|null $value
      *
      * @psalm-suppress MoreSpecificImplementedParamType
      */
@@ -53,7 +53,7 @@ class ApiResourceExistValidator extends ConstraintValidator
     }
 
     /**
-     * @param array<string> $iris
+     * @param list<string> $iris
      */
     private function validateIris(array $iris, ApiResourceExist $constraint): void
     {
@@ -82,7 +82,9 @@ class ApiResourceExistValidator extends ConstraintValidator
             $exception->getMessage()
         );
 
-        $this->logger->debug($message);
+        if (null !== $this->logger) {
+            $this->logger->debug($message);
+        }
 
         if ($constraint->skipOnError) {
             return;

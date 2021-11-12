@@ -32,7 +32,7 @@ class ApiPlatformMsExtension extends Extension
     }
 
     /**
-     * @psalm-param array<array-key, mixed> $configs
+     * @param array<array-key, mixed> $configs
      */
     public function load(array $configs, ContainerBuilder $container): void
     {
@@ -78,6 +78,9 @@ class ApiPlatformMsExtension extends Extension
      */
     public function getConfiguration(array $config, ContainerBuilder $container)
     {
-        return new Configuration($container->getParameter('kernel.debug'));
+        /** @var bool $debug */
+        $debug = $container->getParameter('kernel.debug');
+
+        return new Configuration($debug);
     }
 }

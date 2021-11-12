@@ -17,7 +17,7 @@ class_exists(CollectionNotIterableException::class);
 
 /**
  * @final
- * @psalm-template T of object
+ * @template T of object
  *
  * @author Mathias Arlaud <mathias.arlaud@gmail.com>
  */
@@ -35,8 +35,9 @@ class PaginatedCollectionIterator implements ReplaceableHttpClientInterface
     }
 
     /**
-     * @psalm-param Collection<T> $collection
-     * @psalm-return Iterator<Iterator<T>>
+     * @param Collection<T> $collection
+     *
+     * @return Iterator<Iterator<T>>
      *
      * @throws ExceptionInterface
      */
@@ -64,8 +65,9 @@ class PaginatedCollectionIterator implements ReplaceableHttpClientInterface
     /**
      * @deprecated since version 0.3.0, will be removed in 1.0. Use {@see \Mtarld\ApiPlatformMsBundle\Collection\PaginatedCollectionIterator::iterateItems()} instead.
      *
-     * @psalm-param Collection<T> $collection
-     * @psalm-return Iterator<T>
+     * @param Collection<T> $collection
+     *
+     * @return Iterator<T>
      *
      * @throws ExceptionInterface
      */
@@ -77,8 +79,9 @@ class PaginatedCollectionIterator implements ReplaceableHttpClientInterface
     }
 
     /**
-     * @psalm-param Collection<T> $collection
-     * @psalm-return Iterator<T>
+     * @param Collection<T> $collection
+     *
+     * @return Iterator<T>
      *
      * @throws ExceptionInterface
      */
@@ -88,7 +91,7 @@ class PaginatedCollectionIterator implements ReplaceableHttpClientInterface
     }
 
     /**
-     * @psalm-return Collection<T>
+     * @return Collection<T>
      *
      * @throws ExceptionInterface
      */
@@ -97,7 +100,7 @@ class PaginatedCollectionIterator implements ReplaceableHttpClientInterface
         /** @var Microservice $microservice */
         $microservice = $collection->getMicroservice();
 
-        /** @var Collection $nextPart */
+        /** @var Collection<T> $nextPart */
         $nextPart = $this->serializer->deserialize(
             $this->httpClient->request($microservice, 'GET', $nextPage)->getContent(),
             sprintf('%s<%s>', Collection::class, get_class($collection->getIterator()->current())),
