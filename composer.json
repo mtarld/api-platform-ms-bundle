@@ -39,7 +39,7 @@
   },
   "require-dev": {
     "doctrine/annotations": "^1.7",
-    "friendsofphp/php-cs-fixer": "^2.15",
+    "friendsofphp/php-cs-fixer": "^3.1",
     "phpmd/phpmd": "^2.8",
     "phpunit/phpunit": "^7.5|^8.4",
     "psalm/plugin-phpunit": "^0.15",
@@ -49,5 +49,8 @@
     "symfony/twig-bundle": "^3.4|^4.0|^5.0",
     "symfony/yaml": "^3.4|^4.0|^5.0",
     "vimeo/psalm": "^3.10|^4.3"
+  },
+  "scripts": {
+    "php-cs-fixer": "vendor/bin/php-cs-fixer fix --dry-run --format checkstyle"
   }
 }
