@@ -228,7 +228,7 @@ abstract class AbstractMicroserviceHttpRepository implements ReplaceableHttpClie
             throw $e;
         }
 
-        return $updatedResource; // late return needed for static analysis
+        return $updatedResource;
     }
 
     /**
@@ -259,7 +259,7 @@ abstract class AbstractMicroserviceHttpRepository implements ReplaceableHttpClie
             throw $e;
         }
 
-        return $updatedResource; // late return needed for static analysis
+        return $updatedResource;
     }
 
     /**
