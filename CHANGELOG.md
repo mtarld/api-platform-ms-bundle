@@ -7,6 +7,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 * Added dispatching of a `RequestEvent` once a request is sent
+* Added `partialUpdate` methods in `AbstractMicroserviceHttpRepository`
 
 ## [0.3.0] - 2021-01-19
 * Added authentication header providers

@@ -70,14 +70,12 @@ abstract class AbstractMicroserviceHttpRepository implements ReplaceableHttpClie
     public function fetchOneByIri(string $iri, array $additionalQueryParams = []): ?ApiResourceDtoInterface
     {
         try {
-            /** @var ApiResourceDtoInterface|null $resource */
-            $resource = $this->serializer->deserialize(
+            /** @var ApiResourceDtoInterface|null */
+            return $this->serializer->deserialize(
                 $this->request('GET', $this->buildUri($iri, $additionalQueryParams))->getContent(),
                 $this->getResourceDto(),
                 $this->getMicroservice()->getFormat()
             );
-
-            return $resource;
         } catch (ClientExceptionInterface $e) {
             if (404 === $e->getCode()) {
                 return null;
@@ -187,8 +185,8 @@ abstract class AbstractMicroserviceHttpRepository implements ReplaceableHttpClie
         try {
             $response = $this->request('POST', $this->buildUri($this->getResourceEndpoint(), $additionalQueryParams), $resource, null, 'json');
 
-            /** @var ApiResourceDtoInterface $createdResource */
-            $createdResource = $this->serializer->deserialize($response->getContent(), $this->getResourceDto(), $this->getMicroservice()->getFormat());
+            /** @var ApiResourceDtoInterface */
+            return $this->serializer->deserialize($response->getContent(), $this->getResourceDto(), $this->getMicroservice()->getFormat());
         } catch (ClientExceptionInterface $e) {
             if ((400 === $e->getCode()) && null !== $violations = $this->createConstraintViolationListFromResponse($e->getResponse())) {
                 throw new ResourceValidationException($resource, $violations);
@@ -196,8 +194,6 @@ abstract class AbstractMicroserviceHttpRepository implements ReplaceableHttpClie
 
             throw $e;
         }
-
-        return $createdResource;
     }
 
     /**
@@ -219,7 +215,7 @@ abstract class AbstractMicroserviceHttpRepository implements ReplaceableHttpClie
             $response = $this->request('PUT', $this->buildUri($iri, $additionalQueryParams), $resource, null, 'json');
 
             /** @var ApiResourceDtoInterface */
-            $updatedResource = $this->serializer->deserialize($response->getContent(), $this->getResourceDto(), $this->getMicroservice()->getFormat());
+            return $this->serializer->deserialize($response->getContent(), $this->getResourceDto(), $this->getMicroservice()->getFormat());
         } catch (ClientExceptionInterface $e) {
             if ((400 === $e->getCode()) && null !== $violations = $this->createConstraintViolationListFromResponse($e->getResponse())) {
                 throw new ResourceValidationException($resource, $violations);
@@ -227,8 +223,6 @@ abstract class AbstractMicroserviceHttpRepository implements ReplaceableHttpClie
 
             throw $e;
         }
-
-        return $updatedResource;
     }
 
     /**
@@ -247,10 +241,10 @@ abstract class AbstractMicroserviceHttpRepository implements ReplaceableHttpClie
         }
 
         try {
-            $response = $this->request('PATCH', $this->buildUri($iri, $additionalQueryParams), $resource, ApiPlatformMsExtension::PATCH_FORMATS[$this->getMicroservice()->getPatchFormat()], 'json');
+            $response = $this->request('PATCH', $this->buildUri($iri, $additionalQueryParams), $resource, null, 'json');
 
             /** @var ApiResourceDtoInterface */
-            $updatedResource = $this->serializer->deserialize($response->getContent(), $this->getResourceDto(), $this->getMicroservice()->getFormat());
+            return $this->serializer->deserialize($response->getContent(), $this->getResourceDto(), $this->getMicroservice()->getFormat());
         } catch (ClientExceptionInterface $e) {
             if ((400 === $e->getCode()) && null !== $violations = $this->createConstraintViolationListFromResponse($e->getResponse())) {
                 throw new ResourceValidationException($resource, $violations);
@@ -258,8 +252,6 @@ abstract class AbstractMicroserviceHttpRepository implements ReplaceableHttpClie
 
             throw $e;
         }
-
-        return $updatedResource;
     }
 
     /**
@@ -333,13 +325,11 @@ abstract class AbstractMicroserviceHttpRepository implements ReplaceableHttpClie
     private function createConstraintViolationListFromResponse(ResponseInterface $response): ?ConstraintViolationList
     {
         try {
-            /** @var ConstraintViolationList $violations */
-            $violations = $this->serializer->deserialize($response->getContent(false), ConstraintViolationList::class, $this->getMicroservice()->getFormat());
+            /** @var ConstraintViolationList */
+            return $this->serializer->deserialize($response->getContent(false), ConstraintViolationList::class, $this->getMicroservice()->getFormat());
         } catch (SerializerExceptionInterface $e) {
             return null;
         }
-
-        return $violations;
     }
 
     private function buildUri(string $uri, array $queryParams): string

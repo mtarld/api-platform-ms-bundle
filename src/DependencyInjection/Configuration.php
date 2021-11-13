@@ -31,7 +31,6 @@ class Configuration implements ConfigurationInterface
                             ->scalarNode('base_uri')->isRequired()->end()
                             ->scalarNode('api_path')->end()
                             ->enumNode('format')->values(array_keys(ApiPlatformMsExtension::FORMAT_CONFIGURATION_FILE_MAPPING))->isRequired()->end()
-                            ->enumNode('patch_format')->values(array_keys(ApiPlatformMsExtension::PATCH_FORMATS))->defaultValue('json')->end()
                         ->end()
                     ->end()
                 ->end()

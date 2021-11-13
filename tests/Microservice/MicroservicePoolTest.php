@@ -64,20 +64,4 @@ class MicroservicePoolTest extends KernelTestCase
         $this->expectExceptionMessage("'microservice' microservice is wrongly configured. 'format': 'wrong_format' format is not enabled.");
         $pool->get('microservice');
     }
-
-    public function testMicroserviceConfigurationPatchFormatValidation(): void
-    {
-        $pool = new MicroservicePool(static::$container->get(ValidatorInterface::class), [
-            'microservice' => [
-                'base_uri' => 'https://localhost',
-                'api_path' => '/api',
-                'format' => 'jsonld',
-                'patch_format' => 'wrong_format',
-            ],
-        ]);
-
-        $this->expectException(MicroserviceConfigurationException::class);
-        $this->expectExceptionMessage("'microservice' microservice is wrongly configured. 'patchFormat': 'wrong_format' patch_format is not enabled.");
-        $pool->get('microservice');
-    }
 }
