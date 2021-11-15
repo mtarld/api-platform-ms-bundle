@@ -476,7 +476,7 @@ class HttpRepositoryTest extends KernelTestCase
     /**
      * @dataProvider statusCodeAndExceptionProvider
      */
-    public function testItThrowAnAppropriateErrorIfResponseItNotSuccess(int $statusCode, string $exceptionClassName)
+    public function testItThrowAnAppropriateErrorIfResponseIsNotSuccess(int $statusCode, string $exceptionClassName)
     {
         $this->expectException($exceptionClassName);
 
