@@ -62,21 +62,18 @@ abstract class AbstractMicroserviceHttpRepository implements ReplaceableHttpClie
     abstract protected function getResourceDto(): string;
 
     /**
-     * @psalm-param array<array-key, mixed> $additionalQueryParams
+     * @param array<string, mixed> $additionalQueryParams
      *
      * @throws ExceptionInterface
      */
     public function fetchOneByIri(string $iri, array $additionalQueryParams = []): ?ApiResourceDtoInterface
     {
         try {
-            /** @var ApiResourceDtoInterface|null $resource */
-            $resource = $this->serializer->deserialize(
+            return $this->serializer->deserialize(
                 $this->request('GET', $this->buildUri($iri, $additionalQueryParams))->getContent(),
                 $this->getResourceDto(),
                 $this->getMicroservice()->getFormat()
             );
-
-            return $resource;
         } catch (ClientExceptionInterface $e) {
             if (404 === $e->getCode()) {
                 return null;
@@ -89,7 +86,7 @@ abstract class AbstractMicroserviceHttpRepository implements ReplaceableHttpClie
     /**
      * @deprecated since version 0.3.0, will be removed in 1.0. Use {@see \Mtarld\ApiPlatformMsBundle\HttpRepository\AbstractMicroserviceHttpRepository::fetchOneByIri()} instead.
      *
-     * @psalm-param array<array-key, mixed> $additionalQueryParams
+     * @param array<string, mixed> $additionalQueryParams
      *
      * @throws ExceptionInterface
      */
@@ -99,8 +96,8 @@ abstract class AbstractMicroserviceHttpRepository implements ReplaceableHttpClie
     }
 
     /**
-     * @psalm-param array<array-key, mixed> $criteria
-     * @psalm-param array<array-key, mixed> $additionalQueryParams
+     * @param array<string, mixed> $criteria
+     * @param array<string, mixed> $additionalQueryParams
      *
      * @throws ExceptionInterface
      */
@@ -115,8 +112,8 @@ abstract class AbstractMicroserviceHttpRepository implements ReplaceableHttpClie
     /**
      * @deprecated since version 0.3.0, will be removed in 1.0. Use {@see \Mtarld\ApiPlatformMsBundle\HttpRepository\AbstractMicroserviceHttpRepository::fetchOneBy()} instead.
      *
-     * @psalm-param mixed $value
-     * @psalm-param array<array-key, mixed> $additionalQueryParams
+     * @param mixed                $value
+     * @param array<string, mixed> $additionalQueryParams
      *
      * @throws ExceptionInterface
      */
@@ -126,9 +123,10 @@ abstract class AbstractMicroserviceHttpRepository implements ReplaceableHttpClie
     }
 
     /**
-     * @psalm-param array<array-key, mixed> $criteria
-     * @psalm-param array<array-key, mixed> $additionalQueryParams
-     * @psalm-return Collection<ApiResourceDtoInterface>
+     * @param array<string, mixed> $criteria
+     * @param array<string, mixed> $additionalQueryParams
+     *
+     * @return Collection<ApiResourceDtoInterface>
      *
      * @throws ExceptionInterface
      */
@@ -140,9 +138,10 @@ abstract class AbstractMicroserviceHttpRepository implements ReplaceableHttpClie
     /**
      * @deprecated since version 0.3.0, will be removed in 1.0. Use {@see \Mtarld\ApiPlatformMsBundle\HttpRepository\AbstractMicroserviceHttpRepository::fetchBy()} instead.
      *
-     * @param array<mixed> $values
-     * @psalm-param array<array-key, mixed> $additionalQueryParams
-     * @psalm-return Collection<ApiResourceDtoInterface>
+     * @param array<mixed>         $values
+     * @param array<string, mixed> $additionalQueryParams
+     *
+     * @return Collection<ApiResourceDtoInterface>
      *
      * @throws ExceptionInterface
      */
@@ -152,8 +151,9 @@ abstract class AbstractMicroserviceHttpRepository implements ReplaceableHttpClie
     }
 
     /**
-     * @psalm-param array<array-key, mixed> $additionalQueryParams
-     * @psalm-return Collection<ApiResourceDtoInterface>
+     * @param array<string, mixed> $additionalQueryParams
+     *
+     * @return Collection<ApiResourceDtoInterface>
      *
      * @throws ExceptionInterface
      */
@@ -165,8 +165,9 @@ abstract class AbstractMicroserviceHttpRepository implements ReplaceableHttpClie
     /**
      * @deprecated since version 0.3.0, will be removed in 1.0. Use {@see \Mtarld\ApiPlatformMsBundle\HttpRepository\AbstractMicroserviceHttpRepository::fetchAll()} instead.
      *
-     * @psalm-param array<array-key, mixed> $additionalQueryParams
-     * @psalm-return Collection<ApiResourceDtoInterface>
+     * @param array<string, mixed> $additionalQueryParams
+     *
+     * @return Collection<ApiResourceDtoInterface>
      *
      * @throws ExceptionInterface
      */
@@ -176,7 +177,7 @@ abstract class AbstractMicroserviceHttpRepository implements ReplaceableHttpClie
     }
 
     /**
-     * @psalm-param array<array-key, mixed> $additionalQueryParams
+     * @param array<string, mixed> $additionalQueryParams
      *
      * @throws ResourceValidationException
      * @throws ExceptionInterface
@@ -186,8 +187,7 @@ abstract class AbstractMicroserviceHttpRepository implements ReplaceableHttpClie
         try {
             $response = $this->request('POST', $this->buildUri($this->getResourceEndpoint(), $additionalQueryParams), $resource, null, 'json');
 
-            /** @var ApiResourceDtoInterface $createdResource */
-            $createdResource = $this->serializer->deserialize($response->getContent(), $this->getResourceDto(), $this->getMicroservice()->getFormat());
+            return $this->serializer->deserialize($response->getContent(), $this->getResourceDto(), $this->getMicroservice()->getFormat());
         } catch (ClientExceptionInterface $e) {
             if ((400 === $e->getCode()) && null !== $violations = $this->createConstraintViolationListFromResponse($e->getResponse())) {
                 throw new ResourceValidationException($resource, $violations);
@@ -195,12 +195,10 @@ abstract class AbstractMicroserviceHttpRepository implements ReplaceableHttpClie
 
             throw $e;
         }
-
-        return $createdResource;
     }
 
     /**
-     * @psalm-param array<array-key, mixed> $additionalQueryParams
+     * @param array<string, mixed> $additionalQueryParams
      *
      * @throws ResourceValidationException
      * @throws ExceptionInterface
@@ -215,8 +213,7 @@ abstract class AbstractMicroserviceHttpRepository implements ReplaceableHttpClie
         try {
             $response = $this->request('PUT', $this->buildUri($iri, $additionalQueryParams), $resource, null, 'json');
 
-            /** @var ApiResourceDtoInterface $updatedResource */
-            $updatedResource = $this->serializer->deserialize($response->getContent(), $this->getResourceDto(), $this->getMicroservice()->getFormat());
+            return $this->serializer->deserialize($response->getContent(), $this->getResourceDto(), $this->getMicroservice()->getFormat());
         } catch (ClientExceptionInterface $e) {
             if ((400 === $e->getCode()) && null !== $violations = $this->createConstraintViolationListFromResponse($e->getResponse())) {
                 throw new ResourceValidationException($resource, $violations);
@@ -224,12 +221,10 @@ abstract class AbstractMicroserviceHttpRepository implements ReplaceableHttpClie
 
             throw $e;
         }
-
-        return $updatedResource;
     }
 
     /**
-     * @psalm-param array<array-key, mixed> $additionalQueryParams
+     * @param array<string, mixed> $additionalQueryParams
      *
      * @throws ResourceValidationException
      * @throws ExceptionInterface
@@ -262,8 +257,9 @@ abstract class AbstractMicroserviceHttpRepository implements ReplaceableHttpClie
     }
 
     /**
-     * @psalm-param array<array-key, mixed> $queryParams
-     * @psalm-return Collection<ApiResourceDtoInterface>
+     * @param array<string, mixed> $queryParams
+     *
+     * @return Collection<ApiResourceDtoInterface>
      *
      * @throws ExceptionInterface
      */
@@ -271,7 +267,7 @@ abstract class AbstractMicroserviceHttpRepository implements ReplaceableHttpClie
     {
         $response = $this->request('GET', $this->buildUri($this->getResourceEndpoint(), $queryParams));
 
-        /** @var Collection $collection */
+        /** @var Collection<ApiResourceDtoInterface> $collection */
         $collection = $this->serializer->deserialize(
             $response->getContent(),
             Collection::class.'<'.$this->getResourceDto().'>',
@@ -299,13 +295,10 @@ abstract class AbstractMicroserviceHttpRepository implements ReplaceableHttpClie
     private function createConstraintViolationListFromResponse(ResponseInterface $response): ?ConstraintViolationList
     {
         try {
-            /** @var ConstraintViolationList $violations */
-            $violations = $this->serializer->deserialize($response->getContent(false), ConstraintViolationList::class, $this->getMicroservice()->getFormat());
+            return $this->serializer->deserialize($response->getContent(false), ConstraintViolationList::class, $this->getMicroservice()->getFormat());
         } catch (SerializerExceptionInterface $e) {
             return null;
         }
-
-        return $violations;
     }
 
     private function buildUri(string $uri, array $queryParams): string

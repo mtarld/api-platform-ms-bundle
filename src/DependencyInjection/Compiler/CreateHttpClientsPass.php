@@ -17,7 +17,10 @@ class CreateHttpClientsPass implements CompilerPassInterface
 {
     public function process(ContainerBuilder $container): void
     {
-        foreach (array_keys($container->getParameter('api_platform_ms.microservices')) as $microserviceName) {
+        /** @var array<string, array> $microservices */
+        $microservices = $container->getParameter('api_platform_ms.microservices');
+
+        foreach (array_keys($microservices) as $microserviceName) {
             $container->setDefinition(
                 sprintf('api_platform_ms.http_client.microservice.%s', $microserviceName),
                 (new Definition(MicroserviceHttpClient::class, [

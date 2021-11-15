@@ -25,9 +25,9 @@ class FormatEnabled extends Constraint
     public $message = "'{{ format }}' format is not enabled.";
 
     /**
-     * @param array<mixed>  $options
-     * @param array<string> $groups
-     * @param mixed         $payload
+     * @param array<string, mixed> $options
+     * @param array<string>        $groups
+     * @param mixed                $payload
      */
     public function __construct(array $options = [], ?string $message = null, ?array $groups = null, $payload = null)
     {
