@@ -8,6 +8,9 @@ use Mtarld\ApiPlatformMsBundle\Tests\Fixtures\App\src\Entity\Puppy;
 use Mtarld\ApiPlatformMsBundle\Tests\Fixtures\App\src\HttpRepository\PuppyHttpRepository;
 use RuntimeException;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
+use Symfony\Component\HttpClient\Exception\ClientException;
+use Symfony\Component\HttpClient\Exception\RedirectionException;
+use Symfony\Component\HttpClient\Exception\ServerException;
 use Symfony\Component\HttpClient\MockHttpClient;
 use Symfony\Component\HttpClient\Response\MockResponse;
 use Symfony\Component\Serializer\SerializerInterface;
@@ -468,5 +471,29 @@ class HttpRepositoryTest extends KernelTestCase
         /** @var PuppyHttpRepository $httpRepository */
         $httpRepository = static::$container->get(PuppyHttpRepository::class);
         $httpRepository->delete(new PuppyResourceDto(null, 'foo'));
+    }
+
+    /**
+     * @dataProvider statusCodeAndExceptionProvider
+     */
+    public function testItThrowAnAppropriateErrorIfResponseItNotSuccess(int $statusCode, string $exceptionClassName)
+    {
+        $this->expectException($exceptionClassName);
+
+        $httpClient = new MockHttpClient([
+            new MockResponse('', ['http_code' => $statusCode]),
+        ]);
+
+        static::getContainer()->set('test.http_client', $httpClient);
+        /** @var PuppyHttpRepository $httpRepository */
+        $httpRepository = static::getContainer()->get(PuppyHttpRepository::class);
+        $httpRepository->delete(new PuppyResourceDto('/foo', 'foo'));
+    }
+
+    public function statusCodeAndExceptionProvider(): iterable
+    {
+        yield 'Code status 300' => [300, RedirectionException::class];
+        yield 'Code status 400' => [400, ClientException::class];
+        yield 'Code status 500' => [500, ServerException::class];
     }
 }
