@@ -29,7 +29,7 @@ class ObjectDenormalizerTest extends KernelTestCase
         $entity = new Puppy(1, 'foo');
 
         /** @var SerializerInterface $serializer */
-        $serializer = static::$container->get(SerializerInterface::class);
+        $serializer = static::getContainer()->get(SerializerInterface::class);
         $serializedEntity = $serializer->serialize($entity, $format);
 
         /** @var Puppy $deserializedEntity */

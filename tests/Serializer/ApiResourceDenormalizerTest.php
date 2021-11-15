@@ -33,7 +33,7 @@ class ApiResourceDenormalizerTest extends KernelTestCase
         $entity = new Puppy(1, 'foo');
 
         /** @var SerializerInterface $serializer */
-        $serializer = static::$container->get(SerializerInterface::class);
+        $serializer = static::getContainer()->get(SerializerInterface::class);
         $serializedEntity = $serializer->serialize($entity, $format);
 
         /** @var Puppy $deserializedEntity */
@@ -54,7 +54,7 @@ class ApiResourceDenormalizerTest extends KernelTestCase
         $entity = new Puppy(1, 'foo', $nestedEntity, $nestedEntityCollection);
 
         /** @var SerializerInterface $serializer */
-        $serializer = static::$container->get(SerializerInterface::class);
+        $serializer = static::getContainer()->get(SerializerInterface::class);
         $serializedEntity = $serializer->serialize($entity, $format, ['api_included' => ['color', 'hairs']]);
 
         /** @var Puppy $deserializedEntity */

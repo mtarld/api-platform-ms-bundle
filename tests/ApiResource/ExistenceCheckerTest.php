@@ -26,7 +26,7 @@ class ExistenceCheckerTest extends KernelTestCase
     public function testMicroserviceNotConfigured(): void
     {
         $this->expectException(MicroserviceNotConfiguredException::class);
-        static::$container->get('api_platform_ms.api_resource.existence_checker')->getExistenceStatuses('foo', ['1']);
+        static::getContainer()->get('api_platform_ms.api_resource.existence_checker')->getExistenceStatuses('foo', ['1']);
     }
 
     public function testCallOtherMicroservice(): void
@@ -56,8 +56,8 @@ class ExistenceCheckerTest extends KernelTestCase
             ->willReturn($response)
         ;
 
-        static::$container->set('test.http_client', $httpClient);
-        static::$container->get('api_platform_ms.api_resource.existence_checker')->getExistenceStatuses('bar', ['1']);
+        static::getContainer()->set('test.http_client', $httpClient);
+        static::getContainer()->get('api_platform_ms.api_resource.existence_checker')->getExistenceStatuses('bar', ['1']);
     }
 
     public function testParseSuccessfulMicroserviceResponse(): void
@@ -66,8 +66,8 @@ class ExistenceCheckerTest extends KernelTestCase
             new MockResponse('{"existences": {"1": true, "2": false}}'),
         ]);
 
-        static::$container->set('test.http_client', $httpClient);
-        $existences = static::$container->get('api_platform_ms.api_resource.existence_checker')->getExistenceStatuses('bar', ['1', '2']);
+        static::getContainer()->set('test.http_client', $httpClient);
+        $existences = static::getContainer()->get('api_platform_ms.api_resource.existence_checker')->getExistenceStatuses('bar', ['1', '2']);
         self::assertEquals(['1' => true, '2' => false], $existences);
     }
 
@@ -78,8 +78,8 @@ class ExistenceCheckerTest extends KernelTestCase
         ]);
 
         $this->expectException(Throwable::class);
-        static::$container->set('test.http_client', $httpClient);
-        static::$container->get('api_platform_ms.api_resource.existence_checker')->getExistenceStatuses('bar', ['1', '2']);
+        static::getContainer()->set('test.http_client', $httpClient);
+        static::getContainer()->get('api_platform_ms.api_resource.existence_checker')->getExistenceStatuses('bar', ['1', '2']);
     }
 
     public function testParseWronglyFormattedMicroserviceResponse(): void
@@ -89,8 +89,8 @@ class ExistenceCheckerTest extends KernelTestCase
         ]);
 
         $this->expectException(Throwable::class);
-        static::$container->set('test.http_client', $httpClient);
-        static::$container->get('api_platform_ms.api_resource.existence_checker')->getExistenceStatuses('bar', ['1', '2']);
+        static::getContainer()->set('test.http_client', $httpClient);
+        static::getContainer()->get('api_platform_ms.api_resource.existence_checker')->getExistenceStatuses('bar', ['1', '2']);
     }
 
     public function testSwitchHttpClient(): void
@@ -115,9 +115,9 @@ class ExistenceCheckerTest extends KernelTestCase
             ->willReturn($response)
         ;
 
-        static::$container->set('test.http_client', $firstHttpClient);
+        static::getContainer()->set('test.http_client', $firstHttpClient);
 
-        $existenceChecker = static::$container->get('api_platform_ms.api_resource.existence_checker');
+        $existenceChecker = static::getContainer()->get('api_platform_ms.api_resource.existence_checker');
         $existenceChecker->getExistenceStatuses('bar', ['1']);
 
         $existenceChecker->setWrappedHttpClient($secondHttpClient);

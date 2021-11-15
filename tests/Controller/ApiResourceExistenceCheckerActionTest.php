@@ -68,7 +68,7 @@ class ApiResourceExistenceCheckerActionTest extends WebTestCase
 
         $client = static::createClient();
 
-        static::$container->set('test.iri_converter', $iriConverter);
+        static::getContainer()->set('test.iri_converter', $iriConverter);
         $client->request('POST', '/foo_check_resource', [], [], [
             'CONTENT_TYPE' => 'application/json',
         ], $payload);

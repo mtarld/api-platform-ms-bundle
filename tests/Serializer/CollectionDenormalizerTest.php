@@ -34,7 +34,7 @@ class CollectionDenormalizerTest extends KernelTestCase
         $dtoCollection = [new PuppyResourceDto('/puppies/1', 'foo'), new PuppyResourceDto('/puppies/2', 'bar'), new PuppyResourceDto('/puppies/3', 'baz')];
 
         /** @var SerializerInterface $serializer */
-        $serializer = static::$container->get(SerializerInterface::class);
+        $serializer = static::getContainer()->get(SerializerInterface::class);
         $serializedCollection = $serializer->serialize($entityCollection, $format, ['resource_class' => Puppy::class, 'collection_operation_name' => 'foo']);
 
         /** @var Collection $deserializedCollection */
@@ -58,7 +58,7 @@ class CollectionDenormalizerTest extends KernelTestCase
         $dtoCollection = [new PuppyResourceDto('/puppies/1', 'foo'), new PuppyResourceDto('/puppies/2', 'bar')];
 
         /** @var SerializerInterface $serializer */
-        $serializer = static::$container->get(SerializerInterface::class);
+        $serializer = static::getContainer()->get(SerializerInterface::class);
         $serializedCollection = $serializer->serialize($entityCollection, $format, ['resource_class' => Puppy::class, 'collection_operation_name' => 'foo']);
 
         /** @var Collection $deserializedCollection */
@@ -80,7 +80,7 @@ class CollectionDenormalizerTest extends KernelTestCase
         $dtoCollection = [new PuppyResourceDto('/puppies/3', 'baz')];
 
         /** @var SerializerInterface $serializer */
-        $serializer = static::$container->get(SerializerInterface::class);
+        $serializer = static::getContainer()->get(SerializerInterface::class);
         $serializedCollection = $serializer->serialize($entityCollection, $format, ['resource_class' => Puppy::class, 'collection_operation_name' => 'foo']);
 
         /** @var Collection $deserializedCollection */
@@ -106,7 +106,7 @@ class CollectionDenormalizerTest extends KernelTestCase
         $dtoCollection = [new PuppyDto(1, 'foo'), new PuppyDto(2, 'bar'), new PuppyDto(3, 'baz')];
 
         /** @var SerializerInterface $serializer */
-        $serializer = static::$container->get(SerializerInterface::class);
+        $serializer = static::getContainer()->get(SerializerInterface::class);
         $serializedCollection = $serializer->serialize($dtoCollection, $format);
 
         /** @var Collection $deserializedCollection */

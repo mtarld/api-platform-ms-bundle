@@ -24,7 +24,7 @@ class MicroservicePoolTest extends KernelTestCase
     public function testHasMicroservice(): void
     {
         /** @var MicroservicePool $pool */
-        $pool = static::$container->get(MicroservicePool::class);
+        $pool = static::getContainer()->get(MicroservicePool::class);
 
         self::assertFalse($pool->has('foo'));
         self::assertTrue($pool->has('bar'));
@@ -33,7 +33,7 @@ class MicroservicePoolTest extends KernelTestCase
     public function testGetMicroservice(): void
     {
         /** @var MicroservicePool $pool */
-        $pool = static::$container->get(MicroservicePool::class);
+        $pool = static::getContainer()->get(MicroservicePool::class);
 
         self::assertEquals(new Microservice('bar', 'https://localhost', '/api', 'jsonld'), $pool->get('bar'));
 
@@ -44,7 +44,7 @@ class MicroservicePoolTest extends KernelTestCase
     public function testMicroserviceConfigurationUriValidation(): void
     {
         /** @var MicroservicePool $pool */
-        $pool = static::$container->get(MicroservicePool::class);
+        $pool = static::getContainer()->get(MicroservicePool::class);
 
         $this->expectException(MicroserviceConfigurationException::class);
         $pool->get('wrong_uri');
@@ -52,7 +52,7 @@ class MicroservicePoolTest extends KernelTestCase
 
     public function testMicroserviceConfigurationFormatValidation(): void
     {
-        $pool = new MicroservicePool(static::$container->get(ValidatorInterface::class), [
+        $pool = new MicroservicePool(static::getContainer()->get(ValidatorInterface::class), [
             'microservice' => [
                 'base_uri' => 'https://localhost',
                 'api_path' => '/api',
