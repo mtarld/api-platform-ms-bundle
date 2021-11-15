@@ -5,6 +5,7 @@ namespace Mtarld\ApiPlatformMsBundle\DependencyInjection\Loader\Configurator;
 use Mtarld\ApiPlatformMsBundle\ApiResource\ExistenceChecker;
 use Mtarld\ApiPlatformMsBundle\Collection\PaginatedCollectionIterator;
 use Mtarld\ApiPlatformMsBundle\Controller\ApiResourceExistenceCheckerAction;
+use Mtarld\ApiPlatformMsBundle\EventListener\RequestLoggerListener;
 use Mtarld\ApiPlatformMsBundle\HttpClient\GenericHttpClient;
 use Mtarld\ApiPlatformMsBundle\Microservice\MicroservicePool;
 use Mtarld\ApiPlatformMsBundle\Routing\RouteLoader;
@@ -71,6 +72,11 @@ return static function (ContainerConfigurator $container): void {
                 service('serializer'),
             ])
         ->alias(PaginatedCollectionIterator::class, 'api_platform_ms.collection.paginated_collection_iterator')
+        ->set('api_platform_ms.request_logger_listener', RequestLoggerListener::class)
+            ->args([
+                service('logger'),
+            ])
+            ->tag('kernel.event_listener')
     ;
 };
 

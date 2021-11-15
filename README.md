@@ -43,6 +43,9 @@ api_platform_ms:
     # Name of the current microservice (required)
     name: client
 
+    # Option to log request (default '%kernel.debug%')
+    log_request: true
+
     # Host used for microservice dynamic routes generation (default: [])
     hosts:
         - https://client.api

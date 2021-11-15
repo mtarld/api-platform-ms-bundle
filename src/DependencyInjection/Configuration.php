@@ -13,6 +13,16 @@ use Symfony\Contracts\HttpClient\HttpClientInterface;
  */
 class Configuration implements ConfigurationInterface
 {
+    private $debug;
+
+    /**
+     * @param bool $debug Whether debugging is enabled or not
+     */
+    public function __construct(bool $debug)
+    {
+        $this->debug = $debug;
+    }
+
     /**
      * @psalm-suppress PossiblyUndefinedMethod
      */
@@ -23,6 +33,7 @@ class Configuration implements ConfigurationInterface
             ->children()
                 ->scalarNode('http_client')->defaultValue(HttpClientInterface::class)->treatNullLike(HttpClientInterface::class)->end()
                 ->scalarNode('name')->isRequired()->end()
+                ->scalarNode('log_request')->defaultValue($this->debug)->end()
                 ->arrayNode('hosts')->variablePrototype()->end()->end()
                 ->arrayNode('microservices')
                     ->useAttributeAsKey('name')
