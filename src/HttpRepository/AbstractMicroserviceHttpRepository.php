@@ -324,7 +324,6 @@ abstract class AbstractMicroserviceHttpRepository implements ReplaceableHttpClie
     private function createConstraintViolationListFromResponse(ResponseInterface $response): ?ConstraintViolationList
     {
         try {
-            /* @var ConstraintViolationList */
             return $this->serializer->deserialize($response->getContent(false), ConstraintViolationList::class, $this->getMicroservice()->getFormat());
         } catch (SerializerExceptionInterface $e) {
             return null;

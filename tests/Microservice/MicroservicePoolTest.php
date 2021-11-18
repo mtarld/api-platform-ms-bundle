@@ -35,7 +35,7 @@ class MicroservicePoolTest extends KernelTestCase
         /** @var MicroservicePool $pool */
         $pool = static::$container->get(MicroservicePool::class);
 
-        self::assertEquals(new Microservice('bar', 'https://localhost', '/api', 'jsonld', 'json'), $pool->get('bar'));
+        self::assertEquals(new Microservice('bar', 'https://localhost', '/api', 'jsonld'), $pool->get('bar'));
 
         $this->expectException(MicroserviceNotConfiguredException::class);
         $pool->get('foo');
