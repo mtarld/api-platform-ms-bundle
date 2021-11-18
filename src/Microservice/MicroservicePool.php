@@ -81,6 +81,7 @@ class MicroservicePool implements IteratorAggregate
     private function validateMicroservice(Microservice $microservice): void
     {
         $violations = $this->validator->validate($microservice);
+
         if ($violations->has(0)) {
             throw new MicroserviceConfigurationException($microservice->getName(), sprintf("'%s': %s", $violations->get(0)->getPropertyPath(), (string) $violations->get(0)->getMessage()));
         }

@@ -58,7 +58,15 @@ class ProductController extends AbstractController
         $product = $productHttpRepository->fetchOneByIri('/products/1');
         $product->setName('new name');
 
-        $productHttpRepository->update($product);
+        $productHttpRepository->update($product); // PUT
+    }
+    
+    public function partialUpdateFirstProduct(ProductHttpRepository $productHttpRepository)
+    {
+        $product = $productHttpRepository->fetchOneByIri('/products/1');
+        $product->setName('new name');
+
+        $productHttpRepository->partialUpdate($product); // PATCH (see https://api-platform.com/docs/core/content-negotiation/#configuring-patch-formats)
     }
 }
 ```

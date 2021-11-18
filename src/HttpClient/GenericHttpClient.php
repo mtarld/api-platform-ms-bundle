@@ -26,6 +26,12 @@ class GenericHttpClient implements ReplaceableHttpClientInterface
         'jsonhal' => 'application/hal+json',
     ];
 
+    private const PATCH_MIME_TYPES = [
+        'jsonld' => 'application/merge-patch+json',
+        'jsonapi' => 'application/vnd.api+json',
+        'jsonhal' => 'application/merge-patch+json',
+    ];
+
     private $serializer;
     private $httpClient;
     private $dispatcher;
@@ -54,7 +60,8 @@ class GenericHttpClient implements ReplaceableHttpClientInterface
      */
     public function request(Microservice $microservice, string $method, string $uri, $body = null, ?string $mimeType = null, ?string $bodyFormat = null): ResponseInterface
     {
-        $mimeType = $mimeType ?? self::MIME_TYPES[$microservice->getFormat()];
+        $defaultMimeType = 'PATCH' === $method ? self::PATCH_MIME_TYPES[$microservice->getFormat()] : self::MIME_TYPES[$microservice->getFormat()];
+        $mimeType = $mimeType ?? $defaultMimeType;
         $bodyFormat = $bodyFormat ?? $microservice->getFormat();
 
         $options = [

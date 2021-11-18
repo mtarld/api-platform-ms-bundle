@@ -198,6 +198,8 @@ abstract class AbstractMicroserviceHttpRepository implements ReplaceableHttpClie
     }
 
     /**
+     * Update a resource using PUT verb.
+     *
      * @param array<string, mixed> $additionalQueryParams
      *
      * @throws ResourceValidationException
@@ -212,6 +214,34 @@ abstract class AbstractMicroserviceHttpRepository implements ReplaceableHttpClie
 
         try {
             $response = $this->request('PUT', $this->buildUri($iri, $additionalQueryParams), $resource, null, 'json');
+
+            return $this->serializer->deserialize($response->getContent(), $this->getResourceDto(), $this->getMicroservice()->getFormat());
+        } catch (ClientExceptionInterface $e) {
+            if ((400 === $e->getCode()) && null !== $violations = $this->createConstraintViolationListFromResponse($e->getResponse())) {
+                throw new ResourceValidationException($resource, $violations);
+            }
+
+            throw $e;
+        }
+    }
+
+    /**
+     * Partially update a resource using PATCH verb.
+     *
+     * @psalm-param array<array-key, mixed> $additionalQueryParams
+     *
+     * @throws ResourceValidationException
+     * @throws ExceptionInterface
+     * @throws RuntimeException
+     */
+    public function partialUpdate(ApiResourceDtoInterface $resource, array $additionalQueryParams = []): ApiResourceDtoInterface
+    {
+        if (null === $iri = $resource->getIri()) {
+            throw new RuntimeException('Cannot partially update a resource without iri');
+        }
+
+        try {
+            $response = $this->request('PATCH', $this->buildUri($iri, $additionalQueryParams), $resource, null, 'json');
 
             return $this->serializer->deserialize($response->getContent(), $this->getResourceDto(), $this->getMicroservice()->getFormat());
         } catch (ClientExceptionInterface $e) {

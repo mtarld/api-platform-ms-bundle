@@ -6,6 +6,9 @@ api_platform:
     jsonld:   ['application/ld+json']
     jsonhal:  ['application/hal+json']
     jsonapi:  ['application/vnd.api+json']
+  patch_formats:
+    json: ['application/merge-patch+json']
+    jsonapi: ['application/vnd.api+json']
   name_converter: Symfony\Component\Serializer\NameConverter\CamelCaseToSnakeCaseNameConverter
 
 framework:
