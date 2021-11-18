@@ -23,12 +23,12 @@ class MicroservicePool implements IteratorAggregate
     private $validator;
 
     /**
-     * @var array<array-key, array<array-key, string>>
+     * @var array<string, array<string, string>>
      */
     private $configs;
 
     /**
-     * @var array<array-key, Microservice>
+     * @var array<string, Microservice>
      */
     private $microservices = [];
 

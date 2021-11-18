@@ -24,7 +24,7 @@ class ApiResourceDenormalizer extends AbstractApiResourceDenormalizer
     }
 
     /**
-     * @psalm-param array{data: array<array-key, mixed>, included: array<array<array-key, mixed>>} $data
+     * @param array{data: array<array-key, mixed>, included: array<array<array-key, mixed>>} $data
      * @psalm-suppress MoreSpecificImplementedParamType
      */
     protected function prepareEmbeddedData(array $data): array

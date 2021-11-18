@@ -39,9 +39,9 @@ class ExistenceChecker implements ReplaceableHttpClientInterface
     }
 
     /**
-     * @param array<string> $iris
+     * @param list<string> $iris
      *
-     * @psalm-return array<array-key, bool>
+     * @return array<string, bool>
      *
      * @throws ExceptionInterface
      */

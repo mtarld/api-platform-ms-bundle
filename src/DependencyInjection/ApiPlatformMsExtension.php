@@ -32,7 +32,7 @@ class ApiPlatformMsExtension extends Extension
     }
 
     /**
-     * @psalm-param array<array-key, mixed> $configs
+     * @param array<array-key, mixed> $configs
      */
     public function load(array $configs, ContainerBuilder $container): void
     {
@@ -67,5 +67,20 @@ class ApiPlatformMsExtension extends Extension
         $container->setParameter('api_platform_ms.enabled_formats', $formats);
 
         $container->registerForAutoconfiguration(AuthenticationHeaderProviderInterface::class)->addTag('api_platform_ms.authentication_header_provider');
+
+        if (!$config['log_request']) {
+            $container->removeDefinition('api_platform_ms.request_logger_listener');
+        }
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getConfiguration(array $config, ContainerBuilder $container)
+    {
+        /** @var bool $debug */
+        $debug = $container->getParameter('kernel.debug');
+
+        return new Configuration($debug);
     }
 }

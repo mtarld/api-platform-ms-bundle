@@ -40,7 +40,7 @@ abstract class AbstractCollectionDenormalizer implements DenormalizerInterface, 
      * @param string $type
      * @param string $format
      *
-     * @psalm-return \Mtarld\ApiPlatformMsBundle\Collection\Collection<object>
+     * @return \Mtarld\ApiPlatformMsBundle\Collection\Collection<object>
      */
     public function denormalize($data, $type, $format = null, array $context = []): Collection
     {
@@ -83,7 +83,7 @@ abstract class AbstractCollectionDenormalizer implements DenormalizerInterface, 
     }
 
     /**
-     * @return array<object>
+     * @return list<object>
      */
     protected function denormalizeRawElements(array $data, string $enclosedType, array $context): array
     {

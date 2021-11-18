@@ -27,11 +27,9 @@ abstract class AbstractConstraintViolationListDenormalizer implements Denormaliz
     abstract protected function denormalizeViolation(array $data): ConstraintViolation;
 
     /**
-     * @psalm-param class-string<ConstraintViolationList> $type
-     *
-     * @param mixed  $data
-     * @param string $type
-     * @param string $format
+     * @param mixed                                 $data
+     * @param class-string<ConstraintViolationList> $type
+     * @param string                                $format
      *
      * @psalm-suppress MoreSpecificImplementedParamType
      */

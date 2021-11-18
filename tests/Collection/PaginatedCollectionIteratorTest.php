@@ -209,7 +209,8 @@ class PaginatedCollectionIteratorTest extends KernelTestCase
         $page2Response = $this->createMock(ResponseInterface::class);
         $page2Response
             ->method('getContent')
-            ->willReturn(<<<JSON
+            ->willReturn(
+                <<<JSON
 {
     "@context":"\/contexts\/Puppy", "@id":"\/api/puppies", "@type":"hydra:Collection", "hydra:totalItems":5,
     "hydra:member":[{"@id":"\/api/puppies\/3","@type":"Puppy","id":3,"super_name":"baz"}, {"@id":"\/api/puppies\/4","@type":"Puppy","id":4,"super_name":"oof"}],
@@ -228,7 +229,8 @@ JSON
         $page3Response = $this->createMock(ResponseInterface::class);
         $page3Response
             ->method('getContent')
-            ->willReturn(<<<JSON
+            ->willReturn(
+                <<<JSON
 {
     "@context":"\/contexts\/Puppy", "@id":"\/api/puppies", "@type":"hydra:Collection", "hydra:totalItems":5,
     "hydra:member":[{"@id":"\/api/puppies\/5","@type":"Puppy","id":5,"super_name":"rab"}],

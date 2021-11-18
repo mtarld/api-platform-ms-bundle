@@ -12,7 +12,7 @@ interface AuthenticationHeaderProviderInterface
     public function getValue(): string;
 
     /**
-     * @psalm-param array<array-key, mixed> $context
+     * @param array<string, mixed> $context
      */
     public function supports(array $context): bool;
 }

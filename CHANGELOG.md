@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 * Added dispatching of a `RequestEvent` once a request is sent
 * Added `partialUpdate` method in `AbstractMicroserviceHttpRepository`
+* Added `log_request` option to log each request, by default request are logged if debugging is enabled.
 
 ## [0.3.0] - 2021-01-19
 * Added authentication header providers
