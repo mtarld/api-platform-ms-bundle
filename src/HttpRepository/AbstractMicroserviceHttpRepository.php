@@ -201,7 +201,6 @@ abstract class AbstractMicroserviceHttpRepository implements ReplaceableHttpClie
      * Update a resource using PUT verb.
      *
      * @param array<string, mixed> $additionalQueryParams
-
      *
      * @throws ResourceValidationException
      * @throws ExceptionInterface
@@ -224,6 +223,7 @@ abstract class AbstractMicroserviceHttpRepository implements ReplaceableHttpClie
 
             throw $e;
         }
+    }
 
     /**
      * Partially update a resource using PATCH verb.
