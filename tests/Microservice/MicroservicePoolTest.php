@@ -7,7 +7,6 @@ use Mtarld\ApiPlatformMsBundle\Exception\MicroserviceNotConfiguredException;
 use Mtarld\ApiPlatformMsBundle\Microservice\Microservice;
 use Mtarld\ApiPlatformMsBundle\Microservice\MicroservicePool;
 use Mtarld\ApiPlatformMsBundle\Tests\BcLayer\BcLayerKernelTestCase;
-use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 /**

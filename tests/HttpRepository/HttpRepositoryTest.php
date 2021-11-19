@@ -8,7 +8,6 @@ use Mtarld\ApiPlatformMsBundle\Tests\Fixtures\App\src\Dto\PuppyResourceDto;
 use Mtarld\ApiPlatformMsBundle\Tests\Fixtures\App\src\Entity\Puppy;
 use Mtarld\ApiPlatformMsBundle\Tests\Fixtures\App\src\HttpRepository\PuppyHttpRepository;
 use RuntimeException;
-use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\HttpClient\MockHttpClient;
 use Symfony\Component\HttpClient\Response\MockResponse;
 use Symfony\Component\Serializer\SerializerInterface;

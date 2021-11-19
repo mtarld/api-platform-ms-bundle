@@ -9,7 +9,6 @@ use Mtarld\ApiPlatformMsBundle\Tests\Fixtures\App\src\Dto\PuppyResourceDto;
 use Mtarld\ApiPlatformMsBundle\Tests\Fixtures\App\src\Entity\Color;
 use Mtarld\ApiPlatformMsBundle\Tests\Fixtures\App\src\Entity\Hair;
 use Mtarld\ApiPlatformMsBundle\Tests\Fixtures\App\src\Entity\Puppy;
-use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\Serializer\SerializerInterface;
 
 /**

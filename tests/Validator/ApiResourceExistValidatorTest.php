@@ -7,7 +7,6 @@ use Mtarld\ApiPlatformMsBundle\Tests\BcLayer\BcLayerKernelTestCase;
 use Mtarld\ApiPlatformMsBundle\Validator\ApiResourceExist;
 use Psr\Log\LoggerInterface;
 use RuntimeException;
-use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\HttpClient\MockHttpClient;
 use Symfony\Component\HttpClient\Response\MockResponse;
 use Symfony\Component\Validator\Exception\InvalidOptionsException;

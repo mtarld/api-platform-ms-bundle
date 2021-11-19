@@ -10,7 +10,6 @@ use Mtarld\ApiPlatformMsBundle\Microservice\MicroservicePool;
 use Mtarld\ApiPlatformMsBundle\Tests\BcLayer\BcLayerKernelTestCase;
 use Mtarld\ApiPlatformMsBundle\Tests\Fixtures\App\src\Authentication\BasicAuthenticationHeaderProvider;
 use Mtarld\ApiPlatformMsBundle\Tests\Fixtures\App\src\Authentication\BearerAuthenticationHeaderProvider;
-use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
