@@ -4,7 +4,7 @@ namespace Mtarld\ApiPlatformMsBundle\Dto;
 
 /**
  * @final @internal
- * test pipeline
+ *
  * @author Mathias Arlaud <mathias.arlaud@gmail.com>
  */
 class ApiResourceExistenceCheckerView
