@@ -3,6 +3,7 @@
 namespace Mtarld\ApiPlatformMsBundle\Tests\HttpRepository;
 
 use Mtarld\ApiPlatformMsBundle\Exception\ResourceValidationException;
+use Mtarld\ApiPlatformMsBundle\Tests\BcLayer\BcLayerKernelTestCase;
 use Mtarld\ApiPlatformMsBundle\Tests\Fixtures\App\src\Dto\PuppyResourceDto;
 use Mtarld\ApiPlatformMsBundle\Tests\Fixtures\App\src\Entity\Puppy;
 use Mtarld\ApiPlatformMsBundle\Tests\Fixtures\App\src\HttpRepository\PuppyHttpRepository;
@@ -22,7 +23,7 @@ use Symfony\Contracts\HttpClient\ResponseInterface;
  *
  * @author Mathias Arlaud <mathias.arlaud@gmail.com>
  */
-class HttpRepositoryTest extends KernelTestCase
+class HttpRepositoryTest extends BcLayerKernelTestCase
 {
     public function setUp(): void
     {
@@ -32,7 +33,7 @@ class HttpRepositoryTest extends KernelTestCase
     public function testFindExistingResourceByIri(): void
     {
         /** @var SerializerInterface $serializer */
-        $serializer = static::$container->get(SerializerInterface::class);
+        $serializer = static::getContainer()->get(SerializerInterface::class);
 
         $response = $this->createMock(ResponseInterface::class);
         $response
@@ -58,10 +59,10 @@ class HttpRepositoryTest extends KernelTestCase
             ->willReturn($response)
         ;
 
-        static::$container->set('test.http_client', $httpClient);
+        static::getContainer()->set('test.http_client', $httpClient);
 
         /** @var PuppyHttpRepository $httpRepository */
-        $httpRepository = static::$container->get(PuppyHttpRepository::class);
+        $httpRepository = static::getContainer()->get(PuppyHttpRepository::class);
 
         $puppyDto = $httpRepository->fetchOneByIri('/puppies/1');
         self::assertEquals(new PuppyResourceDto('/puppies/1', 'foo'), $puppyDto);
@@ -73,10 +74,10 @@ class HttpRepositoryTest extends KernelTestCase
             new MockResponse('', ['http_code' => 404]),
         ]);
 
-        static::$container->set('test.http_client', $httpClient);
+        static::getContainer()->set('test.http_client', $httpClient);
 
         /** @var PuppyHttpRepository $httpRepository */
-        $httpRepository = static::$container->get(PuppyHttpRepository::class);
+        $httpRepository = static::getContainer()->get(PuppyHttpRepository::class);
 
         $puppyDto = $httpRepository->fetchOneByIri('/puppies/1');
         self::assertNull($puppyDto);
@@ -85,7 +86,7 @@ class HttpRepositoryTest extends KernelTestCase
     public function testFindResourceBy(): void
     {
         /** @var SerializerInterface $serializer */
-        $serializer = static::$container->get(SerializerInterface::class);
+        $serializer = static::getContainer()->get(SerializerInterface::class);
 
         $response = $this->createMock(ResponseInterface::class);
         $response
@@ -111,10 +112,10 @@ class HttpRepositoryTest extends KernelTestCase
             ->willReturn($response)
         ;
 
-        static::$container->set('test.http_client', $httpClient);
+        static::getContainer()->set('test.http_client', $httpClient);
 
         /** @var PuppyHttpRepository $httpRepository */
-        $httpRepository = static::$container->get(PuppyHttpRepository::class);
+        $httpRepository = static::getContainer()->get(PuppyHttpRepository::class);
 
         $puppyDtos = $httpRepository->fetchBy(['superName' => ['foo', 'bar']], ['groups' => ['translations']]);
         self::assertCount(2, $puppyDtos);
@@ -124,7 +125,7 @@ class HttpRepositoryTest extends KernelTestCase
     public function testFindOneExistingResourceBy(): void
     {
         /** @var SerializerInterface $serializer */
-        $serializer = static::$container->get(SerializerInterface::class);
+        $serializer = static::getContainer()->get(SerializerInterface::class);
 
         $response = $this->createMock(ResponseInterface::class);
         $response
@@ -150,10 +151,10 @@ class HttpRepositoryTest extends KernelTestCase
             ->willReturn($response)
         ;
 
-        static::$container->set('test.http_client', $httpClient);
+        static::getContainer()->set('test.http_client', $httpClient);
 
         /** @var PuppyHttpRepository $httpRepository */
-        $httpRepository = static::$container->get(PuppyHttpRepository::class);
+        $httpRepository = static::getContainer()->get(PuppyHttpRepository::class);
 
         $puppyDto = $httpRepository->fetchOneBy(['superName' => 'foo']);
         self::assertEquals(new PuppyResourceDto('/puppies/1', 'foo'), $puppyDto);
@@ -162,7 +163,7 @@ class HttpRepositoryTest extends KernelTestCase
     public function testFindOneMissingResourceBy(): void
     {
         /** @var SerializerInterface $serializer */
-        $serializer = static::$container->get(SerializerInterface::class);
+        $serializer = static::getContainer()->get(SerializerInterface::class);
 
         $response = $this->createMock(ResponseInterface::class);
         $response
@@ -188,10 +189,10 @@ class HttpRepositoryTest extends KernelTestCase
             ->willReturn($response)
         ;
 
-        static::$container->set('test.http_client', $httpClient);
+        static::getContainer()->set('test.http_client', $httpClient);
 
         /** @var PuppyHttpRepository $httpRepository */
-        $httpRepository = static::$container->get(PuppyHttpRepository::class);
+        $httpRepository = static::getContainer()->get(PuppyHttpRepository::class);
 
         $puppyDto = $httpRepository->fetchOneBy(['superName' => ['foo', 'bar']]);
         self::assertNull($puppyDto);
@@ -200,7 +201,7 @@ class HttpRepositoryTest extends KernelTestCase
     public function testFindAllResources(): void
     {
         /** @var SerializerInterface $serializer */
-        $serializer = static::$container->get(SerializerInterface::class);
+        $serializer = static::getContainer()->get(SerializerInterface::class);
 
         $response = $this->createMock(ResponseInterface::class);
         $response
@@ -226,10 +227,10 @@ class HttpRepositoryTest extends KernelTestCase
             ->willReturn($response)
         ;
 
-        static::$container->set('test.http_client', $httpClient);
+        static::getContainer()->set('test.http_client', $httpClient);
 
         /** @var PuppyHttpRepository $httpRepository */
-        $httpRepository = static::$container->get(PuppyHttpRepository::class);
+        $httpRepository = static::getContainer()->get(PuppyHttpRepository::class);
 
         $puppyDtos = $httpRepository->fetchAll(['itemsPerPage' => 2]);
         self::assertCount(2, $puppyDtos);
@@ -239,7 +240,7 @@ class HttpRepositoryTest extends KernelTestCase
     public function testSwitchHttpClient(): void
     {
         /** @var SerializerInterface $serializer */
-        $serializer = static::$container->get(SerializerInterface::class);
+        $serializer = static::getContainer()->get(SerializerInterface::class);
 
         $response = $this->createMock(ResponseInterface::class);
         $response
@@ -261,10 +262,10 @@ class HttpRepositoryTest extends KernelTestCase
             ->willReturn($response)
         ;
 
-        static::$container->set('test.http_client', $firstHttpClient);
+        static::getContainer()->set('test.http_client', $firstHttpClient);
 
         /** @var PuppyHttpRepository $httpRepository */
-        $httpRepository = static::$container->get(PuppyHttpRepository::class);
+        $httpRepository = static::getContainer()->get(PuppyHttpRepository::class);
 
         $puppyDto = $httpRepository->fetchOneByIri('/puppies/1');
         self::assertEquals(new PuppyResourceDto('/puppies/1', 'foo'), $puppyDto);
@@ -278,7 +279,7 @@ class HttpRepositoryTest extends KernelTestCase
     public function testCreateResource(): void
     {
         /** @var SerializerInterface $serializer */
-        $serializer = static::$container->get(SerializerInterface::class);
+        $serializer = static::getContainer()->get(SerializerInterface::class);
 
         $response = $this->createMock(ResponseInterface::class);
         $response
@@ -305,10 +306,10 @@ class HttpRepositoryTest extends KernelTestCase
             ->willReturn($response)
         ;
 
-        static::$container->set('test.http_client', $httpClient);
+        static::getContainer()->set('test.http_client', $httpClient);
 
         /** @var PuppyHttpRepository $httpRepository */
-        $httpRepository = static::$container->get(PuppyHttpRepository::class);
+        $httpRepository = static::getContainer()->get(PuppyHttpRepository::class);
 
         $createdPuppyDto = $httpRepository->create(new PuppyResourceDto(null, 'foo'), ['user' => 'me']);
         self::assertEquals(new PuppyResourceDto('/puppies/1', 'foo'), $createdPuppyDto);
@@ -319,7 +320,7 @@ class HttpRepositoryTest extends KernelTestCase
         $this->expectException(ResourceValidationException::class);
 
         /** @var SerializerInterface $serializer */
-        $serializer = static::$container->get(SerializerInterface::class);
+        $serializer = static::getContainer()->get(SerializerInterface::class);
 
         $httpClient = new MockHttpClient([
             new MockResponse(
@@ -330,17 +331,17 @@ class HttpRepositoryTest extends KernelTestCase
             ),
         ]);
 
-        static::$container->set('test.http_client', $httpClient);
+        static::getContainer()->set('test.http_client', $httpClient);
 
         /** @var PuppyHttpRepository $httpRepository */
-        $httpRepository = static::$container->get(PuppyHttpRepository::class);
+        $httpRepository = static::getContainer()->get(PuppyHttpRepository::class);
         $httpRepository->create(new PuppyResourceDto(null, 'foo'));
     }
 
     public function testUpdateResource(): void
     {
         /** @var SerializerInterface $serializer */
-        $serializer = static::$container->get(SerializerInterface::class);
+        $serializer = static::getContainer()->get(SerializerInterface::class);
 
         $response = $this->createMock(ResponseInterface::class);
         $response
@@ -367,10 +368,10 @@ class HttpRepositoryTest extends KernelTestCase
             ->willReturn($response)
         ;
 
-        static::$container->set('test.http_client', $httpClient);
+        static::getContainer()->set('test.http_client', $httpClient);
 
         /** @var PuppyHttpRepository $httpRepository */
-        $httpRepository = static::$container->get(PuppyHttpRepository::class);
+        $httpRepository = static::getContainer()->get(PuppyHttpRepository::class);
 
         $createdPuppyDto = $httpRepository->update(new PuppyResourceDto('/puppies/1', 'foo'), ['user' => 'me']);
         self::assertEquals(new PuppyResourceDto('/puppies/1', 'foo'), $createdPuppyDto);
@@ -381,7 +382,7 @@ class HttpRepositoryTest extends KernelTestCase
         $this->expectException(ResourceValidationException::class);
 
         /** @var SerializerInterface $serializer */
-        $serializer = static::$container->get(SerializerInterface::class);
+        $serializer = static::getContainer()->get(SerializerInterface::class);
 
         $httpClient = new MockHttpClient([
             new MockResponse(
@@ -392,10 +393,10 @@ class HttpRepositoryTest extends KernelTestCase
             ),
         ]);
 
-        static::$container->set('test.http_client', $httpClient);
+        static::getContainer()->set('test.http_client', $httpClient);
 
         /** @var PuppyHttpRepository $httpRepository */
-        $httpRepository = static::$container->get(PuppyHttpRepository::class);
+        $httpRepository = static::getContainer()->get(PuppyHttpRepository::class);
         $httpRepository->update(new PuppyResourceDto('/puppies/1', 'foo'));
     }
 
@@ -405,7 +406,7 @@ class HttpRepositoryTest extends KernelTestCase
         $this->expectExceptionMessage('Cannot update a resource without iri');
 
         /** @var PuppyHttpRepository $httpRepository */
-        $httpRepository = static::$container->get(PuppyHttpRepository::class);
+        $httpRepository = static::getContainer()->get(PuppyHttpRepository::class);
         $httpRepository->update(new PuppyResourceDto(null, 'foo'));
     }
 
@@ -501,10 +502,10 @@ class HttpRepositoryTest extends KernelTestCase
             ->willReturn($this->createMock(ResponseInterface::class))
         ;
 
-        static::$container->set('test.http_client', $httpClient);
+        static::getContainer()->set('test.http_client', $httpClient);
 
         /** @var PuppyHttpRepository $httpRepository */
-        $httpRepository = static::$container->get(PuppyHttpRepository::class);
+        $httpRepository = static::getContainer()->get(PuppyHttpRepository::class);
 
         $httpRepository->delete(new PuppyResourceDto('/puppies/1', 'foo'), ['user' => 'me']);
     }
@@ -514,7 +515,7 @@ class HttpRepositoryTest extends KernelTestCase
         $this->expectException(ResourceValidationException::class);
 
         /** @var SerializerInterface $serializer */
-        $serializer = static::$container->get(SerializerInterface::class);
+        $serializer = static::getContainer()->get(SerializerInterface::class);
 
         $httpClient = new MockHttpClient([
             new MockResponse(
@@ -525,10 +526,10 @@ class HttpRepositoryTest extends KernelTestCase
             ),
         ]);
 
-        static::$container->set('test.http_client', $httpClient);
+        static::getContainer()->set('test.http_client', $httpClient);
 
         /** @var PuppyHttpRepository $httpRepository */
-        $httpRepository = static::$container->get(PuppyHttpRepository::class);
+        $httpRepository = static::getContainer()->get(PuppyHttpRepository::class);
         $httpRepository->delete(new PuppyResourceDto('/puppies/1', 'foo'));
     }
 
@@ -538,7 +539,7 @@ class HttpRepositoryTest extends KernelTestCase
         $this->expectExceptionMessage('Cannot update a resource without iri');
 
         /** @var PuppyHttpRepository $httpRepository */
-        $httpRepository = static::$container->get(PuppyHttpRepository::class);
+        $httpRepository = static::getContainer()->get(PuppyHttpRepository::class);
         $httpRepository->delete(new PuppyResourceDto(null, 'foo'));
     }
 }

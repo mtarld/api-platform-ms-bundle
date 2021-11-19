@@ -7,6 +7,7 @@ use Mtarld\ApiPlatformMsBundle\Collection\PaginatedCollectionIterator;
 use Mtarld\ApiPlatformMsBundle\Collection\Pagination;
 use Mtarld\ApiPlatformMsBundle\Exception\CollectionNotIterableException;
 use Mtarld\ApiPlatformMsBundle\Microservice\MicroservicePool;
+use Mtarld\ApiPlatformMsBundle\Tests\BcLayer\BcLayerKernelTestCase;
 use Mtarld\ApiPlatformMsBundle\Tests\Fixtures\App\src\Dto\PuppyResourceDto;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
@@ -18,7 +19,7 @@ use Symfony\Contracts\HttpClient\ResponseInterface;
  *
  * @author Mathias Arlaud <mathias.arlaud@gmail.com>
  */
-class PaginatedCollectionIteratorTest extends KernelTestCase
+class PaginatedCollectionIteratorTest extends BcLayerKernelTestCase
 {
     public function setUp(): void
     {
@@ -30,7 +31,7 @@ class PaginatedCollectionIteratorTest extends KernelTestCase
         $this->mockHttpClient();
 
         /** @var MicroservicePool $microservices */
-        $microservices = static::$container->get('api_platform_ms.microservice_pool');
+        $microservices = static::getContainer()->get('api_platform_ms.microservice_pool');
 
         $collection = new Collection([
             new PuppyResourceDto('/api/puppies/1', 'foo'),
@@ -47,7 +48,7 @@ class PaginatedCollectionIteratorTest extends KernelTestCase
         ];
 
         /** @var PaginatedCollectionIterator $iterator */
-        $iterator = static::$container->get(PaginatedCollectionIterator::class);
+        $iterator = static::getContainer()->get(PaginatedCollectionIterator::class);
 
         $index = 0;
         foreach ($iterator->iterateItems($collection) as $element) {
@@ -62,7 +63,7 @@ class PaginatedCollectionIteratorTest extends KernelTestCase
         $this->mockHttpClient();
 
         /** @var MicroservicePool $microservices */
-        $microservices = static::$container->get('api_platform_ms.microservice_pool');
+        $microservices = static::getContainer()->get('api_platform_ms.microservice_pool');
 
         $collection = new Collection([
             new PuppyResourceDto('/api/puppies/1', 'foo'),
@@ -77,7 +78,7 @@ class PaginatedCollectionIteratorTest extends KernelTestCase
         ];
 
         /** @var PaginatedCollectionIterator $iterator */
-        $iterator = static::$container->get(PaginatedCollectionIterator::class);
+        $iterator = static::getContainer()->get(PaginatedCollectionIterator::class);
 
         $index = 0;
         foreach ($iterator->iteratePages($collection) as $page) {
@@ -107,7 +108,7 @@ class PaginatedCollectionIteratorTest extends KernelTestCase
             ->willReturn($this->getPartialCollectionResponses()[0])
         ;
 
-        static::$container->set('test.http_client', $firstHttpClient);
+        static::getContainer()->set('test.http_client', $firstHttpClient);
 
         $secondHttpClient = $this->createMock(HttpClientInterface::class);
         $secondHttpClient
@@ -128,7 +129,7 @@ class PaginatedCollectionIteratorTest extends KernelTestCase
         ;
 
         /** @var MicroservicePool $microservices */
-        $microservices = static::$container->get('api_platform_ms.microservice_pool');
+        $microservices = static::getContainer()->get('api_platform_ms.microservice_pool');
 
         $collection = new Collection([
             new PuppyResourceDto('/api/puppies/1', 'foo'),
@@ -145,7 +146,7 @@ class PaginatedCollectionIteratorTest extends KernelTestCase
         ];
 
         /** @var PaginatedCollectionIterator $iterator */
-        $iterator = static::$container->get(PaginatedCollectionIterator::class);
+        $iterator = static::getContainer()->get(PaginatedCollectionIterator::class);
 
         $index = 0;
         foreach ($iterator->iterateOver($collection) as $element) {
@@ -165,7 +166,7 @@ class PaginatedCollectionIteratorTest extends KernelTestCase
         ], 5, new Pagination('/api/puppies?page=1', '/api/puppies?page=1', '/api/puppies?page=3', null, '/api/puppies?page=2'));
 
         /** @var PaginatedCollectionIterator $iterator */
-        $iterator = static::$container->get(PaginatedCollectionIterator::class);
+        $iterator = static::getContainer()->get(PaginatedCollectionIterator::class);
 
         $this->expectException(CollectionNotIterableException::class);
         iterator_to_array($iterator->iterateOver($collection));
@@ -201,7 +202,7 @@ class PaginatedCollectionIteratorTest extends KernelTestCase
             ->willReturnOnConsecutiveCalls(...$this->getPartialCollectionResponses())
         ;
 
-        static::$container->set('test.http_client', $httpClient);
+        static::getContainer()->set('test.http_client', $httpClient);
     }
 
     private function getPartialCollectionResponses(): array
