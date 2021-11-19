@@ -5,11 +5,12 @@ namespace Mtarld\ApiPlatformMsBundle\Tests\EventListener;
 use Mtarld\ApiPlatformMsBundle\Event\RequestEvent;
 use Mtarld\ApiPlatformMsBundle\EventListener\RequestLoggerListener;
 use Mtarld\ApiPlatformMsBundle\Microservice\Microservice;
+use Mtarld\ApiPlatformMsBundle\Tests\BcLayer\BcLayerKernelTestCase;
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 
-class RequestLoggerListenerTest extends KernelTestCase
+class RequestLoggerListenerTest extends BcLayerKernelTestCase
 {
     public function setUp(): void
     {
