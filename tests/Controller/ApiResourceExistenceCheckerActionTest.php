@@ -5,7 +5,7 @@ namespace Mtarld\ApiPlatformMsBundle\Tests\Controller;
 use ApiPlatform\Core\Api\IriConverterInterface;
 use ApiPlatform\Core\Bridge\Symfony\Validator\Exception\ValidationException;
 use Exception;
-use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
+use Mtarld\ApiPlatformMsBundle\Tests\BcLayer\BcLayerWebTestCase;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 
 /**
@@ -13,7 +13,7 @@ use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
  *
  * @author Mathias Arlaud <mathias.arlaud@gmail.com>
  */
-class ApiResourceExistenceCheckerActionTest extends WebTestCase
+class ApiResourceExistenceCheckerActionTest extends BcLayerWebTestCase
 {
     public function testExistenceCheckWithUnsupportedContentType(): void
     {
@@ -68,7 +68,7 @@ class ApiResourceExistenceCheckerActionTest extends WebTestCase
 
         $client = static::createClient();
 
-        static::$container->set('test.iri_converter', $iriConverter);
+        static::getContainer()->set('test.iri_converter', $iriConverter);
         $client->request('POST', '/foo_check_resource', [], [], [
             'CONTENT_TYPE' => 'application/json',
         ], $payload);
