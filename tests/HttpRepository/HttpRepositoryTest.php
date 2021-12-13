@@ -3,7 +3,7 @@
 namespace Mtarld\ApiPlatformMsBundle\Tests\HttpRepository;
 
 use Mtarld\ApiPlatformMsBundle\Exception\ResourceValidationException;
-use Mtarld\ApiPlatformMsBundle\Tests\BcLayer\BcLayerKernelTestCase;
+use Mtarld\ApiPlatformMsBundle\Tests\BcLayerKernelTestCase;
 use Mtarld\ApiPlatformMsBundle\Tests\Fixtures\App\src\Dto\PuppyResourceDto;
 use Mtarld\ApiPlatformMsBundle\Tests\Fixtures\App\src\Entity\Puppy;
 use Mtarld\ApiPlatformMsBundle\Tests\Fixtures\App\src\HttpRepository\PuppyHttpRepository;

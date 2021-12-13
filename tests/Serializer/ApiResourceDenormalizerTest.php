@@ -2,7 +2,7 @@
 
 namespace Mtarld\ApiPlatformMsBundle\Tests\Serializer;
 
-use Mtarld\ApiPlatformMsBundle\Tests\BcLayer\BcLayerKernelTestCase;
+use Mtarld\ApiPlatformMsBundle\Tests\BcLayerKernelTestCase;
 use Mtarld\ApiPlatformMsBundle\Tests\Fixtures\App\src\Dto\ColorResourceDto;
 use Mtarld\ApiPlatformMsBundle\Tests\Fixtures\App\src\Dto\HairResourceDto;
 use Mtarld\ApiPlatformMsBundle\Tests\Fixtures\App\src\Dto\PuppyResourceDto;

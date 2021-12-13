@@ -7,7 +7,7 @@ use Mtarld\ApiPlatformMsBundle\HttpClient\GenericHttpClient;
 use Mtarld\ApiPlatformMsBundle\HttpClient\MicroserviceHttpClientInterface;
 use Mtarld\ApiPlatformMsBundle\Microservice\Microservice;
 use Mtarld\ApiPlatformMsBundle\Microservice\MicroservicePool;
-use Mtarld\ApiPlatformMsBundle\Tests\BcLayer\BcLayerKernelTestCase;
+use Mtarld\ApiPlatformMsBundle\Tests\BcLayerKernelTestCase;
 use Mtarld\ApiPlatformMsBundle\Tests\Fixtures\App\src\Authentication\BasicAuthenticationHeaderProvider;
 use Mtarld\ApiPlatformMsBundle\Tests\Fixtures\App\src\Authentication\BearerAuthenticationHeaderProvider;
 use Symfony\Component\Serializer\SerializerInterface;

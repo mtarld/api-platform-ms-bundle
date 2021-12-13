@@ -3,7 +3,7 @@
 namespace Mtarld\ApiPlatformMsBundle\Tests\Validator;
 
 use Mtarld\ApiPlatformMsBundle\ApiResource\ExistenceChecker;
-use Mtarld\ApiPlatformMsBundle\Tests\BcLayer\BcLayerKernelTestCase;
+use Mtarld\ApiPlatformMsBundle\Tests\BcLayerKernelTestCase;
 use Mtarld\ApiPlatformMsBundle\Validator\ApiResourceExist;
 use Psr\Log\LoggerInterface;
 use RuntimeException;
