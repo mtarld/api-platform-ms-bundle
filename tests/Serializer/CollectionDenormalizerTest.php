@@ -5,7 +5,7 @@ namespace Mtarld\ApiPlatformMsBundle\Tests\Serializer;
 use ApiPlatform\Core\DataProvider\ArrayPaginator;
 use Mtarld\ApiPlatformMsBundle\Collection\Collection;
 use Mtarld\ApiPlatformMsBundle\Collection\Pagination;
-use Mtarld\ApiPlatformMsBundle\Tests\BcLayer\BcLayerKernelTestCase;
+use Mtarld\ApiPlatformMsBundle\Tests\BcLayerKernelTestCase;
 use Mtarld\ApiPlatformMsBundle\Tests\Fixtures\App\src\Dto\PuppyDto;
 use Mtarld\ApiPlatformMsBundle\Tests\Fixtures\App\src\Dto\PuppyResourceDto;
 use Mtarld\ApiPlatformMsBundle\Tests\Fixtures\App\src\Entity\Puppy;

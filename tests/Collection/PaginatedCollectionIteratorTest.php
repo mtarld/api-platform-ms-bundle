@@ -7,7 +7,7 @@ use Mtarld\ApiPlatformMsBundle\Collection\PaginatedCollectionIterator;
 use Mtarld\ApiPlatformMsBundle\Collection\Pagination;
 use Mtarld\ApiPlatformMsBundle\Exception\CollectionNotIterableException;
 use Mtarld\ApiPlatformMsBundle\Microservice\MicroservicePool;
-use Mtarld\ApiPlatformMsBundle\Tests\BcLayer\BcLayerKernelTestCase;
+use Mtarld\ApiPlatformMsBundle\Tests\BcLayerKernelTestCase;
 use Mtarld\ApiPlatformMsBundle\Tests\Fixtures\App\src\Dto\PuppyResourceDto;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 use Symfony\Contracts\HttpClient\ResponseInterface;

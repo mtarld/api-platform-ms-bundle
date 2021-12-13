@@ -3,7 +3,7 @@
 namespace Mtarld\ApiPlatformMsBundle\Tests\ApiResource;
 
 use Mtarld\ApiPlatformMsBundle\Exception\MicroserviceNotConfiguredException;
-use Mtarld\ApiPlatformMsBundle\Tests\BcLayer\BcLayerKernelTestCase;
+use Mtarld\ApiPlatformMsBundle\Tests\BcLayerKernelTestCase;
 use Symfony\Component\HttpClient\MockHttpClient;
 use Symfony\Component\HttpClient\Response\MockResponse;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
