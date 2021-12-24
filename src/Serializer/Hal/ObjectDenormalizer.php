@@ -22,6 +22,8 @@ class ObjectDenormalizer implements DenormalizerInterface, DenormalizerAwareInte
      * @param mixed  $data
      * @param string $type
      * @param string $format
+     *
+     * @return mixed
      */
     public function denormalize($data, $type, $format = null, array $context = [])
     {

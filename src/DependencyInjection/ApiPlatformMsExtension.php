@@ -3,6 +3,7 @@
 namespace Mtarld\ApiPlatformMsBundle\DependencyInjection;
 
 use Mtarld\ApiPlatformMsBundle\HttpClient\AuthenticationHeaderProviderInterface;
+use Symfony\Component\Config\Definition\ConfigurationInterface;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Extension\Extension;
@@ -75,6 +76,8 @@ class ApiPlatformMsExtension extends Extension
 
     /**
      * {@inheritdoc}
+     *
+     * @return ConfigurationInterface|null
      */
     public function getConfiguration(array $config, ContainerBuilder $container)
     {
