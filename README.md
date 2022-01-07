@@ -1,5 +1,5 @@
 # API Platform Microservice Bundle
- 
+
 ![Packagist](https://img.shields.io/packagist/v/mtarld/api-platform-ms-bundle.svg)
 ![GitHub](https://img.shields.io/github/license/mtarld/api-platform-ms-bundle.svg)
 [![Actions Status](https://github.com/mtarld/symbok-bundle/workflows/CI/badge.svg)](https://github.com/mtarld/api-platform-ms-bundle/actions)
