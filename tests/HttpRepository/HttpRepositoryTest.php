@@ -415,7 +415,7 @@ class HttpRepositoryTest extends BcLayerKernelTestCase
     public function testPartialUpdateResource(): void
     {
         /** @var SerializerInterface $serializer */
-        $serializer = static::$container->get(SerializerInterface::class);
+        $serializer = static::getContainer()->get(SerializerInterface::class);
 
         $response = $this->createMock(ResponseInterface::class);
         $response
@@ -442,10 +442,10 @@ class HttpRepositoryTest extends BcLayerKernelTestCase
             ->willReturn($response)
         ;
 
-        static::$container->set('test.http_client', $httpClient);
+        static::getContainer()->set('test.http_client', $httpClient);
 
         /** @var PuppyHttpRepository $httpRepository */
-        $httpRepository = static::$container->get(PuppyHttpRepository::class);
+        $httpRepository = static::getContainer()->get(PuppyHttpRepository::class);
 
         $updatedPuppyDto = $httpRepository->partialUpdate(new PuppyResourceDto('/puppies/1', 'foo'), ['user' => 'me']);
         self::assertEquals(new PuppyResourceDto('/puppies/1', 'foo'), $updatedPuppyDto);
@@ -456,7 +456,7 @@ class HttpRepositoryTest extends BcLayerKernelTestCase
         $this->expectException(ResourceValidationException::class);
 
         /** @var SerializerInterface $serializer */
-        $serializer = static::$container->get(SerializerInterface::class);
+        $serializer = static::getContainer()->get(SerializerInterface::class);
 
         $httpClient = new MockHttpClient([
             new MockResponse(
@@ -467,10 +467,10 @@ class HttpRepositoryTest extends BcLayerKernelTestCase
             ),
         ]);
 
-        static::$container->set('test.http_client', $httpClient);
+        static::getContainer()->set('test.http_client', $httpClient);
 
         /** @var PuppyHttpRepository $httpRepository */
-        $httpRepository = static::$container->get(PuppyHttpRepository::class);
+        $httpRepository = static::getContainer()->get(PuppyHttpRepository::class);
         $httpRepository->partialUpdate(new PuppyResourceDto('/puppies/1', 'foo'));
     }
 
@@ -480,7 +480,7 @@ class HttpRepositoryTest extends BcLayerKernelTestCase
         $this->expectExceptionMessage('Cannot partially update a resource without iri');
 
         /** @var PuppyHttpRepository $httpRepository */
-        $httpRepository = static::$container->get(PuppyHttpRepository::class);
+        $httpRepository = static::getContainer()->get(PuppyHttpRepository::class);
         $httpRepository->partialUpdate(new PuppyResourceDto(null, 'foo'));
     }
 
