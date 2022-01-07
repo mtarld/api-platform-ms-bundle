@@ -31,11 +31,12 @@ abstract class AbstractApiResourceDenormalizer implements DenormalizerInterface,
     /**
      * @param mixed  $data
      * @param string $type
-     * @param string $format
+     * @param null   $format
      *
      * @return mixed
+     *
+     * @throws \Symfony\Component\Serializer\Exception\ExceptionInterface
      */
-    #public function denormalize($data, string $type, string $format = null, array $context = [])
     public function denormalize($data, $type, $format = null, array $context = [])
     {
         $iri = $this->getIri($data);
@@ -47,8 +48,8 @@ abstract class AbstractApiResourceDenormalizer implements DenormalizerInterface,
     }
 
     /**
-     * @param mixed  $data
-     * @param string $type
+     * @param mixed       $data
+     * @param string      $type
      * @param string|null $format
      */
     public function supportsDenormalization($data, $type, $format = null): bool
