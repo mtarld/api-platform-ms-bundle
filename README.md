@@ -87,10 +87,13 @@ And you're ready to go ! :rocket:
   Clients that adapt HTTP calls according to the targeted microservice configuration.
 
 - [**Authentication header providers**](src/Resources/doc/tools/authentication-header-provider.md):
-Providers that dynamically inject authentication headers in requests.
+  Providers that dynamically inject authentication headers in requests.
 
-- [**ConstraintViolation list denormalizer**](src/Resources/doc/tools/constraint-violation-list.md)
+- [**ConstraintViolation list denormalizer**](src/Resources/doc/tools/constraint-violation-list.md):
   Allows you to create a `ConstraintViolationList` instance from a serialized string.
+
+- [**Extension points**](src/Resources/doc/tools/extension-points.md):
+  Events that you can listen to extend the bundle behavior.
 
 ## Supported microservice formats
 Currently, API Platform supported formats are:
