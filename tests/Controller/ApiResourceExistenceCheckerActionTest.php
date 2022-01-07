@@ -5,7 +5,7 @@ namespace Mtarld\ApiPlatformMsBundle\Tests\Controller;
 use ApiPlatform\Core\Api\IriConverterInterface;
 use ApiPlatform\Core\Bridge\Symfony\Validator\Exception\ValidationException;
 use Exception;
-use Mtarld\ApiPlatformMsBundle\Tests\BcLayerWebTestCase;
+use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 
 /**
@@ -13,7 +13,7 @@ use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
  *
  * @author Mathias Arlaud <mathias.arlaud@gmail.com>
  */
-class ApiResourceExistenceCheckerActionTest extends BcLayerWebTestCase
+class ApiResourceExistenceCheckerActionTest extends WebTestCase
 {
     public function testExistenceCheckWithUnsupportedContentType(): void
     {

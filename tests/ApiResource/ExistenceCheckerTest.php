@@ -3,7 +3,7 @@
 namespace Mtarld\ApiPlatformMsBundle\Tests\ApiResource;
 
 use Mtarld\ApiPlatformMsBundle\Exception\MicroserviceNotConfiguredException;
-use Mtarld\ApiPlatformMsBundle\Tests\BcLayerKernelTestCase;
+use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\HttpClient\MockHttpClient;
 use Symfony\Component\HttpClient\Response\MockResponse;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
@@ -16,7 +16,7 @@ use Throwable;
  *
  * @author Mathias Arlaud <mathias.arlaud@gmail.com>
  */
-class ExistenceCheckerTest extends BcLayerKernelTestCase
+class ExistenceCheckerTest extends KernelTestCase
 {
     protected function setUp(): void
     {

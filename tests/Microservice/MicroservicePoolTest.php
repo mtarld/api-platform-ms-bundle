@@ -6,7 +6,7 @@ use Mtarld\ApiPlatformMsBundle\Exception\MicroserviceConfigurationException;
 use Mtarld\ApiPlatformMsBundle\Exception\MicroserviceNotConfiguredException;
 use Mtarld\ApiPlatformMsBundle\Microservice\Microservice;
 use Mtarld\ApiPlatformMsBundle\Microservice\MicroservicePool;
-use Mtarld\ApiPlatformMsBundle\Tests\BcLayerKernelTestCase;
+use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 /**
@@ -14,7 +14,7 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
  *
  * @author Mathias Arlaud <mathias.arlaud@gmail.com>
  */
-class MicroservicePoolTest extends BcLayerKernelTestCase
+class MicroservicePoolTest extends KernelTestCase
 {
     public function setUp(): void
     {

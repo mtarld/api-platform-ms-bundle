@@ -3,10 +3,10 @@
 namespace Mtarld\ApiPlatformMsBundle\Tests\Validator;
 
 use Mtarld\ApiPlatformMsBundle\ApiResource\ExistenceChecker;
-use Mtarld\ApiPlatformMsBundle\Tests\BcLayerKernelTestCase;
 use Mtarld\ApiPlatformMsBundle\Validator\ApiResourceExist;
 use Psr\Log\LoggerInterface;
 use RuntimeException;
+use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\HttpClient\MockHttpClient;
 use Symfony\Component\HttpClient\Response\MockResponse;
 use Symfony\Component\Validator\Exception\InvalidOptionsException;
@@ -19,7 +19,7 @@ use TypeError;
  *
  * @author Mathias Arlaud <mathias.arlaud@gmail.com>
  */
-class ApiResourceExistValidatorTest extends BcLayerKernelTestCase
+class ApiResourceExistValidatorTest extends KernelTestCase
 {
     protected function setUp(): void
     {
