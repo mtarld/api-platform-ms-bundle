@@ -3,6 +3,7 @@
 namespace Mtarld\ApiPlatformMsBundle\Serializer;
 
 use Mtarld\ApiPlatformMsBundle\Dto\ApiResourceDtoInterface;
+use Symfony\Component\Serializer\Exception\ExceptionInterface;
 use Symfony\Component\Serializer\Normalizer\DenormalizerAwareInterface;
 use Symfony\Component\Serializer\Normalizer\DenormalizerAwareTrait;
 use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
@@ -29,11 +30,13 @@ abstract class AbstractApiResourceDenormalizer implements DenormalizerInterface,
     abstract protected function prepareEmbeddedData(array $data): array;
 
     /**
-     * @param mixed  $data
-     * @param string $type
-     * @param string $format
+     * @param mixed       $data
+     * @param string      $type
+     * @param string|null $format
      *
      * @return mixed
+     *
+     * @throws ExceptionInterface
      */
     public function denormalize($data, $type, $format = null, array $context = [])
     {
@@ -46,9 +49,9 @@ abstract class AbstractApiResourceDenormalizer implements DenormalizerInterface,
     }
 
     /**
-     * @param mixed  $data
-     * @param string $type
-     * @param string $format
+     * @param mixed       $data
+     * @param string      $type
+     * @param string|null $format
      */
     public function supportsDenormalization($data, $type, $format = null): bool
     {
