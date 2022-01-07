@@ -31,7 +31,7 @@ abstract class AbstractApiResourceDenormalizer implements DenormalizerInterface,
     /**
      * @param mixed  $data
      * @param string $type
-     * @param null   $format
+     * @param string|null   $format
      *
      * @return mixed
      *
