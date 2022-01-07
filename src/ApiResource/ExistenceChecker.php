@@ -24,18 +24,11 @@ class ExistenceChecker implements ReplaceableHttpClientInterface
 {
     use ReplaceableHttpClientTrait;
 
-    private $httpClient;
-    private $serializer;
-    private $microservices;
-
     public function __construct(
-        GenericHttpClient $httpClient,
-        SerializerInterface $serializer,
-        MicroservicePool $microservices
+        private GenericHttpClient   $httpClient,
+        private SerializerInterface $serializer,
+        private MicroservicePool $microservices
     ) {
-        $this->httpClient = $httpClient;
-        $this->serializer = $serializer;
-        $this->microservices = $microservices;
     }
 
     /**

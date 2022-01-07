@@ -20,23 +20,20 @@ class_exists(MicroserviceNotConfiguredException::class);
  */
 class MicroservicePool implements IteratorAggregate
 {
-    private $validator;
-
     /**
      * @var array<string, array<string, string>>
      */
-    private $configs;
+    private array $configs;
 
     /**
      * @var array<string, Microservice>
      */
-    private $microservices = [];
+    private array $microservices = [];
 
     public function __construct(
-        ValidatorInterface $validator,
-        array $microserviceConfigs = []
+        private ValidatorInterface $validator,
+        array                      $microserviceConfigs = []
     ) {
-        $this->validator = $validator;
         $this->configs = $microserviceConfigs;
     }
 

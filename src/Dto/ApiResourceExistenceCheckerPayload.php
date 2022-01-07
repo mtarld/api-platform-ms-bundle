@@ -20,7 +20,7 @@ class ApiResourceExistenceCheckerPayload
      *     @Assert\NotBlank(allowNull=false)
      * })
      */
-    public $iris;
+    public array $iris;
 
     public function __construct(array $iris)
     {

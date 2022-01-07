@@ -9,7 +9,7 @@ use Mtarld\ApiPlatformMsBundle\HttpClient\AuthenticationHeaderProviderInterface;
  */
 class BearerAuthenticationHeaderProvider implements AuthenticationHeaderProviderInterface
 {
-    private $enabled = false;
+    private bool $enabled = false;
 
     public function getHeader(): string
     {

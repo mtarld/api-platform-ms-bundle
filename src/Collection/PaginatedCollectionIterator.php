@@ -9,7 +9,11 @@ use Mtarld\ApiPlatformMsBundle\HttpClient\ReplaceableHttpClientInterface;
 use Mtarld\ApiPlatformMsBundle\HttpClient\ReplaceableHttpClientTrait;
 use Mtarld\ApiPlatformMsBundle\Microservice\Microservice;
 use Symfony\Component\Serializer\SerializerInterface;
+use Symfony\Contracts\HttpClient\Exception\ClientExceptionInterface;
 use Symfony\Contracts\HttpClient\Exception\ExceptionInterface;
+use Symfony\Contracts\HttpClient\Exception\RedirectionExceptionInterface;
+use Symfony\Contracts\HttpClient\Exception\ServerExceptionInterface;
+use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
 
 // Help opcache.preload discover always-needed symbols
 class_exists(Collection::class);
@@ -25,13 +29,8 @@ class PaginatedCollectionIterator implements ReplaceableHttpClientInterface
 {
     use ReplaceableHttpClientTrait;
 
-    private $httpClient;
-    private $serializer;
-
-    public function __construct(GenericHttpClient $httpClient, SerializerInterface $serializer)
+    public function __construct(private GenericHttpClient $httpClient, private SerializerInterface $serializer)
     {
-        $this->httpClient = $httpClient;
-        $this->serializer = $serializer;
     }
 
     /**
@@ -80,6 +79,10 @@ class PaginatedCollectionIterator implements ReplaceableHttpClientInterface
      * @return Collection<T>
      *
      * @throws ExceptionInterface
+     * @throws ClientExceptionInterface
+     * @throws RedirectionExceptionInterface
+     * @throws ServerExceptionInterface
+     * @throws TransportExceptionInterface
      */
     private function getNextCollectionPart(Collection $collection, string $nextPage): Collection
     {

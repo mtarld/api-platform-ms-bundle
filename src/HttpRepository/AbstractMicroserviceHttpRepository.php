@@ -40,19 +40,11 @@ abstract class AbstractMicroserviceHttpRepository implements ReplaceableHttpClie
 {
     use ReplaceableHttpClientTrait;
 
-    protected $serializer;
-    protected $httpClient;
-
-    private $microservices;
-
     public function __construct(
-        GenericHttpClient $httpClient,
-        SerializerInterface $serializer,
-        MicroservicePool $microservices
+        protected GenericHttpClient   $httpClient,
+        protected SerializerInterface $serializer,
+        private MicroservicePool $microservices
     ) {
-        $this->httpClient = $httpClient;
-        $this->serializer = $serializer;
-        $this->microservices = $microservices;
     }
 
     abstract protected function getMicroserviceName(): string;
@@ -254,11 +246,9 @@ abstract class AbstractMicroserviceHttpRepository implements ReplaceableHttpClie
     }
 
     /**
-     * @param mixed $body
-     *
      * @throws ExceptionInterface
      */
-    protected function request(string $method, string $uri, $body = null, ?string $mimeType = null, ?string $bodyFormat = null): ResponseInterface
+    protected function request(string $method, string $uri, mixed $body = null, ?string $mimeType = null, ?string $bodyFormat = null): ResponseInterface
     {
         return $this->httpClient->request($this->getMicroservice(), $method, $uri, $body, $mimeType, $bodyFormat);
     }

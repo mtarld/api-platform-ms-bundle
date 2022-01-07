@@ -76,10 +76,8 @@ class ApiPlatformMsExtension extends Extension
 
     /**
      * {@inheritdoc}
-     *
-     * @return ConfigurationInterface|null
      */
-    public function getConfiguration(array $config, ContainerBuilder $container)
+    public function getConfiguration(array $config, ContainerBuilder $container): ?ConfigurationInterface
     {
         /** @var bool $debug */
         $debug = $container->getParameter('kernel.debug');

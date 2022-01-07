@@ -13,14 +13,8 @@ use Symfony\Contracts\HttpClient\HttpClientInterface;
  */
 class Configuration implements ConfigurationInterface
 {
-    private $debug;
-
-    /**
-     * @param bool $debug Whether debugging is enabled or not
-     */
-    public function __construct(bool $debug)
+    public function __construct(private bool $debug)
     {
-        $this->debug = $debug;
     }
 
     /**

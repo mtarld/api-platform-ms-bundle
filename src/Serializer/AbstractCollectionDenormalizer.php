@@ -36,13 +36,9 @@ abstract class AbstractCollectionDenormalizer implements DenormalizerInterface, 
     abstract protected function getPagination(array $data): ?Pagination;
 
     /**
-     * @param mixed  $data
-     * @param string $type
-     * @param string $format
-     *
      * @return \Mtarld\ApiPlatformMsBundle\Collection\Collection<object>
      */
-    public function denormalize($data, $type, $format = null, array $context = []): Collection
+    public function denormalize(mixed $data, string $type, string $format = null, array $context = []): Collection
     {
         if ($this->isRawCollection($data)) {
             return new Collection($elements = $this->denormalizeRawElements($data, $this->getEnclosedType($type), $context), count($elements));
@@ -55,12 +51,7 @@ abstract class AbstractCollectionDenormalizer implements DenormalizerInterface, 
         );
     }
 
-    /**
-     * @param mixed  $data
-     * @param string $type
-     * @param string $format
-     */
-    public function supportsDenormalization($data, $type, $format = null): bool
+    public function supportsDenormalization(mixed $data, string $type, string $format = null): bool
     {
         if ($this->getFormat() !== $format) {
             return false;

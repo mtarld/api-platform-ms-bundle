@@ -32,33 +32,24 @@ class GenericHttpClient implements ReplaceableHttpClientInterface
         'jsonhal' => 'application/merge-patch+json',
     ];
 
-    private $serializer;
-    private $httpClient;
-    private $dispatcher;
-
     /**
      * @var iterable<AuthenticationHeaderProviderInterface>
      */
-    private $authenticationHeaderProviders;
+    private iterable $authenticationHeaderProviders;
 
     public function __construct(
-        SerializerInterface $serializer,
-        HttpClientInterface $httpClient,
-        iterable $authenticationHeaderProviders = [],
-        ?EventDispatcherInterface $dispatcher = null
+        private SerializerInterface $serializer,
+        private HttpClientInterface $httpClient,
+        iterable                    $authenticationHeaderProviders = [],
+        private ?EventDispatcherInterface $dispatcher = null
     ) {
-        $this->serializer = $serializer;
-        $this->httpClient = $httpClient;
         $this->authenticationHeaderProviders = $authenticationHeaderProviders;
-        $this->dispatcher = $dispatcher;
     }
 
     /**
-     * @param mixed $body
-     *
      * @throws ExceptionInterface
      */
-    public function request(Microservice $microservice, string $method, string $uri, $body = null, ?string $mimeType = null, ?string $bodyFormat = null): ResponseInterface
+    public function request(Microservice $microservice, string $method, string $uri, mixed $body = null, ?string $mimeType = null, ?string $bodyFormat = null): ResponseInterface
     {
         $defaultMimeType = 'PATCH' === $method ? self::PATCH_MIME_TYPES[$microservice->getFormat()] : self::MIME_TYPES[$microservice->getFormat()];
         $mimeType = $mimeType ?? $defaultMimeType;

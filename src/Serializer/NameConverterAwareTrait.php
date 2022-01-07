@@ -14,7 +14,7 @@ trait NameConverterAwareTrait
     /**
      * @var NameConverterInterface|null
      */
-    protected $nameConverter;
+    protected ?NameConverterInterface $nameConverter;
 
     public function setNameConverter(?NameConverterInterface $nameConverter): void
     {

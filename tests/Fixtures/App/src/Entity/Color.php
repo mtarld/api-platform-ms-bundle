@@ -14,19 +14,15 @@ use Symfony\Component\Serializer\Annotation\Groups;
 class Color
 {
     /**
-     * @var int
-     *
      * @ApiProperty(identifier=true)
      * @Groups({"read"})
      */
-    public $id;
+    public int $id;
 
     /**
-     * @var string
-     *
      * @Groups({"read"})
      */
-    public $hex;
+    public string $hex;
 
     public function __construct(int $id, string $hex)
     {

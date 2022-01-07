@@ -12,20 +12,8 @@ class HairResourceDto implements ApiResourceDtoInterface
 {
     use ApiResourceDtoTrait;
 
-    /**
-     * @var int
-     */
-    public $length;
-
-    /**
-     * @var ColorResourceDto
-     */
-    public $color;
-
-    public function __construct(string $iri, int $length, ColorResourceDto $color)
+    public function __construct(string $iri, public int $length, public ColorResourceDto $color)
     {
         $this->iri = $iri;
-        $this->length = $length;
-        $this->color = $color;
     }
 }

@@ -30,15 +30,9 @@ abstract class AbstractApiResourceDenormalizer implements DenormalizerInterface,
     abstract protected function prepareEmbeddedData(array $data): array;
 
     /**
-     * @param mixed       $data
-     * @param string      $type
-     * @param string|null $format
-     *
-     * @return mixed
-     *
      * @throws ExceptionInterface
      */
-    public function denormalize($data, $type, $format = null, array $context = [])
+    public function denormalize(mixed $data, string $type, $format = null, array $context = []): mixed
     {
         $iri = $this->getIri($data);
         $data = $this->prepareEmbeddedData($data);
@@ -48,12 +42,7 @@ abstract class AbstractApiResourceDenormalizer implements DenormalizerInterface,
         return $this->denormalizer->denormalize($data, $type, $this->getFormat(), $context);
     }
 
-    /**
-     * @param mixed       $data
-     * @param string      $type
-     * @param string|null $format
-     */
-    public function supportsDenormalization($data, $type, $format = null): bool
+    public function supportsDenormalization(mixed $data, string $type, $format = null): bool
     {
         return
             !isset($data['iri'])

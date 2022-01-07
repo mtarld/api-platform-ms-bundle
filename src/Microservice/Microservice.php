@@ -14,26 +14,23 @@ class Microservice
     /**
      * @Assert\NotBlank
      */
-    private $name;
+    private string $name;
 
     /**
      * @Assert\Url
      */
-    private $baseUri;
-
-    private $apiPath;
+    private string $baseUri;
 
     /**
      * @Assert\NotBlank
      * @Mtarld\ApiPlatformMsBundle\Validator\FormatEnabled
      */
-    private $format;
+    private string $format;
 
-    public function __construct(string $name, string $baseUri, string $apiPath, string $format)
+    public function __construct(string $name, string $baseUri, private string $apiPath, string $format)
     {
         $this->name = $name;
         $this->baseUri = $baseUri;
-        $this->apiPath = $apiPath;
         $this->format = $format;
     }
 

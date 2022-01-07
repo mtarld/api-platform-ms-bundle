@@ -19,16 +19,11 @@ class_exists(RouteCollection::class);
  */
 class RouteLoader implements RouteLoaderInterface
 {
-    private $name;
-    private $hosts;
-
     /**
      * @param list<string> $hosts
      */
-    public function __construct(string $name, array $hosts = [])
+    public function __construct(private string $name, private array $hosts = [])
     {
-        $this->name = $name;
-        $this->hosts = $hosts;
     }
 
     public function __invoke(): RouteCollection

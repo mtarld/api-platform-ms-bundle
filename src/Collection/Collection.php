@@ -20,26 +20,17 @@ class_exists(Pagination::class);
  */
 class Collection implements IteratorAggregate, Countable
 {
-    private $elements;
-    private $count;
-    private $pagination;
-
-    /**
-     * @var Microservice|null
-     */
-    private $microservice;
+    private ?Microservice $microservice;
 
     /**
      * @param list<T> $elements
      */
     public function __construct(
-        array $elements,
-        int $count,
-        ?Pagination $pagination = null
+        private array $elements,
+        private int   $count,
+        private ?Pagination $pagination = null
     ) {
-        $this->elements = $elements;
-        $this->count = $count;
-        $this->pagination = $pagination;
+        $this->microservice = null;
     }
 
     public function getPagination(): ?Pagination

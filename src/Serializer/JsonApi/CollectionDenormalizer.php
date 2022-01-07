@@ -4,6 +4,7 @@ namespace Mtarld\ApiPlatformMsBundle\Serializer\JsonApi;
 
 use Mtarld\ApiPlatformMsBundle\Collection\Pagination;
 use Mtarld\ApiPlatformMsBundle\Serializer\AbstractCollectionDenormalizer;
+use Symfony\Component\Serializer\Exception\ExceptionInterface;
 
 // Help opcache.preload discover always-needed symbols
 class_exists(Pagination::class);
@@ -19,6 +20,7 @@ class CollectionDenormalizer extends AbstractCollectionDenormalizer
 
     /**
      * @return array<object>
+     * @throws ExceptionInterface
      */
     protected function denormalizeElements(array $data, string $enclosedType, array $context): array
     {

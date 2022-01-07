@@ -23,14 +23,7 @@ class ObjectDenormalizer implements ContextAwareDenormalizerInterface, Denormali
 
     private const ALREADY_CALLED = 'jsonapi_object_denormalizer_already_called';
 
-    /**
-     * @param mixed  $data
-     * @param string $type
-     * @param string $format
-     *
-     * @return mixed
-     */
-    public function denormalize($data, $type, $format = null, array $context = [])
+    public function denormalize(mixed $data, string $type, string $format = null, array $context = []): mixed
     {
         $context[self::ALREADY_CALLED] = true;
 
@@ -47,12 +40,7 @@ class ObjectDenormalizer implements ContextAwareDenormalizerInterface, Denormali
         return $this->denormalizer->denormalize($data, $type, $format, $context);
     }
 
-    /**
-     * @param mixed  $data
-     * @param string $type
-     * @param string $format
-     */
-    public function supportsDenormalization($data, $type, $format = null, array $context = []): bool
+    public function supportsDenormalization(mixed $data, string $type, string $format = null, array $context = []): bool
     {
         return false === ($context[self::ALREADY_CALLED] ?? false) && $this->getFormat() === $format;
     }

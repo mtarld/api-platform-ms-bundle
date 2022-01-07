@@ -10,7 +10,7 @@ use Mtarld\ApiPlatformMsBundle\Microservice\Microservice;
  */
 class BasicAuthenticationHeaderProvider implements AuthenticationHeaderProviderInterface
 {
-    private $enabled = false;
+    private bool $enabled = false;
 
     public function getHeader(): string
     {
@@ -27,7 +27,7 @@ class BasicAuthenticationHeaderProvider implements AuthenticationHeaderProviderI
         /** @var Microservice $ms */
         $ms = $context['microservice'];
 
-        return $this->enabled && '/api/puppies' === $context['uri'] && 'GET' === $context['method'] && 'bar' == $ms->getName();
+        return $this->enabled && '/api/puppies' === $context['uri'] && 'GET' === $context['method'] && 'bar' === $ms->getName();
     }
 
     public function setEnabled(bool $enabled): void

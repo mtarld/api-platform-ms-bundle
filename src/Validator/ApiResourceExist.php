@@ -18,36 +18,21 @@ use TypeError;
 #[Attribute(Attribute::TARGET_PROPERTY | Attribute::TARGET_METHOD | Attribute::IS_REPEATABLE)]
 class ApiResourceExist extends Constraint
 {
-    /**
-     * @var string
-     *
-     * Violation message
-     */
-    public $message = "'{{ iri }}' does not exist in microservice '{{ microservice }}'.";
+    public string $message = "'{{ iri }}' does not exist in microservice '{{ microservice }}'.";
 
     /**
-     * @var string
-     *
-     * Microservice name
-     */
-    public $microservice;
-
-    /**
-     * @var bool
-     *
      * Skip validation on http errors
      */
-    public $skipOnError = false;
+    public bool $skipOnError = false;
 
     /**
      * @param string|array<mixed> $microservice The target microservice or a set of options
      * @param array<string>       $groups
-     * @param mixed               $payload
      * @param array<mixed>        $options
      *
      * @psalm-suppress DocblockTypeContradiction
      */
-    public function __construct($microservice = null, ?bool $skipOnError = null, ?string $message = null, ?array $groups = null, $payload = null, array $options = [])
+    public function __construct(public null|string|array $microservice = null, ?bool $skipOnError = null, ?string $message = null, ?array $groups = null, mixed $payload = null, array $options = [])
     {
         is_array($microservice) ? $options = array_merge($microservice, $options) : $options['value'] = $microservice;
 

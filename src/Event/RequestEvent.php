@@ -12,17 +12,11 @@ use Mtarld\ApiPlatformMsBundle\Microservice\Microservice;
  */
 class RequestEvent
 {
-    private $microservice;
-    private $method;
-    private $uri;
-    private $options;
-
-    public function __construct(Microservice $microservice, string $method, string $uri, array $options)
+    public function __construct(private Microservice $microservice,
+                                private string       $method,
+                                private string       $uri,
+                                private array        $options)
     {
-        $this->microservice = $microservice;
-        $this->method = $method;
-        $this->uri = $uri;
-        $this->options = $options;
     }
 
     public function getMicroservice(): Microservice

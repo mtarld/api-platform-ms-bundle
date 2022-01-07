@@ -135,8 +135,6 @@ class ApiResourceExistValidatorTest extends KernelTestCase
     {
         yield 'Doctrine annotations' => [new ApiResourceExist(['microservice' => 'foo'])];
 
-        if (\PHP_VERSION_ID >= 80000) {
-            yield 'named parameters' => [eval('return new Mtarld\ApiPlatformMsBundle\Validator\ApiResourceExist(microservice: "foo");')];
-        }
+        yield 'named parameters' => [eval('return new Mtarld\ApiPlatformMsBundle\Validator\ApiResourceExist(microservice: "foo");')];
     }
 }
