@@ -7,9 +7,9 @@ use Mtarld\ApiPlatformMsBundle\HttpClient\GenericHttpClient;
 use Mtarld\ApiPlatformMsBundle\HttpClient\MicroserviceHttpClientInterface;
 use Mtarld\ApiPlatformMsBundle\Microservice\Microservice;
 use Mtarld\ApiPlatformMsBundle\Microservice\MicroservicePool;
+use Mtarld\ApiPlatformMsBundle\Tests\BcLayerKernelTestCase;
 use Mtarld\ApiPlatformMsBundle\Tests\Fixtures\App\src\Authentication\BasicAuthenticationHeaderProvider;
 use Mtarld\ApiPlatformMsBundle\Tests\Fixtures\App\src\Authentication\BearerAuthenticationHeaderProvider;
-use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
@@ -21,7 +21,7 @@ use Symfony\Contracts\HttpClient\ResponseInterface;
  *
  * @author Mathias Arlaud <mathias.arlaud@gmail.com>
  */
-class HttpClientTest extends KernelTestCase
+class HttpClientTest extends BcLayerKernelTestCase
 {
     public function setUp(): void
     {
@@ -59,13 +59,13 @@ class HttpClientTest extends KernelTestCase
             ->willReturn($this->createMock(ResponseInterface::class))
         ;
 
-        static::$container->set('test.http_client', $httpClient);
+        static::getContainer()->set('test.http_client', $httpClient);
 
         /** @var GenericHttpClient $genericHttpClient */
-        $genericHttpClient = static::$container->get(GenericHttpClient::class);
+        $genericHttpClient = static::getContainer()->get(GenericHttpClient::class);
 
         /** @var Microservice $microservice */
-        $microservice = static::$container->get(MicroservicePool::class)->get('bar');
+        $microservice = static::getContainer()->get(MicroservicePool::class)->get('bar');
 
         $genericHttpClient->request($microservice, 'GET', '/puppies');
         $genericHttpClient->request($microservice, 'POST', '/puppies', ['foo' => 'bar'], 'application/json', 'json');
@@ -102,10 +102,10 @@ class HttpClientTest extends KernelTestCase
             ->willReturn($this->createMock(ResponseInterface::class))
         ;
 
-        static::$container->set('test.http_client', $httpClient);
+        static::getContainer()->set('test.http_client', $httpClient);
 
         /** @var MicroserviceHttpClientInterface $microserviceHttpClient */
-        $microserviceHttpClient = static::$container->get('api_platform_ms.http_client.microservice.bar');
+        $microserviceHttpClient = static::getContainer()->get('api_platform_ms.http_client.microservice.bar');
 
         $microserviceHttpClient->request('GET', '/puppies');
         $microserviceHttpClient->request('POST', '/puppies', ['foo' => 'bar'], 'application/json', 'json');
@@ -127,10 +127,10 @@ class HttpClientTest extends KernelTestCase
             ->willReturn($this->createMock(ResponseInterface::class))
         ;
 
-        static::$container->set('test.http_client', $firstHttpClient);
+        static::getContainer()->set('test.http_client', $firstHttpClient);
 
         /** @var MicroserviceHttpClientInterface $microserviceHttpClient */
-        $microserviceHttpClient = static::$container->get('api_platform_ms.http_client.microservice.bar');
+        $microserviceHttpClient = static::getContainer()->get('api_platform_ms.http_client.microservice.bar');
 
         $microserviceHttpClient->request('GET', '/puppies');
 
@@ -157,12 +157,12 @@ class HttpClientTest extends KernelTestCase
             )
             ->willReturn($this->createMock(ResponseInterface::class))
         ;
-        static::$container->set('test.http_client', $httpClient);
+        static::getContainer()->set('test.http_client', $httpClient);
 
-        static::$container->get(BasicAuthenticationHeaderProvider::class)->setEnabled(true);
-        static::$container->get(BearerAuthenticationHeaderProvider::class)->setEnabled(true);
+        static::getContainer()->get(BasicAuthenticationHeaderProvider::class)->setEnabled(true);
+        static::getContainer()->get(BearerAuthenticationHeaderProvider::class)->setEnabled(true);
 
-        static::$container->get(GenericHttpClient::class)->request(static::$container->get(MicroservicePool::class)->get($microservice), $method, $uri);
+        static::getContainer()->get(GenericHttpClient::class)->request(static::getContainer()->get(MicroservicePool::class)->get($microservice), $method, $uri);
     }
 
     /**

@@ -2,13 +2,13 @@
 
 namespace Mtarld\ApiPlatformMsBundle\Tests\Serializer;
 
+use Mtarld\ApiPlatformMsBundle\Tests\BcLayerKernelTestCase;
 use Mtarld\ApiPlatformMsBundle\Tests\Fixtures\App\src\Dto\ColorResourceDto;
 use Mtarld\ApiPlatformMsBundle\Tests\Fixtures\App\src\Dto\HairResourceDto;
 use Mtarld\ApiPlatformMsBundle\Tests\Fixtures\App\src\Dto\PuppyResourceDto;
 use Mtarld\ApiPlatformMsBundle\Tests\Fixtures\App\src\Entity\Color;
 use Mtarld\ApiPlatformMsBundle\Tests\Fixtures\App\src\Entity\Hair;
 use Mtarld\ApiPlatformMsBundle\Tests\Fixtures\App\src\Entity\Puppy;
-use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\Serializer\SerializerInterface;
 
 /**
@@ -17,7 +17,7 @@ use Symfony\Component\Serializer\SerializerInterface;
  *
  * @author Mathias Arlaud <mathias.arlaud@gmail.com>
  */
-class ApiResourceDenormalizerTest extends KernelTestCase
+class ApiResourceDenormalizerTest extends BcLayerKernelTestCase
 {
     public function setUp(): void
     {
@@ -33,7 +33,7 @@ class ApiResourceDenormalizerTest extends KernelTestCase
         $entity = new Puppy(1, 'foo');
 
         /** @var SerializerInterface $serializer */
-        $serializer = static::$container->get(SerializerInterface::class);
+        $serializer = static::getContainer()->get(SerializerInterface::class);
         $serializedEntity = $serializer->serialize($entity, $format);
 
         /** @var Puppy $deserializedEntity */
@@ -54,7 +54,7 @@ class ApiResourceDenormalizerTest extends KernelTestCase
         $entity = new Puppy(1, 'foo', $nestedEntity, $nestedEntityCollection);
 
         /** @var SerializerInterface $serializer */
-        $serializer = static::$container->get(SerializerInterface::class);
+        $serializer = static::getContainer()->get(SerializerInterface::class);
         $serializedEntity = $serializer->serialize($entity, $format, ['api_included' => ['color', 'hairs']]);
 
         /** @var Puppy $deserializedEntity */

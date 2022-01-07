@@ -2,8 +2,8 @@
 
 namespace Mtarld\ApiPlatformMsBundle\Tests\Serializer;
 
+use Mtarld\ApiPlatformMsBundle\Tests\BcLayerKernelTestCase;
 use Mtarld\ApiPlatformMsBundle\Tests\Fixtures\App\src\Entity\Puppy;
-use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\Validator\ConstraintViolation;
 use Symfony\Component\Validator\ConstraintViolationList;
@@ -14,7 +14,7 @@ use Symfony\Component\Validator\ConstraintViolationList;
  *
  * @author Mathias Arlaud <mathias.arlaud@gmail.com>
  */
-class ConstraintViolationListDenormalizerTest extends KernelTestCase
+class ConstraintViolationListDenormalizerTest extends BcLayerKernelTestCase
 {
     public function setUp(): void
     {
@@ -35,7 +35,7 @@ class ConstraintViolationListDenormalizerTest extends KernelTestCase
         ]);
 
         /** @var SerializerInterface $serializer */
-        $serializer = static::$container->get(SerializerInterface::class);
+        $serializer = static::getContainer()->get(SerializerInterface::class);
         $serializedViolations = $serializer->serialize($violations, $format);
 
         self::assertEquals(
