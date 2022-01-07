@@ -12,6 +12,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 * Added Symfony 6 support
 
 ## [0.4.0] - 2022-01-07
+* Removed deprecated `PaginatedCollectionIterator::iterateOver`
+* Removed deprecated `findOneByIri`, `findOneBy`, `findBy`, `findAll` methods in `AbstractMicroserviceHttpRepository`
 * Added dispatching of a `RequestEvent` once a request is sent
 * Added `partialUpdate` method in `AbstractMicroserviceHttpRepository`
 * Added `log_request` option to log each request, by default request are logged if debugging is enabled.

@@ -63,22 +63,6 @@ class PaginatedCollectionIterator implements ReplaceableHttpClientInterface
     }
 
     /**
-     * @deprecated since version 0.3.0, will be removed in 1.0. Use {@see \Mtarld\ApiPlatformMsBundle\Collection\PaginatedCollectionIterator::iterateItems()} instead.
-     *
-     * @param Collection<T> $collection
-     *
-     * @return Iterator<T>
-     *
-     * @throws ExceptionInterface
-     */
-    public function iterateOver(Collection $collection): Iterator
-    {
-        foreach ($this->iteratePages($collection) as $page) {
-            yield from $page;
-        }
-    }
-
-    /**
      * @param Collection<T> $collection
      *
      * @return Iterator<T>
@@ -87,7 +71,9 @@ class PaginatedCollectionIterator implements ReplaceableHttpClientInterface
      */
     public function iterateItems(Collection $collection): Iterator
     {
-        return $this->iterateOver($collection);
+        foreach ($this->iteratePages($collection) as $page) {
+            yield from $page;
+        }
     }
 
     /**
