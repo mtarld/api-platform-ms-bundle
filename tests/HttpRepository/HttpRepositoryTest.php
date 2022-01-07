@@ -3,11 +3,11 @@
 namespace Mtarld\ApiPlatformMsBundle\Tests\HttpRepository;
 
 use Mtarld\ApiPlatformMsBundle\Exception\ResourceValidationException;
-use Mtarld\ApiPlatformMsBundle\Tests\BcLayerKernelTestCase;
 use Mtarld\ApiPlatformMsBundle\Tests\Fixtures\App\src\Dto\PuppyResourceDto;
 use Mtarld\ApiPlatformMsBundle\Tests\Fixtures\App\src\Entity\Puppy;
 use Mtarld\ApiPlatformMsBundle\Tests\Fixtures\App\src\HttpRepository\PuppyHttpRepository;
 use RuntimeException;
+use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\HttpClient\Exception\ClientException;
 use Symfony\Component\HttpClient\Exception\RedirectionException;
 use Symfony\Component\HttpClient\Exception\ServerException;
@@ -25,7 +25,7 @@ use Symfony\Contracts\HttpClient\ResponseInterface;
  *
  * @author Mathias Arlaud <mathias.arlaud@gmail.com>
  */
-class HttpRepositoryTest extends BcLayerKernelTestCase
+class HttpRepositoryTest extends KernelTestCase
 {
     public function setUp(): void
     {
