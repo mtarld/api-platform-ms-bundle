@@ -30,9 +30,9 @@ abstract class AbstractApiResourceDenormalizer implements DenormalizerInterface,
     abstract protected function prepareEmbeddedData(array $data): array;
 
     /**
-     * @param mixed  $data
-     * @param string $type
-     * @param string|null   $format
+     * @param mixed       $data
+     * @param string      $type
+     * @param string|null $format
      *
      * @return mixed
      *
