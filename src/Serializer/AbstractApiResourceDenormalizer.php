@@ -3,6 +3,7 @@
 namespace Mtarld\ApiPlatformMsBundle\Serializer;
 
 use Mtarld\ApiPlatformMsBundle\Dto\ApiResourceDtoInterface;
+use Symfony\Component\Serializer\Exception\ExceptionInterface;
 use Symfony\Component\Serializer\Normalizer\DenormalizerAwareInterface;
 use Symfony\Component\Serializer\Normalizer\DenormalizerAwareTrait;
 use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
@@ -35,7 +36,7 @@ abstract class AbstractApiResourceDenormalizer implements DenormalizerInterface,
      *
      * @return mixed
      *
-     * @throws \Symfony\Component\Serializer\Exception\ExceptionInterface
+     * @throws ExceptionInterface
      */
     public function denormalize($data, $type, $format = null, array $context = [])
     {
