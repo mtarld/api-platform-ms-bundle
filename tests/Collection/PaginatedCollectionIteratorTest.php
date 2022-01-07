@@ -148,7 +148,7 @@ class PaginatedCollectionIteratorTest extends BcLayerKernelTestCase
         $iterator = static::getContainer()->get(PaginatedCollectionIterator::class);
 
         $index = 0;
-        foreach ($iterator->iterateOver($collection) as $element) {
+        foreach ($iterator->iterateItems($collection) as $element) {
             self::assertEquals($expectedElements[$index++], $element);
 
             if (3 === $index) {
@@ -168,7 +168,7 @@ class PaginatedCollectionIteratorTest extends BcLayerKernelTestCase
         $iterator = static::getContainer()->get(PaginatedCollectionIterator::class);
 
         $this->expectException(CollectionNotIterableException::class);
-        iterator_to_array($iterator->iterateOver($collection));
+        iterator_to_array($iterator->iterateItems($collection));
     }
 
     private function mockHttpClient(): void
