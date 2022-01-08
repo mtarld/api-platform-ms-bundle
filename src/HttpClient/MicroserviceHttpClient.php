@@ -16,7 +16,7 @@ class MicroserviceHttpClient implements MicroserviceHttpClientInterface
 
     public function __construct(
         private GenericHttpClient $httpClient,
-        private MicroservicePool  $microservices,
+        private MicroservicePool $microservices,
         private string $microserviceName
     ) {
     }

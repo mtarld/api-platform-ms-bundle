@@ -26,11 +26,11 @@ class_exists(JsonResponse::class);
 class ApiResourceExistenceCheckerAction
 {
     public function __construct(
-        private SerializerInterface   $serializer,
+        private SerializerInterface $serializer,
         private IriConverterInterface $iriConverter,
         private ValidatorInterface $validator
-    )
-    {}
+    ) {
+    }
 
     public function __invoke(Request $request): JsonResponse
     {

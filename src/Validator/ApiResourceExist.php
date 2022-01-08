@@ -21,7 +21,7 @@ class ApiResourceExist extends Constraint
     public string $message = "'{{ iri }}' does not exist in microservice '{{ microservice }}'.";
 
     /**
-     * Skip validation on http errors
+     * Skip validation on http errors.
      */
     public bool $skipOnError = false;
 

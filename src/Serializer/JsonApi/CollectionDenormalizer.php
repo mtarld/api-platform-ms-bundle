@@ -20,6 +20,7 @@ class CollectionDenormalizer extends AbstractCollectionDenormalizer
 
     /**
      * @return array<object>
+     *
      * @throws ExceptionInterface
      */
     protected function denormalizeElements(array $data, string $enclosedType, array $context): array

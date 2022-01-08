@@ -32,7 +32,7 @@ class MicroservicePool implements IteratorAggregate
 
     public function __construct(
         private ValidatorInterface $validator,
-        array                      $microserviceConfigs = []
+        array $microserviceConfigs = []
     ) {
         $this->configs = $microserviceConfigs;
     }

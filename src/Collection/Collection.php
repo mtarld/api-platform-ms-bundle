@@ -27,7 +27,7 @@ class Collection implements IteratorAggregate, Countable
      */
     public function __construct(
         private array $elements,
-        private int   $count,
+        private int $count,
         private ?Pagination $pagination = null
     ) {
         $this->microservice = null;

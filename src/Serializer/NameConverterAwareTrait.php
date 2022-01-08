@@ -11,9 +11,6 @@ use Symfony\Component\Serializer\NameConverter\NameConverterInterface;
  */
 trait NameConverterAwareTrait
 {
-    /**
-     * @var NameConverterInterface|null
-     */
     protected ?NameConverterInterface $nameConverter;
 
     public function setNameConverter(?NameConverterInterface $nameConverter): void
