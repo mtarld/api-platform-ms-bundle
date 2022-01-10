@@ -18,7 +18,7 @@
     }
   ],
   "require": {
-    "php": "^8.0",
+    "php": ">=8.0",
     "api-platform/core": "^2.6.4",
     "symfony/http-client": "^5.4|^6.0",
     "symfony/property-access": "^5.4|^6.0",
