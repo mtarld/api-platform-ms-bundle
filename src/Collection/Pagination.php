@@ -10,7 +10,8 @@ namespace Mtarld\ApiPlatformMsBundle\Collection;
  */
 class Pagination
 {
-    public function __construct(private string $current,
+    public function __construct(
+        private string $current,
                                 private string $first,
                                 private string $last,
                                 private ?string $previous,
