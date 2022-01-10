@@ -20,7 +20,7 @@ class_exists(Pagination::class);
  */
 class Collection implements IteratorAggregate, Countable
 {
-    private ?Microservice $microservice;
+    private ?Microservice $microservice = null;
 
     /**
      * @param list<T> $elements
