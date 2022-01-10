@@ -32,7 +32,7 @@ class ApiResourceExist extends Constraint
      *
      * @psalm-suppress DocblockTypeContradiction
      */
-    public function __construct(public null|string|array $microservice = null, ?bool $skipOnError = null, ?string $message = null, ?array $groups = null, mixed $payload = null, array $options = [])
+    public function __construct(public array|string|null $microservice = null, ?bool $skipOnError = null, ?string $message = null, ?array $groups = null, mixed $payload = null, array $options = [])
     {
         is_array($microservice) ? $options = array_merge($microservice, $options) : $options['value'] = $microservice;
 
