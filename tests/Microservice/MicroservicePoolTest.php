@@ -53,7 +53,7 @@ class MicroservicePoolTest extends KernelTestCase
     public function testMicroserviceConfigurationFormatValidation(): void
     {
         /** @var ValidatorInterface $validatorInterface */
-        $validatorInterface = static::getContainer()->get(ValidatorInterface::class);
+        $validator = static::getContainer()->get(ValidatorInterface::class);
 
         $pool = new MicroservicePool($validatorInterface, [
             'microservice' => [
