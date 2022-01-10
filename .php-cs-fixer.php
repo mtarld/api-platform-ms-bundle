@@ -15,6 +15,7 @@ return $config
         'ordered_imports' => ['sort_algorithm' => 'alpha'],
     ])
     ->setRiskyAllowed(true)
+    ->setLineEnding("\n")
     ->setFinder($finder)
     ->setCacheFile(__DIR__.'/.php-cs-fixer.cache')
 ;
