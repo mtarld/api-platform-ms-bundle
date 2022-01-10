@@ -134,7 +134,6 @@ class ApiResourceExistValidatorTest extends KernelTestCase
     public function php8AndDoctrineConstraintsDataProvider(): iterable
     {
         yield 'Doctrine annotations' => [new ApiResourceExist(['microservice' => 'foo'])];
-
         yield 'named parameters' => [eval('return new Mtarld\ApiPlatformMsBundle\Validator\ApiResourceExist(microservice: "foo");')];
     }
 }
