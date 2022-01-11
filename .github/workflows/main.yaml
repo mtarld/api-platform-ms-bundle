@@ -113,7 +113,7 @@ jobs:
 
     phpunit-lowest:
         runs-on: ubuntu-latest
-        name: PHP 7.2 (lowest) tests
+        name: PHP 8.0 (lowest) tests
         steps:
             - name: Checkout
               uses: actions/checkout@v2
