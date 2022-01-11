@@ -7,7 +7,8 @@ namespace Mtarld\ApiPlatformMsBundle\Tests\Fixtures\App\src\Dto;
  */
 class PuppyDto
 {
-    public function __construct(public int $id, public string $superName)
+    public function __construct(public int $id,
+                                public string $superName)
     {
     }
 }

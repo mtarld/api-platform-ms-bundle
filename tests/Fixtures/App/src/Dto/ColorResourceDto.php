@@ -12,8 +12,8 @@ class ColorResourceDto implements ApiResourceDtoInterface
 {
     use ApiResourceDtoTrait;
 
-    public function __construct(string $iri, public string $hex)
+    public function __construct(protected string $iri,
+                                public string $hex)
     {
-        $this->iri = $iri;
     }
 }

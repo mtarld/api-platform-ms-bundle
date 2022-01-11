@@ -7,40 +7,23 @@ use ApiPlatform\Core\Annotation\ApiResource;
 use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
- * @ApiResource(normalizationContext={"groups"={"read"}})
- *
  * @author Mathias Arlaud <mathias.arlaud@gmail.com>
  */
+#[ApiResource(normalizationContext: ['groups' => ['read']])]
 class Puppy
 {
-    /**
-     * @ApiProperty(identifier=true)
-     * @Groups({"read"})
-     */
-    public int $id;
+    public function __construct(
+        #[ApiProperty(identifier: true)]
+        #[Groups('read')]
+        public int $id,
 
-    /**
-     * @Groups({"read"})
-     */
-    public string $superName;
+        #[Groups('read')]
+        public string $superName,
 
-    /**
-     * @Groups({"read"})
-     */
-    public ?Color $color;
+        #[Groups('read')]
+        public ?Color $color = null,
 
-    /**
-     * @var Hair[]|null
-     *
-     * @Groups({"read"})
-     */
-    public ?array $hairs;
-
-    public function __construct(int $id, string $superName, ?Color $color = null, ?array $hairs = [])
-    {
-        $this->id = $id;
-        $this->superName = $superName;
-        $this->color = $color;
-        $this->hairs = $hairs;
+        #[Groups('read')] public ?array $hairs = []
+    ) {
     }
 }

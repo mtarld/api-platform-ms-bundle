@@ -7,8 +7,6 @@ namespace Mtarld\ApiPlatformMsBundle\Dto;
  */
 trait ApiResourceDtoTrait
 {
-    protected ?string $iri;
-
     public function getIri(): ?string
     {
         return $this->iri;

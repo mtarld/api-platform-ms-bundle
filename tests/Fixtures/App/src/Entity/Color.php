@@ -7,26 +7,18 @@ use ApiPlatform\Core\Annotation\ApiResource;
 use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
- * @ApiResource(normalizationContext={"groups"={"read"}})
- *
  * @author Mathias Arlaud <mathias.arlaud@gmail.com>
  */
+#[ApiResource(normalizationContext: ['groups' => ['read']])]
 class Color
 {
-    /**
-     * @ApiProperty(identifier=true)
-     * @Groups({"read"})
-     */
-    public int $id;
+    public function __construct(
+        #[ApiProperty(identifier: true)]
+        #[Groups('read')]
+        public int $id,
 
-    /**
-     * @Groups({"read"})
-     */
-    public string $hex;
-
-    public function __construct(int $id, string $hex)
-    {
-        $this->id = $id;
-        $this->hex = $hex;
+        #[Groups('read')]
+        public string $hex
+    ) {
     }
 }
