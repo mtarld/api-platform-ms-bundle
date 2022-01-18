@@ -13,6 +13,9 @@ use Symfony\Component\Validator\ConstraintValidator;
  */
 class FormatEnabledValidator extends ConstraintValidator
 {
+    /**
+     * @param list<string> $enabledFormats
+     */
     public function __construct(private array $enabledFormats)
     {
     }
