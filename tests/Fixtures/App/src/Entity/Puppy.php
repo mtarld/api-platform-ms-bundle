@@ -12,6 +12,9 @@ use Symfony\Component\Serializer\Annotation\Groups;
 #[ApiResource(normalizationContext: ['groups' => ['read']])]
 class Puppy
 {
+    /**
+     * @param Hair[]|null $hairs
+     */
     public function __construct(
         #[ApiProperty(identifier: true)]
         #[Groups('read')]
