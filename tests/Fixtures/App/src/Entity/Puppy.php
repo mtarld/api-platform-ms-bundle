@@ -23,7 +23,8 @@ class Puppy
         #[Groups('read')]
         public ?Color $color = null,
 
-        #[Groups('read')] public ?array $hairs = []
+        #[Groups('read')]
+        public ?array $hairs = [],
     ) {
     }
 }
