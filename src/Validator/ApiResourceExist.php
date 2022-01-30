@@ -19,12 +19,12 @@ use TypeError;
 class ApiResourceExist extends Constraint
 {
     /**
-     * Violation message
+     * Violation message.
      */
     public string $message = "'{{ iri }}' does not exist in microservice '{{ microservice }}'.";
 
     /**
-     * Microservice name
+     * Microservice name.
      */
     public string $microservice;
 
