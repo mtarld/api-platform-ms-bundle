@@ -29,9 +29,7 @@ class Collection implements IteratorAggregate, Countable
         private array $elements,
         private int $count,
         private ?Pagination $pagination = null,
-    ) {
-        $this->microservice = null;
-    }
+    ) {}
 
     public function getPagination(): ?Pagination
     {
