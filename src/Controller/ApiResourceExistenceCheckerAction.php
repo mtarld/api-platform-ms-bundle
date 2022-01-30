@@ -28,7 +28,7 @@ class ApiResourceExistenceCheckerAction
     public function __construct(
         private SerializerInterface $serializer,
         private IriConverterInterface $iriConverter,
-        private ValidatorInterface $validator
+        private ValidatorInterface $validator,
     ) {
     }
 
