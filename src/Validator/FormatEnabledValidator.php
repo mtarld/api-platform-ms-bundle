@@ -16,7 +16,7 @@ class FormatEnabledValidator extends ConstraintValidator
     /**
      * @param list<string> $enabledFormats
      */
-    public function __construct(private array $enabledFormats)
+    public function __construct(private readonly array $enabledFormats)
     {
     }
 

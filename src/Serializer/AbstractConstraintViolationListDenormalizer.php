@@ -38,7 +38,7 @@ abstract class AbstractConstraintViolationListDenormalizer implements Denormaliz
         }, $data[$this->getViolationsKey()]));
     }
 
-    public function supportsDenormalization(mixed $data, string $type, string $format = null): bool
+    public function supportsDenormalization(mixed $data, string $type, string $format = null, array $context = []): bool
     {
         return ConstraintViolationList::class === $type && $this->getFormat() === $format;
     }

@@ -27,7 +27,7 @@ class ApiResourceExistValidator extends ConstraintValidator
 {
     use LoggerAwareTrait;
 
-    public function __construct(private ExistenceChecker $existenceChecker)
+    public function __construct(private readonly ExistenceChecker $existenceChecker)
     {
     }
 

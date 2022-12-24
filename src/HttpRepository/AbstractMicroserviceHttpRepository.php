@@ -43,7 +43,7 @@ abstract class AbstractMicroserviceHttpRepository implements ReplaceableHttpClie
     public function __construct(
         protected GenericHttpClient $httpClient,
         protected SerializerInterface $serializer,
-        private MicroservicePool $microservices
+        private readonly MicroservicePool $microservices
     ) {
     }
 

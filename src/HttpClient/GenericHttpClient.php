@@ -38,10 +38,10 @@ class GenericHttpClient implements ReplaceableHttpClientInterface
     private iterable $authenticationHeaderProviders;
 
     public function __construct(
-        private SerializerInterface $serializer,
-        private HttpClientInterface $httpClient,
-        iterable $authenticationHeaderProviders = [],
-        private ?EventDispatcherInterface $dispatcher = null
+        private readonly SerializerInterface $serializer,
+        private HttpClientInterface          $httpClient,
+        iterable                             $authenticationHeaderProviders = [],
+        private readonly ?EventDispatcherInterface $dispatcher = null
     ) {
         $this->authenticationHeaderProviders = $authenticationHeaderProviders;
     }

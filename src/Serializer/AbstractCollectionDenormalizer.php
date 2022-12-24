@@ -51,7 +51,7 @@ abstract class AbstractCollectionDenormalizer implements DenormalizerInterface, 
         );
     }
 
-    public function supportsDenormalization(mixed $data, string $type, string $format = null): bool
+    public function supportsDenormalization(mixed $data, string $type, string $format = null, array $context = []): bool
     {
         if ($this->getFormat() !== $format) {
             return false;

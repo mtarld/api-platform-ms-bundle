@@ -13,7 +13,7 @@ use Symfony\Contracts\HttpClient\HttpClientInterface;
  */
 class Configuration implements ConfigurationInterface
 {
-    public function __construct(private bool $debug)
+    public function __construct(private readonly bool $debug)
     {
     }
 

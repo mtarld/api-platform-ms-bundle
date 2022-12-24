@@ -26,15 +26,14 @@ class_exists(JsonResponse::class);
 class ApiResourceExistenceCheckerAction
 {
     public function __construct(
-        private SerializerInterface $serializer,
-        private IriConverterInterface $iriConverter,
-        private ValidatorInterface $validator,
+        private readonly SerializerInterface   $serializer,
+        private readonly IriConverterInterface $iriConverter,
+        private readonly ValidatorInterface    $validator,
     ) {
     }
 
     public function __invoke(Request $request): JsonResponse
     {
-        #if (null === $contentType = $request->getContentType()) {
         if (null === $contentType = $request->getContentTypeFormat()) {
             throw new BadRequestHttpException('Content type is not supported');
         }

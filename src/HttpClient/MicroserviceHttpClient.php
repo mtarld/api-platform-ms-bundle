@@ -15,9 +15,9 @@ class MicroserviceHttpClient implements MicroserviceHttpClientInterface
     use ReplaceableHttpClientTrait;
 
     public function __construct(
-        private GenericHttpClient $httpClient,
-        private MicroservicePool $microservices,
-        private string $microserviceName
+        private readonly GenericHttpClient $httpClient,
+        private readonly MicroservicePool  $microservices,
+        private readonly string $microserviceName
     ) {
     }
 

@@ -10,7 +10,7 @@ use Symfony\Component\Validator\Exception\RuntimeException;
  */
 class ResourceValidationException extends RuntimeException
 {
-    public function __construct(private mixed $value, private ConstraintViolationList $violations)
+    public function __construct(private readonly mixed $value, private readonly ConstraintViolationList $violations)
     {
         parent::__construct((string) $violations);
     }

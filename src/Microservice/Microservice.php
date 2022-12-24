@@ -2,6 +2,7 @@
 
 namespace Mtarld\ApiPlatformMsBundle\Microservice;
 
+use Mtarld\ApiPlatformMsBundle\Validator\FormatEnabled;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -12,12 +13,12 @@ use Symfony\Component\Validator\Constraints as Assert;
 class Microservice
 {
 
-    public function __construct(#[Assert\NotBlank] private string                     $name,
-                                #[Assert\Url] private string                          $baseUri,
-                                private string                                        $apiPath,
+    public function __construct(#[Assert\NotBlank] private readonly string $name,
+                                #[Assert\Url] private readonly string      $baseUri,
+                                private readonly string                    $apiPath,
                                 #[Assert\NotBlank]
-                                ##[Mtarld\ApiPlatformMsBundle\Validator\FormatEnabled]
-                                private string $format)
+                                #[FormatEnabled]
+                                private readonly string                    $format)
     {
     }
 

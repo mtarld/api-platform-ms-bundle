@@ -23,7 +23,7 @@ class ObjectDenormalizer implements DenormalizerInterface, DenormalizerAwareInte
         return $this->denormalizer->denormalize($data, $type, 'json', $context);
     }
 
-    public function supportsDenormalization(mixed $data, string $type, string $format = null): bool
+    public function supportsDenormalization(mixed $data, string $type, string $format = null, array $context = []): bool
     {
         return $this->getFormat() === $format;
     }
