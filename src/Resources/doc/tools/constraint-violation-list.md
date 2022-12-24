@@ -13,7 +13,7 @@ instance from a serialized string.
 
 ## Example
 ```php
-use ApiPlatform\Core\Bridge\Symfony\Validator\Exception\ValidationException;
+use ApiPlatform\Validator\Exception\ValidationException;
 use App\Dto\ProductDto;
 use Mtarld\ApiPlatformMsBundle\HttpClient\GenericHttpClient;
 use Mtarld\ApiPlatformMsBundle\Microservice\MicroservicePool;

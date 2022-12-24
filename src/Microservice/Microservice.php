@@ -11,27 +11,14 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class Microservice
 {
-    /**
-     * @Assert\NotBlank
-     */
-    private string $name;
 
-    /**
-     * @Assert\Url
-     */
-    private string $baseUri;
-
-    /**
-     * @Assert\NotBlank
-     * @Mtarld\ApiPlatformMsBundle\Validator\FormatEnabled
-     */
-    private string $format;
-
-    public function __construct(string $name, string $baseUri, private string $apiPath, string $format)
+    public function __construct(#[Assert\NotBlank] private string                     $name,
+                                #[Assert\Url] private string                          $baseUri,
+                                private string                                        $apiPath,
+                                #[Assert\NotBlank]
+                                ##[Mtarld\ApiPlatformMsBundle\Validator\FormatEnabled]
+                                private string $format)
     {
-        $this->name = $name;
-        $this->baseUri = $baseUri;
-        $this->format = $format;
     }
 
     public function getName(): string

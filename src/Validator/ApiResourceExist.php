@@ -40,7 +40,7 @@ class ApiResourceExist extends Constraint
      *
      * @psalm-suppress DocblockTypeContradiction
      */
-    public function __construct($microservice = null,
+    public function __construct(string|array $microservice = null,
                                 ?bool $skipOnError = null,
                                 ?string $message = null,
                                 ?array $groups = null,

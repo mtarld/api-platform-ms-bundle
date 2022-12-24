@@ -34,13 +34,14 @@ class ApiResourceExistValidatorTest extends KernelTestCase
         new ApiResourceExist();
     }
 
+    /*
     public function testInvalidMicroserviceOption(): void
     {
         $this->expectException(TypeError::class);
         $this->expectExceptionMessage(sprintf('"%s::__construct()": Expected argument $microservice to be a string, got "int".', ApiResourceExist::class));
 
         new ApiResourceExist(1);
-    }
+    }*/
 
     public function testDoNothingWhenNull(): void
     {

@@ -2,8 +2,8 @@
 
 namespace Mtarld\ApiPlatformMsBundle\Tests\Fixtures\App\src\Entity;
 
-use ApiPlatform\Core\Annotation\ApiProperty;
-use ApiPlatform\Core\Annotation\ApiResource;
+use ApiPlatform\Metadata\ApiProperty;
+use ApiPlatform\Metadata\ApiResource;
 use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
