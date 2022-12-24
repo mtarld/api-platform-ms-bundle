@@ -9,12 +9,12 @@ jobs:
         name: Coding Standards
         steps:
             - name: Checkout
-              uses: actions/checkout@v2
+              uses: actions/checkout@v3
 
             - name: Setup PHP
               uses: shivammathur/setup-php@v2
               with:
-                  php-version: '8.0'
+                  php-version: '8.2'
                   tools: php-cs-fixer, cs2pr
 
             - name: PHP Coding Standards Fixer
@@ -25,19 +25,19 @@ jobs:
         name: Psalm static analysis
         steps:
             -   name: Checkout
-                uses: actions/checkout@v2
+                uses: actions/checkout@v3
 
             - name: Setup PHP
               uses: shivammathur/setup-php@v2
               with:
-                  php-version: '8.0'
+                  php-version: '8.2'
 
             - name: Get composer cache directory
               id: composercache
-              run: echo "::set-output name=dir::$(composer config cache-files-dir)"
+              run: echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
 
             - name: Cache dependencies
-              uses: actions/cache@v2
+              uses: actions/cache@v3
               with:
                   path: ${{ steps.composercache.outputs.dir }}
                   key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.json') }}
@@ -54,19 +54,19 @@ jobs:
         name: PHPMD static analysis
         steps:
             -   name: Checkout
-                uses: actions/checkout@v2
+                uses: actions/checkout@v3
 
             - name: Setup PHP
               uses: shivammathur/setup-php@v2
               with:
-                  php-version: '8.0'
+                  php-version: '8.2'
 
             - name: Get composer cache directory
               id: composercache
-              run: echo "::set-output name=dir::$(composer config cache-files-dir)"
+              run: echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
 
             - name: Cache dependencies
-              uses: actions/cache@v2
+              uses: actions/cache@v3
               with:
                   path: ${{ steps.composercache.outputs.dir }}
                   key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.json') }}
@@ -82,12 +82,12 @@ jobs:
         runs-on: ubuntu-latest
         strategy:
             matrix:
-                php-versions: ['8.1']
+                php-versions: ['8.1', '8.2']
             fail-fast: false
         name: PHP ${{ matrix.php-versions }} tests
         steps:
             - name: Checkout
-              uses: actions/checkout@v2
+              uses: actions/checkout@v3
 
             - name: Setup PHP
               uses: shivammathur/setup-php@v2
@@ -96,10 +96,10 @@ jobs:
 
             - name: Get composer cache directory
               id: composercache
-              run: echo "::set-output name=dir::$(composer config cache-files-dir)"
+              run: echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
 
             - name: Cache dependencies
-              uses: actions/cache@v2
+              uses: actions/cache@v3
               with:
                   path: ${{ steps.composercache.outputs.dir }}
                   key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.json') }}
@@ -116,7 +116,7 @@ jobs:
         name: PHP 8.0 (lowest) tests
         steps:
             - name: Checkout
-              uses: actions/checkout@v2
+              uses: actions/checkout@v3
 
             - name: Setup PHP
               uses: shivammathur/setup-php@v2
@@ -125,10 +125,10 @@ jobs:
 
             - name: Get composer cache directory
               id: composercache
-              run: echo "::set-output name=dir::$(composer config cache-files-dir)"
+              run: echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
 
             - name: Cache dependencies
-              uses: actions/cache@v2
+              uses: actions/cache@v3
               with:
                   path: ${{ steps.composercache.outputs.dir }}
                   key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.json') }}
