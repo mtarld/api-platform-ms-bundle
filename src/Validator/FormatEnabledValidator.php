@@ -7,17 +7,15 @@ use Symfony\Component\Validator\ConstraintValidator;
 
 /**
  * @final @internal
+ *
  * @psalm-suppress PropertyNotSetInConstructor
  *
  * @author Mathias Arlaud <mathias.arlaud@gmail.com>
  */
 class FormatEnabledValidator extends ConstraintValidator
 {
-    private $enabledFormats;
-
-    public function __construct(array $enabledFormats)
+    public function __construct(private readonly array $enabledFormats)
     {
-        $this->enabledFormats = $enabledFormats;
     }
 
     /**

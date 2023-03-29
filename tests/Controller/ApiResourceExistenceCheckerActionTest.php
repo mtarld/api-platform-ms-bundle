@@ -27,6 +27,7 @@ class ApiResourceExistenceCheckerActionTest extends WebTestCase
 
     /**
      * @dataProvider existenceCheckBadRequestWithWrongBodyDataProvider
+     *
      * @testdox Bad request with content: $content
      */
     public function testExistenceCheckBadRequestWithWrongContent(?string $content, string $exceptionFqcn): void
@@ -54,6 +55,7 @@ class ApiResourceExistenceCheckerActionTest extends WebTestCase
 
     /**
      * @dataProvider successfulExistenceCheckDataProvider
+     *
      * @testdox Response body is $result when payload is $payload and resources existence is $exist
      */
     public function testSuccessfulExistenceCheck(bool $exist, string $payload, string $result): void

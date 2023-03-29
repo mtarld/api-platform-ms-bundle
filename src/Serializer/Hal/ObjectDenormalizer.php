@@ -9,6 +9,7 @@ use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
 
 /**
  * @final @internal
+ *
  * @SuppressWarnings(PHPMD.UnusedFormalParameter)
  *
  * @author Mathias Arlaud <mathias.arlaud@gmail.com>

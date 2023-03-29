@@ -2,7 +2,6 @@
 
 namespace Mtarld\ApiPlatformMsBundle\Collection;
 
-use Iterator;
 use Mtarld\ApiPlatformMsBundle\Exception\CollectionNotIterableException;
 use Mtarld\ApiPlatformMsBundle\HttpClient\GenericHttpClient;
 use Mtarld\ApiPlatformMsBundle\HttpClient\ReplaceableHttpClientInterface;
@@ -17,6 +16,7 @@ class_exists(CollectionNotIterableException::class);
 
 /**
  * @final
+ *
  * @template T of object
  *
  * @author Mathias Arlaud <mathias.arlaud@gmail.com>
@@ -26,22 +26,20 @@ class PaginatedCollectionIterator implements ReplaceableHttpClientInterface
     use ReplaceableHttpClientTrait;
 
     private $httpClient;
-    private $serializer;
 
-    public function __construct(GenericHttpClient $httpClient, SerializerInterface $serializer)
+    public function __construct(GenericHttpClient $httpClient, private readonly SerializerInterface $serializer)
     {
         $this->httpClient = $httpClient;
-        $this->serializer = $serializer;
     }
 
     /**
      * @param Collection<T> $collection
      *
-     * @return Iterator<Iterator<T>>
+     * @return \Iterator<\Iterator<T>>
      *
      * @throws ExceptionInterface
      */
-    public function iteratePages(Collection $collection): Iterator
+    public function iteratePages(Collection $collection): \Iterator
     {
         if (null === $collection->getMicroservice()) {
             throw new CollectionNotIterableException("Collection isn't iterable because it doesn't hold microservice metadata");
@@ -65,11 +63,11 @@ class PaginatedCollectionIterator implements ReplaceableHttpClientInterface
     /**
      * @param Collection<T> $collection
      *
-     * @return Iterator<T>
+     * @return \Iterator<T>
      *
      * @throws ExceptionInterface
      */
-    public function iterateItems(Collection $collection): Iterator
+    public function iterateItems(Collection $collection): \Iterator
     {
         foreach ($this->iteratePages($collection) as $page) {
             yield from $page;
@@ -89,7 +87,7 @@ class PaginatedCollectionIterator implements ReplaceableHttpClientInterface
         /** @var Collection<T> $nextPart */
         $nextPart = $this->serializer->deserialize(
             $this->httpClient->request($microservice, 'GET', $nextPage)->getContent(),
-            sprintf('%s<%s>', Collection::class, get_class($collection->getIterator()->current())),
+            sprintf('%s<%s>', Collection::class, $collection->getIterator()->current()::class),
             $microservice->getFormat()
         );
 

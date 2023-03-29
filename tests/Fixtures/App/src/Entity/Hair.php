@@ -17,22 +17,20 @@ class Hair
      * @var int
      *
      * @ApiProperty(identifier=true)
-     * @Groups({"read"})
      */
+    #[Groups(['read'])]
     public $id;
 
     /**
      * @var int
-     *
-     * @Groups({"read"})
      */
+    #[Groups(['read'])]
     public $length;
 
     /**
      * @var Color
-     *
-     * @Groups({"read"})
      */
+    #[Groups(['read'])]
     public $color;
 
     public function __construct(int $id, int $length, Color $color)

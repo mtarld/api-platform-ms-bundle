@@ -8,9 +8,11 @@ use TypeError;
 
 /**
  * @Annotation
+ *
  * @Target({"PROPERTY", "METHOD", "ANNOTATION"})
  *
  * @final
+ *
  * @psalm-suppress PropertyNotSetInConstructor
  *
  * @author Mathias Arlaud <mathias.arlaud@gmail.com>

@@ -2,11 +2,9 @@
 
 namespace Mtarld\ApiPlatformMsBundle\Microservice;
 
-use IteratorAggregate;
 use Mtarld\ApiPlatformMsBundle\Exception\MicroserviceConfigurationException;
 use Mtarld\ApiPlatformMsBundle\Exception\MicroserviceNotConfiguredException;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
-use Traversable;
 
 // Help opcache.preload discover always-needed symbols
 class_exists(Microservice::class);
@@ -18,26 +16,18 @@ class_exists(MicroserviceNotConfiguredException::class);
  *
  * @author Mathias Arlaud <mathias.arlaud@gmail.com>
  */
-class MicroservicePool implements IteratorAggregate
+class MicroservicePool implements \IteratorAggregate
 {
-    private $validator;
-
-    /**
-     * @var array<string, array<string, string>>
-     */
-    private $configs;
-
     /**
      * @var array<string, Microservice>
      */
-    private $microservices = [];
+    private array $microservices = [];
 
-    public function __construct(
-        ValidatorInterface $validator,
-        array $microserviceConfigs = []
-    ) {
-        $this->validator = $validator;
-        $this->configs = $microserviceConfigs;
+    /**
+     * @param array<string, array<string, string>> $configs
+     */
+    public function __construct(private readonly ValidatorInterface $validator, private readonly array $configs = [])
+    {
     }
 
     public function has(string $name): bool
@@ -54,7 +44,7 @@ class MicroservicePool implements IteratorAggregate
         return $this->microservices[$name];
     }
 
-    public function getIterator(): Traversable
+    public function getIterator(): \Traversable
     {
         foreach (array_keys($this->configs) as $name) {
             yield $this->get($name);

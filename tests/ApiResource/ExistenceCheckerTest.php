@@ -8,7 +8,6 @@ use Symfony\Component\HttpClient\MockHttpClient;
 use Symfony\Component\HttpClient\Response\MockResponse;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 use Symfony\Contracts\HttpClient\ResponseInterface;
-use Throwable;
 
 /**
  * @group resource-existence
@@ -77,7 +76,7 @@ class ExistenceCheckerTest extends KernelTestCase
             new MockResponse('', ['http_code' => 500]),
         ]);
 
-        $this->expectException(Throwable::class);
+        $this->expectException(\Throwable::class);
         static::getContainer()->set('test.http_client', $httpClient);
         static::getContainer()->get('api_platform_ms.api_resource.existence_checker')->getExistenceStatuses('bar', ['1', '2']);
     }
@@ -88,7 +87,7 @@ class ExistenceCheckerTest extends KernelTestCase
             new MockResponse('{"foo"}'),
         ]);
 
-        $this->expectException(Throwable::class);
+        $this->expectException(\Throwable::class);
         static::getContainer()->set('test.http_client', $httpClient);
         static::getContainer()->get('api_platform_ms.api_resource.existence_checker')->getExistenceStatuses('bar', ['1', '2']);
     }

@@ -12,6 +12,7 @@ class_exists(ConstraintViolationList::class);
 
 /**
  * @internal
+ *
  * @SuppressWarnings(PHPMD.UnusedFormalParameter)
  *
  * @author Mathias Arlaud <mathias.arlaud@gmail.com>
@@ -35,9 +36,7 @@ abstract class AbstractConstraintViolationListDenormalizer implements Denormaliz
      */
     public function denormalize($data, $type, $format = null, array $context = []): ConstraintViolationList
     {
-        return new ConstraintViolationList(array_map(function (array $violation): ConstraintViolation {
-            return $this->denormalizeViolation($violation);
-        }, $data[$this->getViolationsKey()]));
+        return new ConstraintViolationList(array_map(fn (array $violation): ConstraintViolation => $this->denormalizeViolation($violation), $data[$this->getViolationsKey()]));
     }
 
     /**

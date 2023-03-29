@@ -26,6 +26,7 @@ class CollectionDenormalizerTest extends KernelTestCase
 
     /**
      * @dataProvider formatsDataProvider
+     *
      * @testdox Can denormalize resource collection with $format format
      */
     public function testResourceCollectionDenormalization(string $format): void
@@ -50,6 +51,7 @@ class CollectionDenormalizerTest extends KernelTestCase
 
     /**
      * @dataProvider formatsDataProvider
+     *
      * @testdox Can denormalize paginated resource collection with $format format
      */
     public function testPaginatedResourceCollectionDenormalization(string $format): void
@@ -99,6 +101,7 @@ class CollectionDenormalizerTest extends KernelTestCase
 
     /**
      * @dataProvider formatsDataProvider
+     *
      * @testdox Can denormalize raw collection with $format format
      */
     public function testRawCollectionDenormalization(string $format): void

@@ -24,7 +24,7 @@ class ConstraintViolationListDenormalizer extends AbstractConstraintViolationLis
 
     protected function denormalizeViolation(array $data): ConstraintViolation
     {
-        $pointerParts = explode('/', $data['source']['pointer']);
+        $pointerParts = explode('/', (string) $data['source']['pointer']);
 
         return new ConstraintViolation(
             $data['detail'],

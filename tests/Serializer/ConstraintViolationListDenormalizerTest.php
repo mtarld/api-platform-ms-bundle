@@ -23,6 +23,7 @@ class ConstraintViolationListDenormalizerTest extends KernelTestCase
 
     /**
      * @dataProvider formatsDataProvider
+     *
      * @testdox Can denormalize with $format format
      */
     public function testDenormalization(string $format): void

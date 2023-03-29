@@ -14,6 +14,7 @@ class_exists(Collection::class);
 
 /**
  * @internal
+ *
  * @SuppressWarnings(PHPMD.UnusedFormalParameter)
  *
  * @author Mathias Arlaud <mathias.arlaud@gmail.com>

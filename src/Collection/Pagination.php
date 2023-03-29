@@ -4,25 +4,15 @@ namespace Mtarld\ApiPlatformMsBundle\Collection;
 
 /**
  * @final
+ *
  * @psalm-immutable
  *
  * @author Mathias Arlaud <mathias.arlaud@gmail.com>
  */
 class Pagination
 {
-    private $current;
-    private $first;
-    private $last;
-    private $previous;
-    private $next;
-
-    public function __construct(string $current, string $first, string $last, ?string $previous, ?string $next)
+    public function __construct(private readonly string $current, private readonly string $first, private readonly string $last, private readonly ?string $previous, private readonly ?string $next)
     {
-        $this->current = $current;
-        $this->first = $first;
-        $this->last = $last;
-        $this->previous = $previous;
-        $this->next = $next;
     }
 
     public function getCurrent(): string

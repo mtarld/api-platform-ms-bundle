@@ -17,29 +17,26 @@ class Puppy
      * @var int
      *
      * @ApiProperty(identifier=true)
-     * @Groups({"read"})
      */
+    #[Groups(['read'])]
     public $id;
 
     /**
      * @var string
-     *
-     * @Groups({"read"})
      */
+    #[Groups(['read'])]
     public $superName;
 
     /**
      * @var Color|null
-     *
-     * @Groups({"read"})
      */
+    #[Groups(['read'])]
     public $color;
 
     /**
      * @var Hair[]|null
-     *
-     * @Groups({"read"})
      */
+    #[Groups(['read'])]
     public $hairs;
 
     public function __construct(int $id, string $superName, ?Color $color = null, ?array $hairs = [])

@@ -25,6 +25,7 @@ class ApiResourceDenormalizer extends AbstractApiResourceDenormalizer
 
     /**
      * @param array{data: array<array-key, mixed>, included: array<array<array-key, mixed>>} $data
+     *
      * @psalm-suppress MoreSpecificImplementedParamType
      */
     protected function prepareEmbeddedData(array $data): array
@@ -44,7 +45,7 @@ class ApiResourceDenormalizer extends AbstractApiResourceDenormalizer
 
         foreach ($data['included'] as $embeddedElement) {
             $type = $embeddedElement['type'];
-            $indexedEmbeddedElements[$type] = $indexedEmbeddedElements[$type] ?? [];
+            $indexedEmbeddedElements[$type] ??= [];
             $indexedEmbeddedElements[$type][$embeddedElement['id']] = $embeddedElement;
         }
 
@@ -61,7 +62,7 @@ class ApiResourceDenormalizer extends AbstractApiResourceDenormalizer
             // Collection
             if (!isset($relationshipData['type'])) {
                 foreach ($relationshipData as $key => $relationshipItem) {
-                    $result[$relationshipName] = $result[$relationshipName] ?? [];
+                    $result[$relationshipName] ??= [];
 
                     if (null !== $includedElement = $indexedEmbeddedElements[$relationshipItem['type']][$relationshipItem['id']] ?? null) {
                         $result[$relationshipName][$key]['data'] = $includedElement;

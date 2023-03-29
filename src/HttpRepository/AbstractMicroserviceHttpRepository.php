@@ -43,16 +43,13 @@ abstract class AbstractMicroserviceHttpRepository implements ReplaceableHttpClie
     protected $serializer;
     protected $httpClient;
 
-    private $microservices;
-
     public function __construct(
         GenericHttpClient $httpClient,
         SerializerInterface $serializer,
-        MicroservicePool $microservices
+        private readonly MicroservicePool $microservices
     ) {
         $this->httpClient = $httpClient;
         $this->serializer = $serializer;
-        $this->microservices = $microservices;
     }
 
     abstract protected function getMicroserviceName(): string;
@@ -254,11 +251,9 @@ abstract class AbstractMicroserviceHttpRepository implements ReplaceableHttpClie
     }
 
     /**
-     * @param mixed $body
-     *
      * @throws ExceptionInterface
      */
-    protected function request(string $method, string $uri, $body = null, ?string $mimeType = null, ?string $bodyFormat = null): ResponseInterface
+    protected function request(string $method, string $uri, mixed $body = null, ?string $mimeType = null, ?string $bodyFormat = null): ResponseInterface
     {
         return $this->httpClient->request($this->getMicroservice(), $method, $uri, $body, $mimeType, $bodyFormat);
     }
@@ -272,7 +267,7 @@ abstract class AbstractMicroserviceHttpRepository implements ReplaceableHttpClie
     {
         try {
             return $this->serializer->deserialize($response->getContent(false), ConstraintViolationList::class, $this->getMicroservice()->getFormat());
-        } catch (SerializerExceptionInterface $e) {
+        } catch (SerializerExceptionInterface) {
             return null;
         }
     }

@@ -14,11 +14,12 @@ use Symfony\Contracts\HttpClient\Exception\ExceptionInterface as HttpClientExcep
 use Throwable;
 
 // Help opcache.preload discover always-needed symbols
-class_exists(LogicException::class);
-class_exists(RuntimeException::class);
+class_exists(\LogicException::class);
+class_exists(\RuntimeException::class);
 
 /**
  * @final
+ *
  * @psalm-suppress PropertyNotSetInConstructor
  *
  * @author Mathias Arlaud <mathias.arlaud@gmail.com>
@@ -27,11 +28,8 @@ class ApiResourceExistValidator extends ConstraintValidator
 {
     use LoggerAwareTrait;
 
-    private $existenceChecker;
-
-    public function __construct(ExistenceChecker $existenceChecker)
+    public function __construct(private readonly ExistenceChecker $existenceChecker)
     {
-        $this->existenceChecker = $existenceChecker;
     }
 
     /**

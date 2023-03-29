@@ -17,15 +17,14 @@ class Color
      * @var int
      *
      * @ApiProperty(identifier=true)
-     * @Groups({"read"})
      */
+    #[Groups(['read'])]
     public $id;
 
     /**
      * @var string
-     *
-     * @Groups({"read"})
      */
+    #[Groups(['read'])]
     public $hex;
 
     public function __construct(int $id, string $hex)
