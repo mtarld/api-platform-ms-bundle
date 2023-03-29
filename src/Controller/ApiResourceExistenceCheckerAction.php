@@ -10,7 +10,6 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\Serializer\SerializerInterface;
-use Throwable;
 
 // Help opcache.preload discover always-needed symbols
 class_exists(ApiResourceExistenceCheckerPayload::class);
@@ -43,7 +42,7 @@ class ApiResourceExistenceCheckerAction
         try {
             /** @var ApiResourceExistenceCheckerPayload $payload */
             $payload = $this->serializer->deserialize($content, ApiResourceExistenceCheckerPayload::class, $contentType);
-        } catch (Throwable $e) {
+        } catch (\Throwable $e) {
             throw new BadRequestHttpException($e->getMessage());
         }
 
@@ -61,7 +60,7 @@ class ApiResourceExistenceCheckerAction
     {
         try {
             $this->iriConverter->getItemFromIri($iri);
-        } catch (Throwable $exception) {
+        } catch (\Throwable $exception) {
             return false;
         }
 

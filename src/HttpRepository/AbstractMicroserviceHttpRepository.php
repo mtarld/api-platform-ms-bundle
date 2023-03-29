@@ -10,7 +10,6 @@ use Mtarld\ApiPlatformMsBundle\HttpClient\ReplaceableHttpClientInterface;
 use Mtarld\ApiPlatformMsBundle\HttpClient\ReplaceableHttpClientTrait;
 use Mtarld\ApiPlatformMsBundle\Microservice\Microservice;
 use Mtarld\ApiPlatformMsBundle\Microservice\MicroservicePool;
-use RuntimeException;
 use Symfony\Component\HttpClient\Exception\ClientException;
 use Symfony\Component\HttpClient\Exception\RedirectionException;
 use Symfony\Component\HttpClient\Exception\ServerException;
@@ -147,12 +146,12 @@ abstract class AbstractMicroserviceHttpRepository implements ReplaceableHttpClie
      *
      * @throws ResourceValidationException
      * @throws ExceptionInterface
-     * @throws RuntimeException
+     * @throws \RuntimeException
      */
     public function update(ApiResourceDtoInterface $resource, array $additionalQueryParams = []): ApiResourceDtoInterface
     {
         if (null === $iri = $resource->getIri()) {
-            throw new RuntimeException('Cannot update a resource without iri');
+            throw new \RuntimeException('Cannot update a resource without iri');
         }
 
         try {
@@ -175,12 +174,12 @@ abstract class AbstractMicroserviceHttpRepository implements ReplaceableHttpClie
      *
      * @throws ResourceValidationException
      * @throws ExceptionInterface
-     * @throws RuntimeException
+     * @throws \RuntimeException
      */
     public function partialUpdate(ApiResourceDtoInterface $resource, array $additionalQueryParams = []): ApiResourceDtoInterface
     {
         if (null === $iri = $resource->getIri()) {
-            throw new RuntimeException('Cannot partially update a resource without iri');
+            throw new \RuntimeException('Cannot partially update a resource without iri');
         }
 
         try {
@@ -201,12 +200,12 @@ abstract class AbstractMicroserviceHttpRepository implements ReplaceableHttpClie
      *
      * @throws ResourceValidationException
      * @throws ExceptionInterface
-     * @throws RuntimeException
+     * @throws \RuntimeException
      */
     public function delete(ApiResourceDtoInterface $resource, array $additionalQueryParams = []): void
     {
         if (null === $iri = $resource->getIri()) {
-            throw new RuntimeException('Cannot update a resource without iri');
+            throw new \RuntimeException('Cannot update a resource without iri');
         }
 
         $response = $this->request('DELETE', $this->buildUri($iri, $additionalQueryParams));

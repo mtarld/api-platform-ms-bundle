@@ -15,7 +15,9 @@ class ApiResourceExistenceCheckerPayload
      * @var array<string>
      *
      * @Assert\All({
+     *
      *     @Assert\Type(type={"string"}),
+     *
      *     @Assert\NotBlank(allowNull=false)
      * })
      */

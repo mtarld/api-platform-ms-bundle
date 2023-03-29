@@ -2,16 +2,13 @@
 
 namespace Mtarld\ApiPlatformMsBundle\Validator;
 
-use LogicException;
 use Mtarld\ApiPlatformMsBundle\ApiResource\ExistenceChecker;
 use Psr\Log\LoggerAwareTrait;
-use RuntimeException;
 use Symfony\Component\Serializer\Exception\ExceptionInterface as SerializerExceptionInterface;
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\ConstraintValidator;
 use Symfony\Component\Validator\Exception\UnexpectedTypeException;
 use Symfony\Contracts\HttpClient\Exception\ExceptionInterface as HttpClientExceptionInterface;
-use Throwable;
 
 // Help opcache.preload discover always-needed symbols
 class_exists(\LogicException::class);
@@ -72,7 +69,7 @@ class ApiResourceExistValidator extends ConstraintValidator
         }
     }
 
-    private function handleExistenceCheckerHttpException(Throwable $exception, ApiResourceExist $constraint): void
+    private function handleExistenceCheckerHttpException(\Throwable $exception, ApiResourceExist $constraint): void
     {
         $message = sprintf(
             "Unable to validate IRIs of microservice '%s': %s",
@@ -88,6 +85,6 @@ class ApiResourceExistValidator extends ConstraintValidator
             return;
         }
 
-        throw new RuntimeException($message);
+        throw new \RuntimeException($message);
     }
 }

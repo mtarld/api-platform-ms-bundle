@@ -4,7 +4,6 @@ namespace Mtarld\ApiPlatformMsBundle\Validator;
 
 use Attribute;
 use Symfony\Component\Validator\Constraint;
-use TypeError;
 
 /**
  * @Annotation
@@ -17,7 +16,7 @@ use TypeError;
  *
  * @author Mathias Arlaud <mathias.arlaud@gmail.com>
  */
-#[Attribute(Attribute::TARGET_PROPERTY | Attribute::TARGET_METHOD | Attribute::IS_REPEATABLE)]
+#[\Attribute(\Attribute::TARGET_PROPERTY | \Attribute::TARGET_METHOD | \Attribute::IS_REPEATABLE)]
 class ApiResourceExist extends Constraint
 {
     /**
@@ -56,7 +55,7 @@ class ApiResourceExist extends Constraint
         parent::__construct($options, $groups, $payload);
 
         if (!is_string($this->microservice)) {
-            throw new TypeError(sprintf('"%s()": Expected argument $microservice to be a string, got "%s".', __METHOD__, get_debug_type($this->microservice)));
+            throw new \TypeError(sprintf('"%s()": Expected argument $microservice to be a string, got "%s".', __METHOD__, get_debug_type($this->microservice)));
         }
 
         $this->message = $message ?? $this->message;
