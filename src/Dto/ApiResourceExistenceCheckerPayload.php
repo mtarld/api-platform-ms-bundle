@@ -2,6 +2,7 @@
 
 namespace Mtarld\ApiPlatformMsBundle\Dto;
 
+use phpDocumentor\Reflection\Type;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -13,16 +14,15 @@ class ApiResourceExistenceCheckerPayload
 {
     /**
      * @var array<string>
-     *
-     * @Assert\All({
-     *
-     *     @Assert\Type(type={"string"}),
-     *
-     *     @Assert\NotBlank(allowNull=false)
-     * })
      */
+    #[Assert\All(
+        [
+            new Assert\Type('string'),
+            new Assert\NotBlank(allowNull: false),
+        ]
+    )]
     #[Assert\NotNull]
-    public $iris;
+    public array $iris;
 
     public function __construct(array $iris)
     {
