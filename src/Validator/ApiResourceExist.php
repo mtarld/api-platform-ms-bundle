@@ -6,18 +6,12 @@ use Attribute;
 use Symfony\Component\Validator\Constraint;
 
 /**
- * @Annotation
- *
- * @Target({"PROPERTY", "METHOD", "ANNOTATION"})
- *
- * @final
- *
  * @psalm-suppress PropertyNotSetInConstructor
  *
  * @author Mathias Arlaud <mathias.arlaud@gmail.com>
  */
 #[\Attribute(\Attribute::TARGET_PROPERTY | \Attribute::TARGET_METHOD | \Attribute::IS_REPEATABLE)]
-class ApiResourceExist extends Constraint
+final class ApiResourceExist extends Constraint
 {
     /**
      * @var string

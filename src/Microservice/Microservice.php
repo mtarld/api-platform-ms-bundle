@@ -2,7 +2,6 @@
 
 namespace Mtarld\ApiPlatformMsBundle\Microservice;
 
-use Mtarld\ApiPlatformMsBundle\Validator\ApiResourceExist;
 use Mtarld\ApiPlatformMsBundle\Validator\FormatEnabled;
 use Symfony\Component\Validator\Constraints as Assert;
 
