@@ -13,25 +13,15 @@ use Symfony\Component\Serializer\Annotation\Groups;
  */
 class Hair
 {
-    /**
-     * @var int
-     *
-     * @ApiProperty(identifier=true)
-     */
+    #[ApiProperty(identifier: true)]
     #[Groups(['read'])]
-    public $id;
+    public int $id;
 
-    /**
-     * @var int
-     */
     #[Groups(['read'])]
-    public $length;
+    public int $length;
 
-    /**
-     * @var Color
-     */
     #[Groups(['read'])]
-    public $color;
+    public Color $color;
 
     public function __construct(int $id, int $length, Color $color)
     {
