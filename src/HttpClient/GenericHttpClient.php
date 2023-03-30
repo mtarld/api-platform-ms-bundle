@@ -35,8 +35,12 @@ class GenericHttpClient implements ReplaceableHttpClientInterface
     /**
      * @param \Mtarld\ApiPlatformMsBundle\HttpClient\AuthenticationHeaderProviderInterface[] $authenticationHeaderProviders
      */
-    public function __construct(private readonly SerializerInterface $serializer, private HttpClientInterface $httpClient, private readonly iterable $authenticationHeaderProviders = [], private readonly ?EventDispatcherInterface $dispatcher = null)
-    {
+    public function __construct(
+        private readonly SerializerInterface $serializer,
+        private HttpClientInterface $httpClient,
+        private readonly iterable $authenticationHeaderProviders = [],
+        private readonly ?EventDispatcherInterface $dispatcher = null
+    ) {
     }
 
     /**

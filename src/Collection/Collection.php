@@ -22,8 +22,11 @@ class Collection implements \IteratorAggregate, \Countable
     /**
      * @param list<T> $elements
      */
-    public function __construct(private readonly array $elements, private readonly int $count, private readonly ?Pagination $pagination = null)
-    {
+    public function __construct(
+        private readonly array $elements,
+        private readonly int $count,
+        private readonly ?Pagination $pagination = null
+    ) {
     }
 
     public function getPagination(): ?Pagination

@@ -11,8 +11,13 @@ namespace Mtarld\ApiPlatformMsBundle\Collection;
  */
 class Pagination
 {
-    public function __construct(private readonly string $current, private readonly string $first, private readonly string $last, private readonly ?string $previous, private readonly ?string $next)
-    {
+    public function __construct(
+        private readonly string $current,
+        private readonly string $first,
+        private readonly string $last,
+        private readonly ?string $previous,
+        private readonly ?string $next
+    ) {
     }
 
     public function getCurrent(): string

@@ -39,8 +39,12 @@ class Puppy
     #[Groups(['read'])]
     public $hairs;
 
-    public function __construct(int $id, string $superName, ?Color $color = null, ?array $hairs = [])
-    {
+    public function __construct(
+        int $id,
+        string $superName,
+        ?Color $color = null,
+        ?array $hairs = []
+    ) {
         $this->id = $id;
         $this->superName = $superName;
         $this->color = $color;
