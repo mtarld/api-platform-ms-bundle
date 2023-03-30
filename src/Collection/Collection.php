@@ -17,7 +17,7 @@ class_exists(Pagination::class);
  */
 class Collection implements \IteratorAggregate, \Countable
 {
-    private ?\Mtarld\ApiPlatformMsBundle\Microservice\Microservice $microservice = null;
+    private ?Microservice $microservice = null;
 
     /**
      * @param list<T> $elements
