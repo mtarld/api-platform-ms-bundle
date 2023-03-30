@@ -48,7 +48,12 @@ class ApiPlatformMsExtension extends Extension
 
         $formats = array_values(
             array_unique(
-                array_map(static fn (array $microservice): string => $microservice['format'], array_filter($config['microservices'], static fn (array $microservice): bool => isset(self::FORMAT_CONFIGURATION_FILE_MAPPING[$microservice['format']])))
+                array_map(
+                    static fn (array $microservice): string => $microservice['format'],
+                    array_filter($config['microservices'],
+                        static fn (array $microservice): bool => isset(self::FORMAT_CONFIGURATION_FILE_MAPPING[$microservice['format']])
+                    )
+                )
             )
         );
 
