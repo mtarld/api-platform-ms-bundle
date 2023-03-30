@@ -6,10 +6,6 @@ use Attribute;
 use Symfony\Component\Validator\Constraint;
 
 /**
- * @Annotation
- *
- * @Target({"PROPERTY", "METHOD", "ANNOTATION"})
- *
  * @final @internal
  *
  * @psalm-suppress PropertyNotSetInConstructor
