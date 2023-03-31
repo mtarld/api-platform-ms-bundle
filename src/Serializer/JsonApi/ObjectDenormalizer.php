@@ -45,7 +45,7 @@ class ObjectDenormalizer implements DenormalizerInterface, DenormalizerAwareInte
 
         $data = $this->convertReservedAttributeNames($data);
 
-        return $this->denormalizer->denormalize($data, $type, $format);
+        return $this->denormalizer->denormalize($data, $type, $format, $context);
     }
 
     /**
