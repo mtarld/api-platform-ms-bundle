@@ -27,7 +27,8 @@
     "symfony/event-dispatcher": "^6.1",
     "symfony/polyfill-php80": "^1.20",
     "psr/log": "^1.0|^2.0|^3.0",
-    "symfony/web-link": "^6.1"
+    "symfony/web-link": "^6.1",
+    "symfony/http-foundation": "^6.1"
   },
   "autoload": {
     "psr-4": {
@@ -49,7 +50,8 @@
     "symfony/framework-bundle": "^6.2",
     "symfony/phpunit-bridge": "^6.2",
     "symfony/yaml": "^6.2",
-    "symfony/web-link": "^6.2"
+    "symfony/web-link": "^6.2",
+    "symfony/http-foundation": "^6.2"
   },
   "require-dev": {
     "doctrine/annotations": "^1.7",
