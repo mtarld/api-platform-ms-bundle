@@ -88,7 +88,7 @@ abstract class AbstractCollectionDenormalizer implements DenormalizerInterface, 
      */
     protected function denormalizeRawElements(array $data, string $enclosedType, array $context): array
     {
-        return array_map(function (array $elementData) use ($enclosedType, $context) {
+        return array_map(function (array $elementData) use ($enclosedType) {
             /** @var object $rawElement */
             $rawElement = $this->denormalizer->denormalize($elementData, $enclosedType, $this->getFormat());
 

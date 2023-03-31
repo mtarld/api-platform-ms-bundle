@@ -12,7 +12,6 @@ use Mtarld\ApiPlatformMsBundle\Routing\RouteLoader;
 use Mtarld\ApiPlatformMsBundle\Validator\ApiResourceExistValidator;
 use Mtarld\ApiPlatformMsBundle\Validator\FormatEnabledValidator;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
-
 use function Symfony\Component\DependencyInjection\Loader\Configurator\param;
 use function Symfony\Component\DependencyInjection\Loader\Configurator\service;
 use function Symfony\Component\DependencyInjection\Loader\Configurator\tagged_iterator;

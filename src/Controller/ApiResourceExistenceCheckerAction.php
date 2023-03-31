@@ -33,7 +33,7 @@ class ApiResourceExistenceCheckerAction
 
     public function __invoke(Request $request): JsonResponse
     {
-        if (null === $contentType = $request->getContentTypeFormat()) {
+        if (null === $contentType = $request->getContentType()) {
             throw new BadRequestHttpException('Content type is not supported');
         }
 

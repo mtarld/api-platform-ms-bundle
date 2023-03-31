@@ -22,9 +22,9 @@ class CollectionDenormalizer extends AbstractCollectionDenormalizer
      */
     protected function denormalizeElements(array $data, string $enclosedType, array $context): array
     {
-        return array_map(function (array $elementData) use ($enclosedType, $context) {
+        return array_map(function (array $elementData) use ($enclosedType) {
             /** @var object $element */
-            $element = $this->denormalizer->denormalize($elementData, $enclosedType, $this->getFormat(), $context);
+            $element = $this->denormalizer->denormalize($elementData, $enclosedType, $this->getFormat());
 
             return $element;
         }, $data['_embedded']['item']);
