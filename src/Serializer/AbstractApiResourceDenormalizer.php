@@ -46,7 +46,7 @@ abstract class AbstractApiResourceDenormalizer implements DenormalizerInterface,
         $data = $this->prepareData($data);
         $data['iri'] = $iri;
 
-        return $this->denormalizer->denormalize($data, $type, $this->getFormat(), $context);
+        return $this->denormalizer->denormalize($data, $type, $this->getFormat());
     }
 
     /**
@@ -54,7 +54,7 @@ abstract class AbstractApiResourceDenormalizer implements DenormalizerInterface,
      * @param string      $type
      * @param string|null $format
      */
-    public function supportsDenormalization($data, $type, $format = null): bool
+    public function supportsDenormalization($data, $type, $format = null, array $context = []): bool
     {
         return
             !isset($data['iri'])

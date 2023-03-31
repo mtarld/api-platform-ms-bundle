@@ -61,7 +61,7 @@ abstract class AbstractCollectionDenormalizer implements DenormalizerInterface, 
      * @param string $type
      * @param string $format
      */
-    public function supportsDenormalization($data, $type, $format = null): bool
+    public function supportsDenormalization($data, $type, $format = null, array $context = []): bool
     {
         if ($this->getFormat() !== $format) {
             return false;
@@ -90,7 +90,7 @@ abstract class AbstractCollectionDenormalizer implements DenormalizerInterface, 
     {
         return array_map(function (array $elementData) use ($enclosedType, $context) {
             /** @var object $rawElement */
-            $rawElement = $this->denormalizer->denormalize($elementData, $enclosedType, $this->getFormat(), $context);
+            $rawElement = $this->denormalizer->denormalize($elementData, $enclosedType, $this->getFormat());
 
             return $rawElement;
         }, $data);

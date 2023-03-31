@@ -19,24 +19,12 @@ class ObjectDenormalizer implements DenormalizerInterface, DenormalizerAwareInte
     use HalDenormalizerTrait;
     use DenormalizerAwareTrait;
 
-    /**
-     * @param mixed  $data
-     * @param string $type
-     * @param string $format
-     *
-     * @return mixed
-     */
-    public function denormalize($data, $type, $format = null, array $context = [])
+    public function denormalize(mixed $data, string $type, string $format = null, array $context = []): mixed
     {
         return $this->denormalizer->denormalize($data, $type, 'json', $context);
     }
 
-    /**
-     * @param mixed  $data
-     * @param string $type
-     * @param string $format
-     */
-    public function supportsDenormalization($data, $type, $format = null): bool
+    public function supportsDenormalization(mixed $data, string $type, string $format = null, array $context = []): bool
     {
         return $this->getFormat() === $format;
     }
