@@ -8,6 +8,7 @@ use Mtarld\ApiPlatformMsBundle\Serializer\Hal\CollectionDenormalizer;
 use Mtarld\ApiPlatformMsBundle\Serializer\Hal\ConstraintViolationListDenormalizer;
 use Mtarld\ApiPlatformMsBundle\Serializer\Hal\ObjectDenormalizer;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
+
 use function Symfony\Component\DependencyInjection\Loader\Configurator\service;
 
 return static function (ContainerConfigurator $container): void {
