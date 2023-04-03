@@ -12,20 +12,14 @@ class PuppyResourceDto implements ApiResourceDtoInterface
 {
     use ApiResourceDtoTrait;
 
-    /**
-     * @var string
-     */
-    public $superName;
+    public string $superName;
+
+    public ?ColorResourceDto $color;
 
     /**
-     * @var ColorResourceDto|null
+     * @var list<HairResourceDto>
      */
-    public $color;
-
-    /**
-     * @var HairResourceDto[]|null
-     */
-    public $hairs;
+    public ?array $hairs;
 
     public function __construct(
         ?string $iri,

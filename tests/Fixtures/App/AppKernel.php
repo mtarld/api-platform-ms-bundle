@@ -2,7 +2,7 @@
 
 namespace Mtarld\ApiPlatformMsBundle\Tests\Fixtures\App;
 
-use ApiPlatform\Core\Bridge\Symfony\Bundle\ApiPlatformBundle;
+use ApiPlatform\Symfony\Bundle\ApiPlatformBundle;
 use Mtarld\ApiPlatformMsBundle\ApiPlatformMsBundle;
 use Symfony\Bundle\FrameworkBundle\FrameworkBundle;
 use Symfony\Bundle\FrameworkBundle\Kernel\MicroKernelTrait;

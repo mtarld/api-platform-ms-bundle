@@ -2,7 +2,7 @@
 
 namespace Mtarld\ApiPlatformMsBundle\DependencyInjection\Loader\Configurator;
 
-use ApiPlatform\Core\Serializer\JsonEncoder;
+use ApiPlatform\Serializer\JsonEncoder;
 use Mtarld\ApiPlatformMsBundle\Serializer\Hydra\ApiResourceDenormalizer;
 use Mtarld\ApiPlatformMsBundle\Serializer\Hydra\CollectionDenormalizer;
 use Mtarld\ApiPlatformMsBundle\Serializer\Hydra\ConstraintViolationListDenormalizer;

@@ -19,7 +19,7 @@
   ],
   "require": {
     "php": "^8.1",
-    "api-platform/core": "^2.6.4",
+    "api-platform/core": "^3",
     "symfony/http-client": "^6.1",
     "symfony/property-access": "^6.1",
     "symfony/serializer": "^6.1",
@@ -39,19 +39,6 @@
     "psr-4": {
       "Mtarld\\ApiPlatformMsBundle\\Tests\\": "tests/"
     }
-  },
-  "conflict": {
-    "symfony/http-client": "^6.2",
-    "symfony/property-access": "^6.2",
-    "symfony/serializer": "^6.2",
-    "symfony/validator": "^6.2",
-    "symfony/event-dispatcher": "^6.2",
-    "symfony/browser-kit": "^6.2",
-    "symfony/framework-bundle": "^6.2",
-    "symfony/phpunit-bridge": "^6.2",
-    "symfony/yaml": "^6.2",
-    "symfony/web-link": "^6.2",
-    "symfony/http-foundation": "^6.2"
   },
   "require-dev": {
     "doctrine/annotations": "^1.7",

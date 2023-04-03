@@ -2,8 +2,8 @@
 
 namespace Mtarld\ApiPlatformMsBundle\Controller;
 
-use ApiPlatform\Core\Api\IriConverterInterface;
-use ApiPlatform\Core\Validator\ValidatorInterface;
+use ApiPlatform\Api\IriConverterInterface;
+use ApiPlatform\Validator\ValidatorInterface;
 use Mtarld\ApiPlatformMsBundle\Dto\ApiResourceExistenceCheckerPayload;
 use Mtarld\ApiPlatformMsBundle\Dto\ApiResourceExistenceCheckerView;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -62,7 +62,7 @@ class ApiResourceExistenceCheckerAction
     private function isIriValid(string $iri): bool
     {
         try {
-            $this->iriConverter->getItemFromIri($iri);
+            $this->iriConverter->getResourceFromIri($iri);
         } catch (\Throwable $exception) {
             return false;
         }

@@ -2,7 +2,7 @@
 
 namespace Mtarld\ApiPlatformMsBundle\Serializer\JsonApi;
 
-use ApiPlatform\Core\JsonApi\Serializer\ReservedAttributeNameConverter;
+use ApiPlatform\JsonApi\Serializer\ReservedAttributeNameConverter;
 use Symfony\Component\Serializer\Normalizer\DenormalizerAwareInterface;
 use Symfony\Component\Serializer\Normalizer\DenormalizerAwareTrait;
 use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;

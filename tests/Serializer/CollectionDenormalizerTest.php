@@ -2,7 +2,7 @@
 
 namespace Mtarld\ApiPlatformMsBundle\Tests\Serializer;
 
-use ApiPlatform\Core\DataProvider\ArrayPaginator;
+use ApiPlatform\State\Pagination\ArrayPaginator;
 use Mtarld\ApiPlatformMsBundle\Collection\Collection;
 use Mtarld\ApiPlatformMsBundle\Collection\Pagination;
 use Mtarld\ApiPlatformMsBundle\Tests\Fixtures\App\src\Dto\PuppyDto;
