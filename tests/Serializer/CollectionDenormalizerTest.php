@@ -2,6 +2,7 @@
 
 namespace Mtarld\ApiPlatformMsBundle\Tests\Serializer;
 
+use ApiPlatform\Metadata\GetCollection;
 use ApiPlatform\State\Pagination\ArrayPaginator;
 use Mtarld\ApiPlatformMsBundle\Collection\Collection;
 use Mtarld\ApiPlatformMsBundle\Collection\Pagination;
@@ -36,7 +37,7 @@ class CollectionDenormalizerTest extends KernelTestCase
 
         /** @var SerializerInterface $serializer */
         $serializer = static::getContainer()->get(SerializerInterface::class);
-        $serializedCollection = $serializer->serialize($entityCollection, $format, ['resource_class' => Puppy::class, 'collection_operation_name' => 'foo']);
+        $serializedCollection = $serializer->serialize($entityCollection, $format, ['_api_operation' => GetCollection::class, '_api_resource_class' => Puppy::class, '_api_operation_name' => 'foo']);
 
         /** @var Collection $deserializedCollection */
         $deserializedCollection = $serializer->deserialize($serializedCollection, Collection::class.'<'.PuppyResourceDto::class.'>', $format);
@@ -61,7 +62,7 @@ class CollectionDenormalizerTest extends KernelTestCase
 
         /** @var SerializerInterface $serializer */
         $serializer = static::getContainer()->get(SerializerInterface::class);
-        $serializedCollection = $serializer->serialize($entityCollection, $format, ['resource_class' => Puppy::class, 'collection_operation_name' => 'foo']);
+        $serializedCollection = $serializer->serialize($entityCollection, $format, ['_api_operation' => GetCollection::class, '_api_resource_class' => Puppy::class, '_api_operation_name' => 'foo']);
 
         /** @var Collection $deserializedCollection */
         $deserializedCollection = $serializer->deserialize($serializedCollection, Collection::class.'<'.PuppyResourceDto::class.'>', $format);
@@ -83,7 +84,7 @@ class CollectionDenormalizerTest extends KernelTestCase
 
         /** @var SerializerInterface $serializer */
         $serializer = static::getContainer()->get(SerializerInterface::class);
-        $serializedCollection = $serializer->serialize($entityCollection, $format, ['resource_class' => Puppy::class, 'collection_operation_name' => 'foo']);
+        $serializedCollection = $serializer->serialize($entityCollection, $format, ['_api_operation' => GetCollection::class, '_api_resource_class' => Puppy::class, '_api_operation_name' => 'foo']);
 
         /** @var Collection $deserializedCollection */
         $deserializedCollection = $serializer->deserialize($serializedCollection, Collection::class.'<'.PuppyResourceDto::class.'>', $format);
