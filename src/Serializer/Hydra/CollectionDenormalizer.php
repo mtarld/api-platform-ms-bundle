@@ -19,9 +19,9 @@ class CollectionDenormalizer extends AbstractCollectionDenormalizer
 
     protected function denormalizeElements(array $data, string $enclosedType, array $context): array
     {
-        return array_map(function (array $elementData) use ($enclosedType) {
+        return array_map(function (array $elementData) use ($enclosedType, $context) {
             /** @var object $element */
-            $element = $this->denormalizer->denormalize($elementData, $enclosedType, $this->getFormat());
+            $element = $this->denormalizer->denormalize($elementData, $enclosedType, $this->getFormat(), $context);
 
             return $element;
         }, $data['hydra:member']);

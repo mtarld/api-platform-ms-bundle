@@ -75,7 +75,7 @@ abstract class AbstractCollectionDenormalizer implements DenormalizerInterface, 
             return false;
         }
 
-        return $this->denormalizer->supportsDenormalization($data, $enclosedType, $format);
+        return $this->denormalizer->supportsDenormalization($data, $enclosedType, $format, $context);
     }
 
     public function hasCacheableSupportsMethod(): bool
@@ -88,9 +88,9 @@ abstract class AbstractCollectionDenormalizer implements DenormalizerInterface, 
      */
     protected function denormalizeRawElements(array $data, string $enclosedType, array $context): array
     {
-        return array_map(function (array $elementData) use ($enclosedType) {
+        return array_map(function (array $elementData) use ($enclosedType, $context) {
             /** @var object $rawElement */
-            $rawElement = $this->denormalizer->denormalize($elementData, $enclosedType, $this->getFormat());
+            $rawElement = $this->denormalizer->denormalize($elementData, $enclosedType, $this->getFormat(), $context);
 
             return $rawElement;
         }, $data);
