@@ -2,7 +2,6 @@
 
 namespace Mtarld\ApiPlatformMsBundle\Dto;
 
-use phpDocumentor\Reflection\Type;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
