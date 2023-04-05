@@ -59,7 +59,6 @@ abstract class AbstractApiResourceDenormalizer implements DenormalizerInterface,
         return
             !isset($data['iri'])
             && $this->getFormat() === $format
-            && is_a($type, ApiResourceDtoInterface::class, true)
-        ;
+            && is_a($type, ApiResourceDtoInterface::class, true);
     }
 }

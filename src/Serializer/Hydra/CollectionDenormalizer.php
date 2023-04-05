@@ -42,8 +42,7 @@ class CollectionDenormalizer extends AbstractCollectionDenormalizer
                 $view['hydra:previous'] ?? null,
                 $view['hydra:next'] ?? null
             )
-            : null
-        ;
+            : null;
     }
 
     protected function isRawCollection(array $data): bool

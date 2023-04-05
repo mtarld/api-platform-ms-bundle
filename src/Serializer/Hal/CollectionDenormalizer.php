@@ -45,8 +45,7 @@ class CollectionDenormalizer extends AbstractCollectionDenormalizer
                 $links['prev']['href'] ?? null,
                 $links['next']['href'] ?? null
             )
-            : null
-        ;
+            : null;
     }
 
     protected function isRawCollection(array $data): bool
