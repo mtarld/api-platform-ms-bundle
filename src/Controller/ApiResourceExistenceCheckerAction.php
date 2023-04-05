@@ -33,7 +33,10 @@ class ApiResourceExistenceCheckerAction
 
     public function __invoke(Request $request): JsonResponse
     {
-        if (null === $contentType = $request->getContentTypeFormat()) {
+        // BC layer to support symfony/http-foundation 6.1
+        $contentType = method_exists($request, 'getContentTypeFormat') ? $request->getContentTypeFormat() : $request->getContentType();
+
+        if (null === $contentType) {
             throw new BadRequestHttpException('Content type is not supported');
         }
 
