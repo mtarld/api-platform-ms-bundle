@@ -66,9 +66,7 @@ class ApiResourceDenormalizer extends AbstractApiResourceDenormalizer
 
             // Collection
             if (!isset($linkValue['href'])) {
-                $data[$linkName] = array_map(function (array $item) use ($indexedEmbeddedElements): array {
-                    return $this->fillRelationships($indexedEmbeddedElements[$item['href']], $indexedEmbeddedElements);
-                }, $linkValue);
+                $data[$linkName] = array_map(fn (array $item): array => $this->fillRelationships($indexedEmbeddedElements[$item['href']], $indexedEmbeddedElements), $linkValue);
 
                 continue;
             }

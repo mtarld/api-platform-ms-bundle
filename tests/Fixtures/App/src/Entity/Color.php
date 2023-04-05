@@ -2,31 +2,22 @@
 
 namespace Mtarld\ApiPlatformMsBundle\Tests\Fixtures\App\src\Entity;
 
-use ApiPlatform\Core\Annotation\ApiProperty;
-use ApiPlatform\Core\Annotation\ApiResource;
+use ApiPlatform\Metadata\ApiProperty;
+use ApiPlatform\Metadata\ApiResource;
 use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
- * @ApiResource(normalizationContext={"groups"={"read"}})
- *
  * @author Mathias Arlaud <mathias.arlaud@gmail.com>
  */
+#[ApiResource(normalizationContext: ['groups' => 'read'])]
 class Color
 {
-    /**
-     * @var int
-     *
-     * @ApiProperty(identifier=true)
-     * @Groups({"read"})
-     */
-    public $id;
+    #[ApiProperty(identifier: true)]
+    #[Groups(['read'])]
+    public int $id;
 
-    /**
-     * @var string
-     *
-     * @Groups({"read"})
-     */
-    public $hex;
+    #[Groups(['read'])]
+    public string $hex;
 
     public function __construct(int $id, string $hex)
     {

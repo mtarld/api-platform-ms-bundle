@@ -6,7 +6,6 @@ use Mtarld\ApiPlatformMsBundle\Exception\ResourceValidationException;
 use Mtarld\ApiPlatformMsBundle\Tests\Fixtures\App\src\Dto\PuppyResourceDto;
 use Mtarld\ApiPlatformMsBundle\Tests\Fixtures\App\src\Entity\Puppy;
 use Mtarld\ApiPlatformMsBundle\Tests\Fixtures\App\src\HttpRepository\PuppyHttpRepository;
-use RuntimeException;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\HttpClient\Exception\ClientException;
 use Symfony\Component\HttpClient\Exception\RedirectionException;
@@ -404,7 +403,7 @@ class HttpRepositoryTest extends KernelTestCase
 
     public function testUpdateResourceWithoutIri(): void
     {
-        $this->expectException(RuntimeException::class);
+        $this->expectException(\RuntimeException::class);
         $this->expectExceptionMessage('Cannot update a resource without iri');
 
         /** @var PuppyHttpRepository $httpRepository */
@@ -476,7 +475,7 @@ class HttpRepositoryTest extends KernelTestCase
 
     public function testPartialUpdateResourceWithoutIri(): void
     {
-        $this->expectException(RuntimeException::class);
+        $this->expectException(\RuntimeException::class);
         $this->expectExceptionMessage('Cannot partially update a resource without iri');
 
         /** @var PuppyHttpRepository $httpRepository */
@@ -537,7 +536,7 @@ class HttpRepositoryTest extends KernelTestCase
 
     public function testDeleteResourceWithoutIri(): void
     {
-        $this->expectException(RuntimeException::class);
+        $this->expectException(\RuntimeException::class);
         $this->expectExceptionMessage('Cannot update a resource without iri');
 
         /** @var PuppyHttpRepository $httpRepository */
@@ -547,6 +546,7 @@ class HttpRepositoryTest extends KernelTestCase
 
     /**
      * @dataProvider throwAnAppropriateErrorIfResponseIsNotSuccessDataProvider
+     *
      * @testdox throws an appropriate $exceptionClassName for statusCode $statusCode
      */
     public function testItThrowAnAppropriateErrorIfResponseIsNotSuccess(int $statusCode, string $exceptionClassName): void

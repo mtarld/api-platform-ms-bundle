@@ -12,7 +12,7 @@ class ApiResourceExistenceCheckerView
     /**
      * @var array<string, bool>
      */
-    public $existences;
+    public readonly array $existences;
 
     /**
      * @param array<string, bool> $existences

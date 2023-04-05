@@ -2,12 +2,10 @@
 
 namespace Mtarld\ApiPlatformMsBundle\Exception;
 
-use LogicException;
-
 /**
  * @author Mathias Arlaud <mathias.arlaud@gmail.com>
  */
-class MicroserviceNotConfiguredException extends LogicException
+class MicroserviceNotConfiguredException extends \LogicException
 {
     public function __construct(string $name)
     {

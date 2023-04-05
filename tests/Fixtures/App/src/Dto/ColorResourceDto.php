@@ -12,10 +12,7 @@ class ColorResourceDto implements ApiResourceDtoInterface
 {
     use ApiResourceDtoTrait;
 
-    /**
-     * @var string
-     */
-    public $hex;
+    public string $hex;
 
     public function __construct(string $iri, string $hex)
     {

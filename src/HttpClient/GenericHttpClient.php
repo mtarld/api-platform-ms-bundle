@@ -32,37 +32,25 @@ class GenericHttpClient implements ReplaceableHttpClientInterface
         'jsonhal' => 'application/merge-patch+json',
     ];
 
-    private $serializer;
-    private $httpClient;
-    private $dispatcher;
-
     /**
-     * @var iterable<AuthenticationHeaderProviderInterface>
+     * @param list<AuthenticationHeaderProviderInterface> $authenticationHeaderProviders
      */
-    private $authenticationHeaderProviders;
-
     public function __construct(
-        SerializerInterface $serializer,
-        HttpClientInterface $httpClient,
-        iterable $authenticationHeaderProviders = [],
-        ?EventDispatcherInterface $dispatcher = null
+        private readonly SerializerInterface $serializer,
+        private HttpClientInterface $httpClient,
+        private readonly iterable $authenticationHeaderProviders = [],
+        private readonly ?EventDispatcherInterface $dispatcher = null
     ) {
-        $this->serializer = $serializer;
-        $this->httpClient = $httpClient;
-        $this->authenticationHeaderProviders = $authenticationHeaderProviders;
-        $this->dispatcher = $dispatcher;
     }
 
     /**
-     * @param mixed $body
-     *
      * @throws ExceptionInterface
      */
-    public function request(Microservice $microservice, string $method, string $uri, $body = null, ?string $mimeType = null, ?string $bodyFormat = null): ResponseInterface
+    public function request(Microservice $microservice, string $method, string $uri, mixed $body = null, ?string $mimeType = null, ?string $bodyFormat = null): ResponseInterface
     {
         $defaultMimeType = 'PATCH' === $method ? self::PATCH_MIME_TYPES[$microservice->getFormat()] : self::MIME_TYPES[$microservice->getFormat()];
-        $mimeType = $mimeType ?? $defaultMimeType;
-        $bodyFormat = $bodyFormat ?? $microservice->getFormat();
+        $mimeType ??= $defaultMimeType;
+        $bodyFormat ??= $microservice->getFormat();
 
         $options = [
             'base_uri' => $microservice->getBaseUri(),

@@ -2,9 +2,8 @@
 
 namespace Mtarld\ApiPlatformMsBundle\Tests\Controller;
 
-use ApiPlatform\Core\Api\IriConverterInterface;
-use ApiPlatform\Core\Bridge\Symfony\Validator\Exception\ValidationException;
-use Exception;
+use ApiPlatform\Api\IriConverterInterface;
+use ApiPlatform\Symfony\Validator\Exception\ValidationException;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 
@@ -27,6 +26,7 @@ class ApiResourceExistenceCheckerActionTest extends WebTestCase
 
     /**
      * @dataProvider existenceCheckBadRequestWithWrongBodyDataProvider
+     *
      * @testdox Bad request with content: $content
      */
     public function testExistenceCheckBadRequestWithWrongContent(?string $content, string $exceptionFqcn): void
@@ -54,6 +54,7 @@ class ApiResourceExistenceCheckerActionTest extends WebTestCase
 
     /**
      * @dataProvider successfulExistenceCheckDataProvider
+     *
      * @testdox Response body is $result when payload is $payload and resources existence is $exist
      */
     public function testSuccessfulExistenceCheck(bool $exist, string $payload, string $result): void
@@ -61,8 +62,8 @@ class ApiResourceExistenceCheckerActionTest extends WebTestCase
         $iriConverter = $this->createMock(IriConverterInterface::class);
         if (!$exist) {
             $iriConverter
-                ->method('getItemFromIri')
-                ->willThrowException(new Exception())
+                ->method('getResourceFromIri')
+                ->willThrowException(new \Exception())
             ;
         }
 

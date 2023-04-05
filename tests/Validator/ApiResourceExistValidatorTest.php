@@ -5,13 +5,11 @@ namespace Mtarld\ApiPlatformMsBundle\Tests\Validator;
 use Mtarld\ApiPlatformMsBundle\ApiResource\ExistenceChecker;
 use Mtarld\ApiPlatformMsBundle\Validator\ApiResourceExist;
 use Psr\Log\LoggerInterface;
-use RuntimeException;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\HttpClient\MockHttpClient;
 use Symfony\Component\HttpClient\Response\MockResponse;
 use Symfony\Component\Validator\Exception\InvalidOptionsException;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
-use TypeError;
 
 /**
  * @group resource-existence
@@ -36,7 +34,7 @@ class ApiResourceExistValidatorTest extends KernelTestCase
 
     public function testInvalidMicroserviceOption(): void
     {
-        $this->expectException(TypeError::class);
+        $this->expectException(\TypeError::class);
         $this->expectExceptionMessage(sprintf('"%s::__construct()": Expected argument $microservice to be a string, got "int".', ApiResourceExist::class));
 
         new ApiResourceExist(1);
@@ -112,7 +110,7 @@ class ApiResourceExistValidatorTest extends KernelTestCase
         $violations = static::getContainer()->get(ValidatorInterface::class)->validate([1, 2], new ApiResourceExist('bar', true));
         self::assertCount(0, $violations);
 
-        $this->expectException(RuntimeException::class);
+        $this->expectException(\RuntimeException::class);
         static::getContainer()->get(ValidatorInterface::class)->validate([1, 2], new ApiResourceExist('bar'));
     }
 

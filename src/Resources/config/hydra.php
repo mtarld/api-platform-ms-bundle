@@ -2,11 +2,12 @@
 
 namespace Mtarld\ApiPlatformMsBundle\DependencyInjection\Loader\Configurator;
 
-use ApiPlatform\Core\Serializer\JsonEncoder;
+use ApiPlatform\Serializer\JsonEncoder;
 use Mtarld\ApiPlatformMsBundle\Serializer\Hydra\ApiResourceDenormalizer;
 use Mtarld\ApiPlatformMsBundle\Serializer\Hydra\CollectionDenormalizer;
 use Mtarld\ApiPlatformMsBundle\Serializer\Hydra\ConstraintViolationListDenormalizer;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
+
 use function Symfony\Component\DependencyInjection\Loader\Configurator\service;
 
 return static function (ContainerConfigurator $container): void {

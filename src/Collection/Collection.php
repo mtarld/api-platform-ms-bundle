@@ -2,44 +2,31 @@
 
 namespace Mtarld\ApiPlatformMsBundle\Collection;
 
-use ArrayIterator;
-use Countable;
-use Iterator;
-use IteratorAggregate;
 use Mtarld\ApiPlatformMsBundle\Microservice\Microservice;
 
 // Help opcache.preload discover always-needed symbols
-class_exists(ArrayIterator::class);
+class_exists(\ArrayIterator::class);
 class_exists(Pagination::class);
 
 /**
  * @final
+ *
  * @template T of object
  *
  * @author Mathias Arlaud <mathias.arlaud@gmail.com>
  */
-class Collection implements IteratorAggregate, Countable
+class Collection implements \IteratorAggregate, \Countable
 {
-    private $elements;
-    private $count;
-    private $pagination;
-
-    /**
-     * @var Microservice|null
-     */
-    private $microservice;
+    private ?Microservice $microservice = null;
 
     /**
      * @param list<T> $elements
      */
     public function __construct(
-        array $elements,
-        int $count,
-        ?Pagination $pagination = null
+        private readonly array $elements,
+        private readonly int $count,
+        private readonly ?Pagination $pagination = null
     ) {
-        $this->elements = $elements;
-        $this->count = $count;
-        $this->pagination = $pagination;
     }
 
     public function getPagination(): ?Pagination
@@ -53,11 +40,11 @@ class Collection implements IteratorAggregate, Countable
     }
 
     /**
-     * @return Iterator<T>
+     * @return \Iterator<T>
      */
-    public function getIterator(): Iterator
+    public function getIterator(): \Iterator
     {
-        return new ArrayIterator($this->elements);
+        return new \ArrayIterator($this->elements);
     }
 
     public function count(): int

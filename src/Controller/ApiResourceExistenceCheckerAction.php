@@ -2,15 +2,14 @@
 
 namespace Mtarld\ApiPlatformMsBundle\Controller;
 
-use ApiPlatform\Core\Api\IriConverterInterface;
-use ApiPlatform\Core\Validator\ValidatorInterface;
+use ApiPlatform\Api\IriConverterInterface;
+use ApiPlatform\Validator\ValidatorInterface;
 use Mtarld\ApiPlatformMsBundle\Dto\ApiResourceExistenceCheckerPayload;
 use Mtarld\ApiPlatformMsBundle\Dto\ApiResourceExistenceCheckerView;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\Serializer\SerializerInterface;
-use Throwable;
 
 // Help opcache.preload discover always-needed symbols
 class_exists(ApiResourceExistenceCheckerPayload::class);
@@ -25,23 +24,19 @@ class_exists(JsonResponse::class);
  */
 class ApiResourceExistenceCheckerAction
 {
-    private $serializer;
-    private $iriConverter;
-    private $validator;
-
     public function __construct(
-        SerializerInterface $serializer,
-        IriConverterInterface $iriConverter,
-        ValidatorInterface $validator
+        private readonly SerializerInterface $serializer,
+        private readonly IriConverterInterface $iriConverter,
+        private readonly ValidatorInterface $validator
     ) {
-        $this->serializer = $serializer;
-        $this->iriConverter = $iriConverter;
-        $this->validator = $validator;
     }
 
     public function __invoke(Request $request): JsonResponse
     {
-        if (null === $contentType = $request->getContentType()) {
+        // BC layer to support symfony/http-foundation 6.1
+        $contentType = method_exists($request, 'getContentTypeFormat') ? $request->getContentTypeFormat() : $request->getContentType();
+
+        if (null === $contentType) {
             throw new BadRequestHttpException('Content type is not supported');
         }
 
@@ -53,7 +48,7 @@ class ApiResourceExistenceCheckerAction
         try {
             /** @var ApiResourceExistenceCheckerPayload $payload */
             $payload = $this->serializer->deserialize($content, ApiResourceExistenceCheckerPayload::class, $contentType);
-        } catch (Throwable $e) {
+        } catch (\Throwable $e) {
             throw new BadRequestHttpException($e->getMessage());
         }
 
@@ -70,8 +65,8 @@ class ApiResourceExistenceCheckerAction
     private function isIriValid(string $iri): bool
     {
         try {
-            $this->iriConverter->getItemFromIri($iri);
-        } catch (Throwable $exception) {
+            $this->iriConverter->getResourceFromIri($iri);
+        } catch (\Throwable $exception) {
             return false;
         }
 

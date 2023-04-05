@@ -22,6 +22,7 @@ class ObjectDenormalizerTest extends KernelTestCase
 
     /**
      * @dataProvider formatsDataProvider
+     *
      * @testdox Can denormalize object with $format format
      */
     public function testObjectDenormalization(string $format): void

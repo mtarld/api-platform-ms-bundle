@@ -21,7 +21,7 @@ class_exists(PhpFileLoader::class);
  */
 class ApiPlatformMsExtension extends Extension
 {
-    public const FORMAT_CONFIGURATION_FILE_MAPPING = [
+    final public const FORMAT_CONFIGURATION_FILE_MAPPING = [
         'jsonld' => 'hydra.php',
         'jsonapi' => 'jsonapi.php',
         'jsonhal' => 'hal.php',
@@ -48,11 +48,12 @@ class ApiPlatformMsExtension extends Extension
 
         $formats = array_values(
             array_unique(
-                array_map(static function (array $microservice): string {
-                    return $microservice['format'];
-                }, array_filter($config['microservices'], static function (array $microservice): bool {
-                    return isset(self::FORMAT_CONFIGURATION_FILE_MAPPING[$microservice['format']]);
-                }))
+                array_map(
+                    static fn (array $microservice): string => $microservice['format'],
+                    array_filter($config['microservices'],
+                        static fn (array $microservice): bool => isset(self::FORMAT_CONFIGURATION_FILE_MAPPING[$microservice['format']])
+                    )
+                )
             )
         );
 
@@ -76,10 +77,8 @@ class ApiPlatformMsExtension extends Extension
 
     /**
      * {@inheritdoc}
-     *
-     * @return ConfigurationInterface|null
      */
-    public function getConfiguration(array $config, ContainerBuilder $container)
+    public function getConfiguration(array $config, ContainerBuilder $container): ?ConfigurationInterface
     {
         /** @var bool $debug */
         $debug = $container->getParameter('kernel.debug');

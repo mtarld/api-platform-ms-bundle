@@ -10,7 +10,6 @@ use Mtarld\ApiPlatformMsBundle\HttpClient\ReplaceableHttpClientInterface;
 use Mtarld\ApiPlatformMsBundle\HttpClient\ReplaceableHttpClientTrait;
 use Mtarld\ApiPlatformMsBundle\Microservice\Microservice;
 use Mtarld\ApiPlatformMsBundle\Microservice\MicroservicePool;
-use RuntimeException;
 use Symfony\Component\HttpClient\Exception\ClientException;
 use Symfony\Component\HttpClient\Exception\RedirectionException;
 use Symfony\Component\HttpClient\Exception\ServerException;
@@ -43,16 +42,13 @@ abstract class AbstractMicroserviceHttpRepository implements ReplaceableHttpClie
     protected $serializer;
     protected $httpClient;
 
-    private $microservices;
-
     public function __construct(
         GenericHttpClient $httpClient,
         SerializerInterface $serializer,
-        MicroservicePool $microservices
+        private readonly MicroservicePool $microservices
     ) {
         $this->httpClient = $httpClient;
         $this->serializer = $serializer;
-        $this->microservices = $microservices;
     }
 
     abstract protected function getMicroserviceName(): string;
@@ -150,12 +146,12 @@ abstract class AbstractMicroserviceHttpRepository implements ReplaceableHttpClie
      *
      * @throws ResourceValidationException
      * @throws ExceptionInterface
-     * @throws RuntimeException
+     * @throws \RuntimeException
      */
     public function update(ApiResourceDtoInterface $resource, array $additionalQueryParams = []): ApiResourceDtoInterface
     {
         if (null === $iri = $resource->getIri()) {
-            throw new RuntimeException('Cannot update a resource without iri');
+            throw new \RuntimeException('Cannot update a resource without iri');
         }
 
         try {
@@ -178,12 +174,12 @@ abstract class AbstractMicroserviceHttpRepository implements ReplaceableHttpClie
      *
      * @throws ResourceValidationException
      * @throws ExceptionInterface
-     * @throws RuntimeException
+     * @throws \RuntimeException
      */
     public function partialUpdate(ApiResourceDtoInterface $resource, array $additionalQueryParams = []): ApiResourceDtoInterface
     {
         if (null === $iri = $resource->getIri()) {
-            throw new RuntimeException('Cannot partially update a resource without iri');
+            throw new \RuntimeException('Cannot partially update a resource without iri');
         }
 
         try {
@@ -204,12 +200,12 @@ abstract class AbstractMicroserviceHttpRepository implements ReplaceableHttpClie
      *
      * @throws ResourceValidationException
      * @throws ExceptionInterface
-     * @throws RuntimeException
+     * @throws \RuntimeException
      */
     public function delete(ApiResourceDtoInterface $resource, array $additionalQueryParams = []): void
     {
         if (null === $iri = $resource->getIri()) {
-            throw new RuntimeException('Cannot update a resource without iri');
+            throw new \RuntimeException('Cannot update a resource without iri');
         }
 
         $response = $this->request('DELETE', $this->buildUri($iri, $additionalQueryParams));
@@ -254,11 +250,9 @@ abstract class AbstractMicroserviceHttpRepository implements ReplaceableHttpClie
     }
 
     /**
-     * @param mixed $body
-     *
      * @throws ExceptionInterface
      */
-    protected function request(string $method, string $uri, $body = null, ?string $mimeType = null, ?string $bodyFormat = null): ResponseInterface
+    protected function request(string $method, string $uri, mixed $body = null, ?string $mimeType = null, ?string $bodyFormat = null): ResponseInterface
     {
         return $this->httpClient->request($this->getMicroservice(), $method, $uri, $body, $mimeType, $bodyFormat);
     }
@@ -272,7 +266,7 @@ abstract class AbstractMicroserviceHttpRepository implements ReplaceableHttpClie
     {
         try {
             return $this->serializer->deserialize($response->getContent(false), ConstraintViolationList::class, $this->getMicroservice()->getFormat());
-        } catch (SerializerExceptionInterface $e) {
+        } catch (SerializerExceptionInterface) {
             return null;
         }
     }

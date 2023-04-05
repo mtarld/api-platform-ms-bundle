@@ -13,14 +13,15 @@ class ApiResourceExistenceCheckerPayload
 {
     /**
      * @var array<string>
-     *
-     * @Assert\NotNull
-     * @Assert\All({
-     *     @Assert\Type(type={"string"}),
-     *     @Assert\NotBlank(allowNull=false)
-     * })
      */
-    public $iris;
+    #[Assert\All(
+        [
+            new Assert\Type('string'),
+            new Assert\NotBlank(allowNull: false),
+        ]
+    )]
+    #[Assert\NotNull]
+    public array $iris;
 
     public function __construct(array $iris)
     {

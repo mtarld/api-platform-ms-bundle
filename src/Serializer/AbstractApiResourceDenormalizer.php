@@ -13,6 +13,7 @@ class_exists(ApiResourceDtoInterface::class);
 
 /**
  * @internal
+ *
  * @SuppressWarnings(PHPMD.UnusedFormalParameter)
  *
  * @author Mathias Arlaud <mathias.arlaud@gmail.com>
@@ -45,7 +46,7 @@ abstract class AbstractApiResourceDenormalizer implements DenormalizerInterface,
         $data = $this->prepareData($data);
         $data['iri'] = $iri;
 
-        return $this->denormalizer->denormalize($data, $type, $this->getFormat(), $context);
+        return $this->denormalizer->denormalize($data, $type, $this->getFormat());
     }
 
     /**
@@ -53,12 +54,11 @@ abstract class AbstractApiResourceDenormalizer implements DenormalizerInterface,
      * @param string      $type
      * @param string|null $format
      */
-    public function supportsDenormalization($data, $type, $format = null): bool
+    public function supportsDenormalization($data, $type, $format = null, array $context = []): bool
     {
         return
             !isset($data['iri'])
             && $this->getFormat() === $format
-            && is_a($type, ApiResourceDtoInterface::class, true)
-        ;
+            && is_a($type, ApiResourceDtoInterface::class, true);
     }
 }

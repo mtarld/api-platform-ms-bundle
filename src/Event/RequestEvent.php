@@ -6,23 +6,19 @@ use Mtarld\ApiPlatformMsBundle\Microservice\Microservice;
 
 /**
  * @final
+ *
  * @psalm-immutable
  *
  * @author Smaïne Milianni <smaine.milianni@gmail.com>
  */
 class RequestEvent
 {
-    private $microservice;
-    private $method;
-    private $uri;
-    private $options;
-
-    public function __construct(Microservice $microservice, string $method, string $uri, array $options)
-    {
-        $this->microservice = $microservice;
-        $this->method = $method;
-        $this->uri = $uri;
-        $this->options = $options;
+    public function __construct(
+        private readonly Microservice $microservice,
+        private readonly string $method,
+        private readonly string $uri,
+        private readonly array $options
+    ) {
     }
 
     public function getMicroservice(): Microservice

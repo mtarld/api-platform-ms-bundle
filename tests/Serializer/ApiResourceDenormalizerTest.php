@@ -26,6 +26,7 @@ class ApiResourceDenormalizerTest extends KernelTestCase
 
     /**
      * @dataProvider formatsDataProvider
+     *
      * @testdox Can denormalize resource with $format format
      */
     public function testApiResourceDenormalization(string $format): void
@@ -43,6 +44,7 @@ class ApiResourceDenormalizerTest extends KernelTestCase
 
     /**
      * @dataProvider formatsDataProvider
+     *
      * @testdox Can denormalize nested resource with $format format
      */
     public function testNestedApiResourceDenormalization(string $format): void

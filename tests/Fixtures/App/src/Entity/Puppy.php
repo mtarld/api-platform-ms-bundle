@@ -2,48 +2,40 @@
 
 namespace Mtarld\ApiPlatformMsBundle\Tests\Fixtures\App\src\Entity;
 
-use ApiPlatform\Core\Annotation\ApiProperty;
-use ApiPlatform\Core\Annotation\ApiResource;
+use ApiPlatform\Metadata\ApiProperty;
+use ApiPlatform\Metadata\ApiResource;
 use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
- * @ApiResource(normalizationContext={"groups"={"read"}})
- *
  * @author Mathias Arlaud <mathias.arlaud@gmail.com>
  */
+#[ApiResource(
+    normalizationContext: ['groups' => 'read']
+)]
 class Puppy
 {
-    /**
-     * @var int
-     *
-     * @ApiProperty(identifier=true)
-     * @Groups({"read"})
-     */
-    public $id;
+    #[ApiProperty(identifier: true)]
+    #[Groups(['read'])]
+    public int $id;
+
+    #[Groups(['read'])]
+    public string $superName;
+
+    #[Groups(['read'])]
+    public ?Color $color;
 
     /**
-     * @var string
-     *
-     * @Groups({"read"})
+     * @var list<Hair>|null
      */
-    public $superName;
+    #[Groups(['read'])]
+    public ?array $hairs;
 
-    /**
-     * @var Color|null
-     *
-     * @Groups({"read"})
-     */
-    public $color;
-
-    /**
-     * @var Hair[]|null
-     *
-     * @Groups({"read"})
-     */
-    public $hairs;
-
-    public function __construct(int $id, string $superName, ?Color $color = null, ?array $hairs = [])
-    {
+    public function __construct(
+        int $id,
+        string $superName,
+        ?Color $color = null,
+        ?array $hairs = []
+    ) {
         $this->id = $id;
         $this->superName = $superName;
         $this->color = $color;

@@ -14,7 +14,7 @@ jobs:
             - name: Setup PHP
               uses: shivammathur/setup-php@v2
               with:
-                  php-version: '8.0'
+                  php-version: '8.1'
                   tools: php-cs-fixer, cs2pr
 
             - name: PHP Coding Standards Fixer
@@ -30,7 +30,7 @@ jobs:
             - name: Setup PHP
               uses: shivammathur/setup-php@v2
               with:
-                  php-version: '8.0'
+                  php-version: '8.1'
 
             - name: Get composer cache directory
               id: composercache
@@ -59,7 +59,7 @@ jobs:
             - name: Setup PHP
               uses: shivammathur/setup-php@v2
               with:
-                  php-version: '8.0'
+                  php-version: '8.1'
 
             - name: Get composer cache directory
               id: composercache
@@ -82,7 +82,7 @@ jobs:
         runs-on: ubuntu-latest
         strategy:
             matrix:
-                php-versions: ['7.3', '7.4', '8.0', '8.1']
+                php-versions: ['8.1']
             fail-fast: false
         name: PHP ${{ matrix.php-versions }} tests
         steps:
@@ -113,7 +113,7 @@ jobs:
 
     phpunit-lowest:
         runs-on: ubuntu-latest
-        name: PHP 7.2 (lowest) tests
+        name: PHP 8.1 (lowest) tests
         steps:
             - name: Checkout
               uses: actions/checkout@v2
@@ -121,7 +121,7 @@ jobs:
             - name: Setup PHP
               uses: shivammathur/setup-php@v2
               with:
-                  php-version: '7.2'
+                  php-version: '8.1'
 
             - name: Get composer cache directory
               id: composercache
@@ -138,4 +138,4 @@ jobs:
               run: composer update --prefer-dist --prefer-lowest
 
             - name: Run tests
-              run: vendor/bin/phpunit
+              run: SYMFONY_DEPRECATIONS_HELPER=disabled vendor/bin/phpunit

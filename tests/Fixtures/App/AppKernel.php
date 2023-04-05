@@ -2,7 +2,7 @@
 
 namespace Mtarld\ApiPlatformMsBundle\Tests\Fixtures\App;
 
-use ApiPlatform\Core\Bridge\Symfony\Bundle\ApiPlatformBundle;
+use ApiPlatform\Symfony\Bundle\ApiPlatformBundle;
 use Mtarld\ApiPlatformMsBundle\ApiPlatformMsBundle;
 use Symfony\Bundle\FrameworkBundle\FrameworkBundle;
 use Symfony\Bundle\FrameworkBundle\Kernel\MicroKernelTrait;
@@ -10,7 +10,6 @@ use Symfony\Component\Config\Loader\LoaderInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpKernel\Kernel;
 use Symfony\Component\Routing\Loader\Configurator\RoutingConfigurator;
-use Symfony\Component\Routing\RouteCollectionBuilder;
 
 /**
  * @author Mathias Arlaud <mathias.arlaud@gmail.com>
@@ -28,10 +27,7 @@ class AppKernel extends Kernel
         ];
     }
 
-    /**
-     * @param RouteCollectionBuilder|RoutingConfigurator $routes
-     */
-    protected function configureRoutes($routes): void
+    protected function configureRoutes(RoutingConfigurator $routes): void
     {
         $routes->import(__DIR__.'/config/routing.yml');
     }

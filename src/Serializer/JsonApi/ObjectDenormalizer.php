@@ -2,21 +2,22 @@
 
 namespace Mtarld\ApiPlatformMsBundle\Serializer\JsonApi;
 
-use ApiPlatform\Core\JsonApi\Serializer\ReservedAttributeNameConverter;
-use Symfony\Component\Serializer\Normalizer\ContextAwareDenormalizerInterface;
+use ApiPlatform\JsonApi\Serializer\ReservedAttributeNameConverter;
 use Symfony\Component\Serializer\Normalizer\DenormalizerAwareInterface;
 use Symfony\Component\Serializer\Normalizer\DenormalizerAwareTrait;
+use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
 
 // Help opcache.preload discover always-needed symbols
 class_exists(ReservedAttributeNameConverter::class);
 
 /**
  * @final @internal
+ *
  * @SuppressWarnings(PHPMD.UnusedFormalParameter)
  *
  * @author Mathias Arlaud <mathias.arlaud@gmail.com>
  */
-class ObjectDenormalizer implements ContextAwareDenormalizerInterface, DenormalizerAwareInterface
+class ObjectDenormalizer implements DenormalizerInterface, DenormalizerAwareInterface
 {
     use JsonApiDenormalizerTrait;
     use DenormalizerAwareTrait;

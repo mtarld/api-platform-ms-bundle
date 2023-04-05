@@ -14,6 +14,7 @@ class_exists(Collection::class);
 
 /**
  * @internal
+ *
  * @SuppressWarnings(PHPMD.UnusedFormalParameter)
  *
  * @author Mathias Arlaud <mathias.arlaud@gmail.com>
@@ -60,7 +61,7 @@ abstract class AbstractCollectionDenormalizer implements DenormalizerInterface, 
      * @param string $type
      * @param string $format
      */
-    public function supportsDenormalization($data, $type, $format = null): bool
+    public function supportsDenormalization($data, $type, $format = null, array $context = []): bool
     {
         if ($this->getFormat() !== $format) {
             return false;
@@ -74,7 +75,7 @@ abstract class AbstractCollectionDenormalizer implements DenormalizerInterface, 
             return false;
         }
 
-        return $this->denormalizer->supportsDenormalization($data, $enclosedType, $format);
+        return $this->denormalizer->supportsDenormalization($data, $enclosedType, $format, $context);
     }
 
     public function hasCacheableSupportsMethod(): bool

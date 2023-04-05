@@ -15,17 +15,12 @@ use Mtarld\ApiPlatformMsBundle\Validator\ApiResourceExist;
 class Order
 {
     /**
-     * @var string[]
-     *
-     * @ApiResourceExist("product")
+     * @var list<string>
      */
-    public $products;
+    #[ApiResourceExist('product')]
+    public array $products;
 
-    /**
-     * @var string
-     *
-     * @ApiResourceExist(microservice=client, skipOnError=true)
-     */
-    public $customer;
+    #[ApiResourceExist(microservice: 'client', skipOnError: true)]
+    public string $customer;
 }
 ```
