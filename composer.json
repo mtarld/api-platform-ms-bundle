@@ -41,7 +41,8 @@
     }
   },
   "require-dev": {
-    "doctrine/annotations": "^2.0",
+    "doctrine/annotations": "^1.7",
+    "doctrine/inflector": "^2.0",
     "friendsofphp/php-cs-fixer": "^3.1",
     "phpmd/phpmd": "^2.8",
     "phpunit/phpunit": "^9.5",
