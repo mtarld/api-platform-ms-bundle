@@ -37,7 +37,10 @@ class CollectionDenormalizerTest extends KernelTestCase
 
         /** @var SerializerInterface $serializer */
         $serializer = static::getContainer()->get(SerializerInterface::class);
-        $serializedCollection = $serializer->serialize($entityCollection, $format, ['_api_operation' => GetCollection::class, '_api_resource_class' => Puppy::class, '_api_operation_name' => 'foo']);
+        $serializedCollection = $serializer->serialize($entityCollection, $format, [
+            'operation' => new GetCollection(),
+            'resource_class' => Puppy::class,
+        ]);
 
         /** @var Collection $deserializedCollection */
         $deserializedCollection = $serializer->deserialize($serializedCollection, Collection::class.'<'.PuppyResourceDto::class.'>', $format);
@@ -62,7 +65,10 @@ class CollectionDenormalizerTest extends KernelTestCase
 
         /** @var SerializerInterface $serializer */
         $serializer = static::getContainer()->get(SerializerInterface::class);
-        $serializedCollection = $serializer->serialize($entityCollection, $format, ['_api_operation' => GetCollection::class, '_api_resource_class' => Puppy::class, '_api_operation_name' => 'foo']);
+        $serializedCollection = $serializer->serialize($entityCollection, $format, [
+            'operation' => new GetCollection(),
+            'resource_class' => Puppy::class,
+        ]);
 
         /** @var Collection $deserializedCollection */
         $deserializedCollection = $serializer->deserialize($serializedCollection, Collection::class.'<'.PuppyResourceDto::class.'>', $format);
@@ -84,18 +90,21 @@ class CollectionDenormalizerTest extends KernelTestCase
 
         /** @var SerializerInterface $serializer */
         $serializer = static::getContainer()->get(SerializerInterface::class);
-        $serializedCollection = $serializer->serialize($entityCollection, $format, ['_api_operation' => GetCollection::class, '_api_resource_class' => Puppy::class, '_api_operation_name' => 'foo']);
+        $serializedCollection = $serializer->serialize($entityCollection, $format, [
+            'operation' => new GetCollection(),
+            'resource_class' => Puppy::class,
+        ]);
 
         /** @var Collection $deserializedCollection */
         $deserializedCollection = $serializer->deserialize($serializedCollection, Collection::class.'<'.PuppyResourceDto::class.'>', $format);
         self::assertEquals(new Collection($dtoCollection, 3, new Pagination('/?page=2', '/?page=1', '/?page=2', '/?page=1', null)), $deserializedCollection);
 
         self::assertTrue($deserializedCollection->hasPagination());
-        self::assertEquals('/?page=2', $deserializedCollection->getPagination()->getCurrent());
-        self::assertEquals('/?page=1', $deserializedCollection->getPagination()->getPrevious());
+        self::assertEquals('/?page=2', $deserializedCollection->getPagination()?->getCurrent());
+        self::assertEquals('/?page=1', $deserializedCollection->getPagination()?->getPrevious());
         self::assertNull($deserializedCollection->getPagination()->getNext());
-        self::assertEquals('/?page=1', $deserializedCollection->getPagination()->getFirst());
-        self::assertEquals('/?page=2', $deserializedCollection->getPagination()->getLast());
+        self::assertEquals('/?page=1', $deserializedCollection->getPagination()?->getFirst());
+        self::assertEquals('/?page=2', $deserializedCollection->getPagination()?->getLast());
 
         self::assertEquals($dtoCollection[0], $deserializedCollection->getIterator()->current());
     }
