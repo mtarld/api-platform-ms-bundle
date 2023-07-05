@@ -37,7 +37,6 @@ final class ApiResourceExist extends Constraint
     /**
      * @param string|array<mixed> $microservice The target microservice or a set of options
      * @param array<string>       $groups
-     * @param mixed               $payload
      * @param array<mixed>        $options
      *
      * @psalm-suppress DocblockTypeContradiction
@@ -47,7 +46,7 @@ final class ApiResourceExist extends Constraint
         ?bool $skipOnError = null,
         ?string $message = null,
         ?array $groups = null,
-        $payload = null,
+        mixed $payload = null,
         array $options = []
     ) {
         is_array($microservice) ? $options = array_merge($microservice, $options) : $options['value'] = $microservice;

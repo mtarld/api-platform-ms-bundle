@@ -76,7 +76,7 @@ class ApiPlatformMsExtension extends Extension
     }
 
     /**
-     * {@inheritdoc}
+     * @SuppressWarnings(UnusedFormalParameter)
      */
     public function getConfiguration(array $config, ContainerBuilder $container): ?ConfigurationInterface
     {

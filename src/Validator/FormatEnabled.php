@@ -25,9 +25,8 @@ class FormatEnabled extends Constraint
     /**
      * @param array<string, mixed> $options
      * @param array<string>        $groups
-     * @param mixed                $payload
      */
-    public function __construct(array $options = [], ?string $message = null, ?array $groups = null, $payload = null)
+    public function __construct(array $options = [], ?string $message = null, ?array $groups = null, mixed $payload = null)
     {
         parent::__construct($options, $groups, $payload);
 

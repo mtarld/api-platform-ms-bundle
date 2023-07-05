@@ -15,10 +15,7 @@ class ResourceValidationException extends RuntimeException
         parent::__construct((string) $violations);
     }
 
-    /**
-     * @return mixed
-     */
-    public function getValue()
+    public function getValue(): mixed
     {
         return $this->value;
     }
