@@ -2,7 +2,6 @@
 
 namespace Mtarld\ApiPlatformMsBundle\Serializer;
 
-use Symfony\Component\Serializer\Normalizer\CacheableSupportsMethodInterface;
 use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
 use Symfony\Component\Validator\ConstraintViolation;
 use Symfony\Component\Validator\ConstraintViolationList;
@@ -17,7 +16,7 @@ class_exists(ConstraintViolationList::class);
  *
  * @author Mathias Arlaud <mathias.arlaud@gmail.com>
  */
-abstract class AbstractConstraintViolationListDenormalizer implements DenormalizerInterface, CacheableSupportsMethodInterface
+abstract class AbstractConstraintViolationListDenormalizer implements DenormalizerInterface
 {
     use NameConverterAwareTrait;
 
@@ -42,8 +41,8 @@ abstract class AbstractConstraintViolationListDenormalizer implements Denormaliz
         return ConstraintViolationList::class === $type && $this->getFormat() === $format;
     }
 
-    public function hasCacheableSupportsMethod(): bool
+    public function getSupportedTypes(?string $format): array
     {
-        return true;
+        return ['*' => true];
     }
 }

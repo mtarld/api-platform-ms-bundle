@@ -58,6 +58,11 @@ class ObjectDenormalizer implements DenormalizerInterface, DenormalizerAwareInte
         return false === ($context[self::ALREADY_CALLED] ?? false) && $this->getFormat() === $format;
     }
 
+    public function getSupportedTypes(?string $format): array
+    {
+        return ['*' => false];
+    }
+
     private function convertReservedAttributeNames(array $data): array
     {
         $reservedAttributes = array_flip(ReservedAttributeNameConverter::JSON_API_RESERVED_ATTRIBUTES);

@@ -109,7 +109,7 @@ jobs:
               run: composer install --prefer-dist
 
             - name: Run tests
-              run: vendor/bin/phpunit
+              run: vendor/bin/simple-phpunit
 
     phpunit-lowest:
         runs-on: ubuntu-latest

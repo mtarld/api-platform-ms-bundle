@@ -61,4 +61,9 @@ abstract class AbstractApiResourceDenormalizer implements DenormalizerInterface,
             && $this->getFormat() === $format
             && is_a($type, ApiResourceDtoInterface::class, true);
     }
+
+    public function getSupportedTypes(?string $format): array
+    {
+        return ['*' => false];
+    }
 }

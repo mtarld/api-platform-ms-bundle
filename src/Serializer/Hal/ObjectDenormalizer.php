@@ -2,7 +2,6 @@
 
 namespace Mtarld\ApiPlatformMsBundle\Serializer\Hal;
 
-use Symfony\Component\Serializer\Normalizer\CacheableSupportsMethodInterface;
 use Symfony\Component\Serializer\Normalizer\DenormalizerAwareInterface;
 use Symfony\Component\Serializer\Normalizer\DenormalizerAwareTrait;
 use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
@@ -14,7 +13,7 @@ use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
  *
  * @author Mathias Arlaud <mathias.arlaud@gmail.com>
  */
-class ObjectDenormalizer implements DenormalizerInterface, DenormalizerAwareInterface, CacheableSupportsMethodInterface
+class ObjectDenormalizer implements DenormalizerInterface, DenormalizerAwareInterface
 {
     use HalDenormalizerTrait;
     use DenormalizerAwareTrait;
@@ -29,8 +28,8 @@ class ObjectDenormalizer implements DenormalizerInterface, DenormalizerAwareInte
         return $this->getFormat() === $format;
     }
 
-    public function hasCacheableSupportsMethod(): bool
+    public function getSupportedTypes(?string $format): array
     {
-        return true;
+        return ['*' => true];
     }
 }
