@@ -4,7 +4,6 @@ namespace Mtarld\ApiPlatformMsBundle\Serializer;
 
 use Mtarld\ApiPlatformMsBundle\Collection\Collection;
 use Mtarld\ApiPlatformMsBundle\Collection\Pagination;
-use Symfony\Component\Serializer\Normalizer\CacheableSupportsMethodInterface;
 use Symfony\Component\Serializer\Normalizer\DenormalizerAwareInterface;
 use Symfony\Component\Serializer\Normalizer\DenormalizerAwareTrait;
 use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
@@ -19,7 +18,7 @@ class_exists(Collection::class);
  *
  * @author Mathias Arlaud <mathias.arlaud@gmail.com>
  */
-abstract class AbstractCollectionDenormalizer implements DenormalizerInterface, DenormalizerAwareInterface, CacheableSupportsMethodInterface
+abstract class AbstractCollectionDenormalizer implements DenormalizerInterface, DenormalizerAwareInterface
 {
     use DenormalizerAwareTrait;
 
@@ -78,9 +77,9 @@ abstract class AbstractCollectionDenormalizer implements DenormalizerInterface, 
         return $this->denormalizer->supportsDenormalization($data, $enclosedType, $format, $context);
     }
 
-    public function hasCacheableSupportsMethod(): bool
+    public function getSupportedTypes(?string $format): array
     {
-        return true;
+        return ['*' => true];
     }
 
     /**

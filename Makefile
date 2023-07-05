@@ -7,7 +7,7 @@ clean-code: ## Run PHP CS Fixer
 test: test-code test-qa ## Run code and QA tests
 
 test-code: ## Run code tests
-	./vendor/bin/phpunit --testdox
+	./vendor/bin/simple-phpunit --testdox
 
 test-qa: test-phpcs test-psalm test-phpmd ## Run QA tests
 
