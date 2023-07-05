@@ -48,14 +48,14 @@ class GenericHttpClient implements ReplaceableHttpClientInterface
      */
     public function request(Microservice $microservice, string $method, string $uri, mixed $body = null, ?string $mimeType = null, ?string $bodyFormat = null): ResponseInterface
     {
-        $defaultMimeType = 'PATCH' === $method ? self::PATCH_MIME_TYPES[$microservice->getFormat()] : self::MIME_TYPES[$microservice->getFormat()];
-        $mimeType ??= $defaultMimeType;
+        $mimeType ??= self::MIME_TYPES[$microservice->getFormat()];
+        $contentType = 'PATCH' === $method ? self::PATCH_MIME_TYPES[$microservice->getFormat()] : $mimeType;
         $bodyFormat ??= $microservice->getFormat();
 
         $options = [
             'base_uri' => $microservice->getBaseUri(),
             'headers' => [
-                'Content-Type' => $mimeType,
+                'Content-Type' => $contentType,
                 'Accept' => $mimeType,
             ],
         ];

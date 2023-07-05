@@ -433,7 +433,7 @@ class HttpRepositoryTest extends KernelTestCase
                     'base_uri' => 'https://localhost',
                     'headers' => [
                         'Content-Type' => 'application/merge-patch+json',
-                        'Accept' => 'application/merge-patch+json',
+                        'Accept' => 'application/ld+json',
                     ],
                     'body' => '{"iri":"\/puppies\/1","super_name":"foo","color":null,"hairs":[]}',
                 ]
