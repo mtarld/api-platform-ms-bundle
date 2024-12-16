@@ -20,9 +20,6 @@ class Configuration implements ConfigurationInterface
     {
     }
 
-    /**
-     * @psalm-suppress PossiblyUndefinedMethod
-     */
     public function getConfigTreeBuilder(): TreeBuilder
     {
         $builder = new TreeBuilder('api_platform_ms');

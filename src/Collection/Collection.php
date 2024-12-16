@@ -13,6 +13,8 @@ class_exists(Pagination::class);
  *
  * @template T of object
  *
+ * @implements \IteratorAggregate<T>
+ *
  * @author Mathias Arlaud <mathias.arlaud@gmail.com>
  */
 class Collection implements \IteratorAggregate, \Countable

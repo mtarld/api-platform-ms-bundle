@@ -14,6 +14,8 @@ class_exists(MicroserviceNotConfiguredException::class);
 /**
  * @final
  *
+ * @implements \IteratorAggregate<Microservice>
+ *
  * @author Mathias Arlaud <mathias.arlaud@gmail.com>
  */
 class MicroservicePool implements \IteratorAggregate
