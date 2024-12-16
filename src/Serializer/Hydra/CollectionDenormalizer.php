@@ -24,23 +24,25 @@ class CollectionDenormalizer extends AbstractCollectionDenormalizer
             $element = $this->denormalizer->denormalize($elementData, $enclosedType, $this->getFormat(), $context);
 
             return $element;
-        }, $data['hydra:member']);
+        }, $data['hydra:member'] ?? $data['member']);
     }
 
     protected function getTotalItems(array $data): int
     {
-        return $data['hydra:totalItems'];
+        return $data['hydra:totalItems'] ?? $data['totalItems'];
     }
 
     protected function getPagination(array $data): ?Pagination
     {
-        return array_key_exists('hydra:first', $view = $data['hydra:view'] ?? [])
+        $view = $data['hydra:view'] ?? $data['view'] ?? [];
+
+        return array_key_exists('hydra:first', $view) || array_key_exists('first', $view)
             ? new Pagination(
                 $view['@id'],
-                $view['hydra:first'],
-                $view['hydra:last'],
-                $view['hydra:previous'] ?? null,
-                $view['hydra:next'] ?? null
+                $view['hydra:first'] ?? $view['first'],
+                $view['hydra:last'] ?? $view['last'],
+                $view['hydra:previous'] ?? $view['previous'] ?? null,
+                $view['hydra:next'] ?? $view['next'] ?? null
             )
             : null;
     }
