@@ -14,8 +14,15 @@ api_platform:
 framework:
   secret: ThisIsSecret
   test: true
+  annotations: false
+  handle_all_throwables: true
+  http_method_override: false
+  php_errors:
+    log: false
   router:
     utf8: true
+  validation:
+    email_validation_mode: html5
 
 api_platform_ms:
   name: foo
