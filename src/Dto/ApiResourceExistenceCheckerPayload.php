@@ -12,19 +12,14 @@ use Symfony\Component\Validator\Constraints as Assert;
 class ApiResourceExistenceCheckerPayload
 {
     /**
-     * @var array<string>
+     * @param array<string> $iris
      */
-    #[Assert\All(
-        [
+    public function __construct(
+        #[Assert\All([
             new Assert\Type('string'),
             new Assert\NotBlank(allowNull: false),
-        ]
-    )]
-    #[Assert\NotNull]
-    public array $iris;
-
-    public function __construct(array $iris)
-    {
-        $this->iris = $iris;
+        ])]
+        public array $iris,
+    ) {
     }
 }

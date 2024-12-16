@@ -10,15 +10,9 @@ namespace Mtarld\ApiPlatformMsBundle\Dto;
 class ApiResourceExistenceCheckerView
 {
     /**
-     * @var array<string, bool>
-     */
-    public readonly array $existences;
-
-    /**
      * @param array<string, bool> $existences
      */
-    public function __construct(array $existences)
+    public function __construct(public readonly array $existences)
     {
-        $this->existences = $existences;
     }
 }

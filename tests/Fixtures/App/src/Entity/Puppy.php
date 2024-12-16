@@ -14,31 +14,19 @@ use Symfony\Component\Serializer\Annotation\Groups;
 )]
 class Puppy
 {
-    #[ApiProperty(identifier: true)]
-    #[Groups(['read'])]
-    public int $id;
-
-    #[Groups(['read'])]
-    public string $superName;
-
-    #[Groups(['read'])]
-    public ?Color $color;
-
     /**
-     * @var list<Hair>|null
+     * @param list<Hair>|null $hairs
      */
-    #[Groups(['read'])]
-    public ?array $hairs;
-
     public function __construct(
-        int $id,
-        string $superName,
-        ?Color $color = null,
-        ?array $hairs = [],
+        #[ApiProperty(identifier: true)]
+        #[Groups(['read'])]
+        public int $id,
+        #[Groups(['read'])]
+        public string $superName,
+        #[Groups(['read'])]
+        public ?Color $color = null,
+        #[Groups(['read'])]
+        public ?array $hairs = [],
     ) {
-        $this->id = $id;
-        $this->superName = $superName;
-        $this->color = $color;
-        $this->hairs = $hairs;
     }
 }

@@ -65,7 +65,7 @@ class ApiResourceExistenceCheckerAction
     {
         try {
             $this->iriConverter->getResourceFromIri($iri);
-        } catch (\Throwable $exception) {
+        } catch (\Throwable) {
             return false;
         }
 

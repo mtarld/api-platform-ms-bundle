@@ -61,7 +61,7 @@ class GenericHttpClient implements ReplaceableHttpClientInterface
         ];
 
         $uri = preg_replace('/^\/?'.preg_quote($microservice->getApiPath(), '/').'/', '', $uri);
-        $uri = rtrim($microservice->getApiPath(), '/').'/'.ltrim($uri, '/');
+        $uri = rtrim($microservice->getApiPath(), '/').'/'.ltrim((string) $uri, '/');
 
         if (null !== $body) {
             $options['body'] = $this->serializer->serialize($body, $bodyFormat);
