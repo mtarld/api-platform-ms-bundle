@@ -19,7 +19,7 @@
   ],
   "require": {
     "php": "^8.1",
-    "api-platform/core": "^3.0.12",
+    "api-platform/core": "^3.4",
     "symfony/http-client": "^6.4",
     "symfony/property-access": "^6.4",
     "symfony/serializer": "^6.4",
@@ -28,7 +28,8 @@
     "symfony/polyfill-php80": "^1.20",
     "psr/log": "^1.0|^2.0|^3.0",
     "symfony/web-link": "^6.4",
-    "symfony/http-foundation": "^6.4"
+    "symfony/http-foundation": "^6.4",
+    "symfony/string": "^6.4"
   },
   "autoload": {
     "psr-4": {
