@@ -57,7 +57,10 @@ class ApiResourceDenormalizerTest extends KernelTestCase
 
         /** @var SerializerInterface $serializer */
         $serializer = static::getContainer()->get(SerializerInterface::class);
-        $serializedEntity = $serializer->serialize($entity, $format, ['api_included' => ['color', 'hairs']]);
+        $serializedEntity = $serializer->serialize($entity, $format, [
+            'groups' => ['read'],
+            'api_included' => ['color', 'hairs'],
+        ]);
 
         /** @var Puppy $deserializedEntity */
         $deserializedEntity = $serializer->deserialize($serializedEntity, PuppyResourceDto::class, $format);
