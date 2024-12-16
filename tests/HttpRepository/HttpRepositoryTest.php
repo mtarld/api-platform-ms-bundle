@@ -327,7 +327,7 @@ class HttpRepositoryTest extends KernelTestCase
             new MockResponse(
                 $serializer->serialize(new ConstraintViolationList([
                     new ConstraintViolation('This is a violation', null, [], new Puppy(1, 'foo'), 'superName', null),
-                ]), 'jsonld'),
+                ]), 'jsonld', ['api_error_resource' => true]),
                 ['http_code' => 400]
             ),
         ]);
@@ -389,7 +389,7 @@ class HttpRepositoryTest extends KernelTestCase
             new MockResponse(
                 $serializer->serialize(new ConstraintViolationList([
                     new ConstraintViolation('This is a violation', null, [], new Puppy(1, 'foo'), 'superName', null),
-                ]), 'jsonld'),
+                ]), 'jsonld', ['api_error_resource' => true]),
                 ['http_code' => 400]
             ),
         ]);
@@ -461,7 +461,7 @@ class HttpRepositoryTest extends KernelTestCase
             new MockResponse(
                 $serializer->serialize(new ConstraintViolationList([
                     new ConstraintViolation('This is a violation', null, [], new Puppy(1, 'foo'), 'superName', null),
-                ]), 'jsonld'),
+                ]), 'jsonld', ['api_error_resource' => true]),
                 ['http_code' => 400]
             ),
         ]);
@@ -522,7 +522,7 @@ class HttpRepositoryTest extends KernelTestCase
             new MockResponse(
                 $serializer->serialize(new ConstraintViolationList([
                     new ConstraintViolation('This is a violation', null, [], new Puppy(1, 'foo'), 'superName', null),
-                ]), 'jsonld'),
+                ]), 'jsonld', ['api_error_resource' => true]),
                 ['http_code' => 400]
             ),
         ]);
