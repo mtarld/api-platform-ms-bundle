@@ -17,7 +17,7 @@ class RequestEvent
         private readonly Microservice $microservice,
         private readonly string $method,
         private readonly string $uri,
-        private readonly array $options
+        private readonly array $options,
     ) {
     }
 

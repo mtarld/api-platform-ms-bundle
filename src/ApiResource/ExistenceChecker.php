@@ -29,7 +29,7 @@ class ExistenceChecker implements ReplaceableHttpClientInterface
     public function __construct(
         GenericHttpClient $httpClient,
         private readonly SerializerInterface $serializer,
-        private readonly MicroservicePool $microservices
+        private readonly MicroservicePool $microservices,
     ) {
         $this->httpClient = $httpClient;
     }

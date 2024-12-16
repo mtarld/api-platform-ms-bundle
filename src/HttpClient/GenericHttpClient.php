@@ -39,7 +39,7 @@ class GenericHttpClient implements ReplaceableHttpClientInterface
         private readonly SerializerInterface $serializer,
         private HttpClientInterface $httpClient,
         private readonly iterable $authenticationHeaderProviders = [],
-        private readonly ?EventDispatcherInterface $dispatcher = null
+        private readonly ?EventDispatcherInterface $dispatcher = null,
     ) {
     }
 

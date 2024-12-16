@@ -34,7 +34,7 @@ class Puppy
         int $id,
         string $superName,
         ?Color $color = null,
-        ?array $hairs = []
+        ?array $hairs = [],
     ) {
         $this->id = $id;
         $this->superName = $superName;

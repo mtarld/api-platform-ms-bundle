@@ -25,7 +25,7 @@ class PuppyResourceDto implements ApiResourceDtoInterface
         ?string $iri,
         string $superName,
         ?ColorResourceDto $color = null,
-        ?array $hairs = []
+        ?array $hairs = [],
     ) {
         $this->iri = $iri;
         $this->superName = $superName;

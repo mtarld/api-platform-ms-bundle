@@ -2,7 +2,6 @@
 
 namespace Mtarld\ApiPlatformMsBundle\Validator;
 
-use Attribute;
 use Symfony\Component\Validator\Constraint;
 
 /**

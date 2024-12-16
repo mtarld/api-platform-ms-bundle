@@ -2,7 +2,6 @@
 
 namespace Mtarld\ApiPlatformMsBundle\Validator;
 
-use Attribute;
 use Symfony\Component\Validator\Constraint;
 
 /**
@@ -47,7 +46,7 @@ final class ApiResourceExist extends Constraint
         ?string $message = null,
         ?array $groups = null,
         mixed $payload = null,
-        array $options = []
+        array $options = [],
     ) {
         is_array($microservice) ? $options = array_merge($microservice, $options) : $options['value'] = $microservice;
 

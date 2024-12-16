@@ -16,7 +16,7 @@ class Pagination
         private readonly string $first,
         private readonly string $last,
         private readonly ?string $previous,
-        private readonly ?string $next
+        private readonly ?string $next,
     ) {
     }
 
