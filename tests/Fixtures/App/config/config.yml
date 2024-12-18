@@ -12,7 +12,6 @@ api_platform:
   name_converter: Symfony\Component\Serializer\NameConverter\CamelCaseToSnakeCaseNameConverter
   serializer:
     hydra_prefix: false
-  keep_legacy_inflector: false
   use_symfony_listeners: false
 
 framework:

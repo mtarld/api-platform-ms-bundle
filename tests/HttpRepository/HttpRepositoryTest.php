@@ -2,6 +2,7 @@
 
 namespace Mtarld\ApiPlatformMsBundle\Tests\HttpRepository;
 
+use ApiPlatform\Validator\Exception\ValidationException;
 use Mtarld\ApiPlatformMsBundle\Exception\ResourceValidationException;
 use Mtarld\ApiPlatformMsBundle\Tests\Fixtures\App\src\Dto\PuppyResourceDto;
 use Mtarld\ApiPlatformMsBundle\Tests\Fixtures\App\src\Entity\Puppy;
@@ -322,12 +323,16 @@ class HttpRepositoryTest extends KernelTestCase
 
         /** @var SerializerInterface $serializer */
         $serializer = static::getContainer()->get(SerializerInterface::class);
+        $violation = new ValidationException(new ConstraintViolationList([
+            new ConstraintViolation('This is a violation', null, [], new Puppy(1, 'foo'), 'superName', null),
+        ]));
 
         $httpClient = new MockHttpClient([
             new MockResponse(
-                $serializer->serialize(new ConstraintViolationList([
-                    new ConstraintViolation('This is a violation', null, [], new Puppy(1, 'foo'), 'superName', null),
-                ]), 'jsonld', ['api_error_resource' => true]),
+                $serializer->serialize($violation, 'jsonld', [
+                    'api_error_resource' => true,
+                    'rfc_7807_compliant_errors' => true,
+                ]),
                 ['http_code' => 400]
             ),
         ]);
@@ -384,12 +389,16 @@ class HttpRepositoryTest extends KernelTestCase
 
         /** @var SerializerInterface $serializer */
         $serializer = static::getContainer()->get(SerializerInterface::class);
+        $violation = new ValidationException(new ConstraintViolationList([
+            new ConstraintViolation('This is a violation', null, [], new Puppy(1, 'foo'), 'superName', null),
+        ]));
 
         $httpClient = new MockHttpClient([
             new MockResponse(
-                $serializer->serialize(new ConstraintViolationList([
-                    new ConstraintViolation('This is a violation', null, [], new Puppy(1, 'foo'), 'superName', null),
-                ]), 'jsonld', ['api_error_resource' => true]),
+                $serializer->serialize($violation, 'jsonld', [
+                    'api_error_resource' => true,
+                    'rfc_7807_compliant_errors' => true,
+                ]),
                 ['http_code' => 400]
             ),
         ]);
@@ -456,12 +465,16 @@ class HttpRepositoryTest extends KernelTestCase
 
         /** @var SerializerInterface $serializer */
         $serializer = static::getContainer()->get(SerializerInterface::class);
+        $violation = new ValidationException(new ConstraintViolationList([
+            new ConstraintViolation('This is a violation', null, [], new Puppy(1, 'foo'), 'superName', null),
+        ]));
 
         $httpClient = new MockHttpClient([
             new MockResponse(
-                $serializer->serialize(new ConstraintViolationList([
-                    new ConstraintViolation('This is a violation', null, [], new Puppy(1, 'foo'), 'superName', null),
-                ]), 'jsonld', ['api_error_resource' => true]),
+                $serializer->serialize($violation, 'jsonld', [
+                    'api_error_resource' => true,
+                    'rfc_7807_compliant_errors' => true,
+                ]),
                 ['http_code' => 400]
             ),
         ]);
@@ -517,12 +530,16 @@ class HttpRepositoryTest extends KernelTestCase
 
         /** @var SerializerInterface $serializer */
         $serializer = static::getContainer()->get(SerializerInterface::class);
+        $violation = new ValidationException(new ConstraintViolationList([
+            new ConstraintViolation('This is a violation', null, [], new Puppy(1, 'foo'), 'superName', null),
+        ]));
 
         $httpClient = new MockHttpClient([
             new MockResponse(
-                $serializer->serialize(new ConstraintViolationList([
-                    new ConstraintViolation('This is a violation', null, [], new Puppy(1, 'foo'), 'superName', null),
-                ]), 'jsonld', ['api_error_resource' => true]),
+                $serializer->serialize($violation, 'jsonld', [
+                    'api_error_resource' => true,
+                    'rfc_7807_compliant_errors' => true,
+                ]),
                 ['http_code' => 400]
             ),
         ]);

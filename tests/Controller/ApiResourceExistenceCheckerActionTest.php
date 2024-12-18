@@ -2,8 +2,8 @@
 
 namespace Mtarld\ApiPlatformMsBundle\Tests\Controller;
 
-use ApiPlatform\Api\IriConverterInterface;
-use ApiPlatform\Symfony\Validator\Exception\ValidationException;
+use ApiPlatform\Metadata\IriConverterInterface;
+use ApiPlatform\Validator\Exception\ValidationException;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 

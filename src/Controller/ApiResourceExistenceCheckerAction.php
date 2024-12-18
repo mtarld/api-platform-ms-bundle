@@ -2,7 +2,7 @@
 
 namespace Mtarld\ApiPlatformMsBundle\Controller;
 
-use ApiPlatform\Api\IriConverterInterface;
+use ApiPlatform\Metadata\IriConverterInterface;
 use ApiPlatform\Validator\ValidatorInterface;
 use Mtarld\ApiPlatformMsBundle\Dto\ApiResourceExistenceCheckerPayload;
 use Mtarld\ApiPlatformMsBundle\Dto\ApiResourceExistenceCheckerView;
