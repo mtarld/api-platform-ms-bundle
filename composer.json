@@ -51,7 +51,7 @@
     "symfony/framework-bundle": "^6.4|^7.0",
     "symfony/phpunit-bridge": "^6.4|^7.0",
     "symfony/yaml": "^6.4|^7.0",
-    "vimeo/psalm": "^5.26",
+    "vimeo/psalm": "^5.26|^6.0",
     "willdurand/negotiation": "^3.0"
   },
   "config": {
