@@ -57,6 +57,9 @@ services:
   test.existence_checker:
     alias: api_platform_ms.api_resource.existence_checker
 
+  test.existence_verifier:
+    alias: api_platform_ms.api_resource.existence_verifier
+
   test.http_client:
     alias: api_platform_ms.http_client
 

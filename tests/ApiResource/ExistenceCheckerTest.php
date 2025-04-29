@@ -12,6 +12,7 @@ use Symfony\Contracts\HttpClient\ResponseInterface;
 /**
  * @group resource-existence
  * @group http
+ * @group legacy
  *
  * @author Mathias Arlaud <mathias.arlaud@gmail.com>
  */
