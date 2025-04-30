@@ -25,7 +25,7 @@ class MicroserviceHttpClient implements MicroserviceHttpClientInterface
     }
 
     #[\Override]
-    public function request(string $method, string $uri, $body = null, ?string $mimeType = null, ?string $bodyFormat = null): ResponseInterface
+    public function request(string $method, string $uri, mixed $body = null, ?string $mimeType = null, ?string $bodyFormat = null): ResponseInterface
     {
         return $this->httpClient->request($this->microservices->get($this->microserviceName), $method, $uri, $body, $mimeType, $bodyFormat);
     }
