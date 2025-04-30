@@ -17,11 +17,13 @@ class ConstraintViolationListDenormalizer extends AbstractConstraintViolationLis
 {
     use JsonApiDenormalizerTrait;
 
+    #[\Override]
     protected function getViolationsKey(): string
     {
         return 'errors';
     }
 
+    #[\Override]
     protected function denormalizeViolation(array $data): ConstraintViolation
     {
         $pointerParts = explode('/', (string) $data['source']['pointer']);

@@ -24,6 +24,7 @@ class ObjectDenormalizer implements DenormalizerInterface, DenormalizerAwareInte
 
     private const ALREADY_CALLED = 'jsonapi_object_denormalizer_already_called';
 
+    #[\Override]
     public function denormalize(mixed $data, string $type, string $format = null, array $context = []): mixed
     {
         $context[self::ALREADY_CALLED] = true;
@@ -41,6 +42,7 @@ class ObjectDenormalizer implements DenormalizerInterface, DenormalizerAwareInte
         return $this->denormalizer->denormalize($data, $type, $format, $context);
     }
 
+    #[\Override]
     public function supportsDenormalization(mixed $data, string $type, string $format = null, array $context = []): bool
     {
         return false === ($context[self::ALREADY_CALLED] ?? false) && $this->getFormat() === $format;

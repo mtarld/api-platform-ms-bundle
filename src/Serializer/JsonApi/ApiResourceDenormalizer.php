@@ -13,11 +13,13 @@ class ApiResourceDenormalizer extends AbstractApiResourceDenormalizer
 {
     use JsonApiDenormalizerTrait;
 
+    #[\Override]
     protected function getIri(array $data): string
     {
         return $data['data']['id'];
     }
 
+    #[\Override]
     protected function prepareData(array $data): array
     {
         return $data['data']['attributes'];
@@ -28,6 +30,7 @@ class ApiResourceDenormalizer extends AbstractApiResourceDenormalizer
      *
      * @psalm-suppress MoreSpecificImplementedParamType
      */
+    #[\Override]
     protected function prepareEmbeddedData(array $data): array
     {
         if (!isset($data['data']['relationships'], $data['included'])) {

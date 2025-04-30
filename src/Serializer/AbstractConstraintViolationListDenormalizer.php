@@ -31,11 +31,13 @@ abstract class AbstractConstraintViolationListDenormalizer implements Denormaliz
      *
      * @psalm-suppress MoreSpecificImplementedParamType
      */
+    #[\Override]
     public function denormalize(mixed $data, string $type, string $format = null, array $context = []): ConstraintViolationList
     {
         return new ConstraintViolationList(array_map(fn (array $violation): ConstraintViolation => $this->denormalizeViolation($violation), $data[$this->getViolationsKey()]));
     }
 
+    #[\Override]
     public function supportsDenormalization(mixed $data, string $type, string $format = null, array $context = []): bool
     {
         return ConstraintViolationList::class === $type && $this->getFormat() === $format;

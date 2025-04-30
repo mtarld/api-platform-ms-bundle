@@ -24,6 +24,7 @@ class FormatEnabledValidator extends ConstraintValidator
      *
      * @psalm-suppress MoreSpecificImplementedParamType
      */
+    #[\Override]
     public function validate($value, Constraint $constraint): void
     {
         if (!in_array($value, $this->enabledFormats, true)) {

@@ -46,6 +46,7 @@ class MicroservicePool implements \IteratorAggregate
         return $this->microservices[$name];
     }
 
+    #[\Override]
     public function getIterator(): \Traversable
     {
         foreach (array_keys($this->configs) as $name) {
