@@ -13,5 +13,5 @@ interface MicroserviceHttpClientInterface extends ReplaceableHttpClientInterface
     /**
      * @throws HttpExceptionInterface
      */
-    public function request(string $method, string $uri, mixed $body = null, string $mimeType = null, string $bodyFormat = null): ResponseInterface;
+    public function request(string $method, string $uri, mixed $body = null, ?string $mimeType = null, ?string $bodyFormat = null): ResponseInterface;
 }

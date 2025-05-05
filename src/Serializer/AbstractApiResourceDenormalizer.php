@@ -33,7 +33,8 @@ abstract class AbstractApiResourceDenormalizer implements DenormalizerInterface,
     /**
      * @throws ExceptionInterface
      */
-    public function denormalize(mixed $data, string $type, string $format = null, array $context = []): mixed
+    #[\Override]
+    public function denormalize(mixed $data, string $type, ?string $format = null, array $context = []): mixed
     {
         $iri = $this->getIri($data);
         $data = $this->prepareEmbeddedData($data);
@@ -43,7 +44,8 @@ abstract class AbstractApiResourceDenormalizer implements DenormalizerInterface,
         return $this->denormalizer->denormalize($data, $type, $this->getFormat());
     }
 
-    public function supportsDenormalization(mixed $data, string $type, string $format = null, array $context = []): bool
+    #[\Override]
+    public function supportsDenormalization(mixed $data, string $type, ?string $format = null, array $context = []): bool
     {
         return
             !isset($data['iri'])

@@ -16,6 +16,7 @@ class_exists(CreateHttpClientsPass::class);
  */
 class ApiPlatformMsBundle extends Bundle
 {
+    #[\Override]
     public function build(ContainerBuilder $container): void
     {
         parent::build($container);

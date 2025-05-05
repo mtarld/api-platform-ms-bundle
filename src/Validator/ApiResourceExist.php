@@ -60,11 +60,13 @@ final class ApiResourceExist extends Constraint
         $this->skipOnError = $skipOnError ?? $this->skipOnError;
     }
 
+    #[\Override]
     public function getDefaultOption(): string
     {
         return 'microservice';
     }
 
+    #[\Override]
     public function getRequiredOptions(): array
     {
         return ['microservice'];

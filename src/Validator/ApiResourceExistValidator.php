@@ -34,6 +34,7 @@ class ApiResourceExistValidator extends ConstraintValidator
      *
      * @psalm-suppress MoreSpecificImplementedParamType
      */
+    #[\Override]
     public function validate($value, Constraint $constraint): void
     {
         if (!$constraint instanceof ApiResourceExist) {

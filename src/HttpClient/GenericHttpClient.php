@@ -85,6 +85,7 @@ class GenericHttpClient implements ReplaceableHttpClientInterface
         return $response;
     }
 
+    #[\Override]
     public function setWrappedHttpClient(HttpClientInterface $httpClient): void
     {
         $this->httpClient = $httpClient;

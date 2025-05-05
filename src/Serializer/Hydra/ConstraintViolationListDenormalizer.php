@@ -17,11 +17,13 @@ class ConstraintViolationListDenormalizer extends AbstractConstraintViolationLis
 {
     use HydraDenormalizerTrait;
 
+    #[\Override]
     protected function getViolationsKey(): string
     {
         return 'violations';
     }
 
+    #[\Override]
     protected function denormalizeViolation(array $data): ConstraintViolation
     {
         return new ConstraintViolation(

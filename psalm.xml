@@ -7,6 +7,7 @@
     findUnusedBaselineEntry="true"
     findUnusedCode="false"
     resolveFromConfigFile="true"
+    errorBaseline="psalm-baseline-symfony-64.xml"
 >
     <projectFiles>
         <directory name="src"/>
@@ -16,20 +17,6 @@
             <directory name="vendor"/>
         </ignoreFiles>
     </projectFiles>
-
-    <issueHandlers>
-        <InternalMethod>
-            <errorLevel type="suppress">
-                <referencedMethod name="PHPUnit\Framework\MockObject\Builder\InvocationMocker::willReturn" />
-                <referencedMethod name="PHPUnit\Framework\MockObject\Builder\InvocationMocker::willReturnCallback" />
-                <referencedMethod name="PHPUnit\Framework\MockObject\Builder\InvocationMocker::method" />
-                <referencedMethod name="PHPUnit\Framework\MockObject\Builder\InvocationMocker::willReturnOnConsecutiveCalls" />
-                <referencedMethod name="PHPUnit\Framework\MockObject\Builder\InvocationMocker::with" />
-                <referencedMethod name="PHPUnit\Framework\MockObject\Builder\InvocationMocker::will" />
-                <referencedMethod name="PHPUnit\Framework\MockObject\Builder\InvocationMocker::withConsecutive" />
-            </errorLevel>
-        </InternalMethod>
-    </issueHandlers>
 
     <plugins>
         <pluginClass class="Psalm\PhpUnitPlugin\Plugin"/>

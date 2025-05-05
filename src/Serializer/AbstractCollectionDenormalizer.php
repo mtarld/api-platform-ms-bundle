@@ -38,7 +38,8 @@ abstract class AbstractCollectionDenormalizer implements DenormalizerInterface, 
     /**
      * @return Collection<object>
      */
-    public function denormalize(mixed $data, string $type, string $format = null, array $context = []): Collection
+    #[\Override]
+    public function denormalize(mixed $data, string $type, ?string $format = null, array $context = []): Collection
     {
         if ($this->isRawCollection($data)) {
             return new Collection($elements = $this->denormalizeRawElements($data, $this->getEnclosedType($type), $context), count($elements));
@@ -51,11 +52,8 @@ abstract class AbstractCollectionDenormalizer implements DenormalizerInterface, 
         );
     }
 
-    /**
-     * @param string $type
-     * @param string $format
-     */
-    public function supportsDenormalization(mixed $data, $type, $format = null, array $context = []): bool
+    #[\Override]
+    public function supportsDenormalization(mixed $data, string $type, ?string $format = null, array $context = []): bool
     {
         if ($this->getFormat() !== $format) {
             return false;

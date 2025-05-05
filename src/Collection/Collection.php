@@ -44,11 +44,13 @@ class Collection implements \IteratorAggregate, \Countable
     /**
      * @return \Iterator<T>
      */
+    #[\Override]
     public function getIterator(): \Iterator
     {
         return new \ArrayIterator($this->elements);
     }
 
+    #[\Override]
     public function count(): int
     {
         return $this->count;

@@ -27,6 +27,7 @@ class ApiPlatformMsExtension extends Extension
         'jsonhal' => 'hal.php',
     ];
 
+    #[\Override]
     public function getAlias(): string
     {
         return 'api_platform_ms';
@@ -35,6 +36,7 @@ class ApiPlatformMsExtension extends Extension
     /**
      * @param array<array-key, mixed> $configs
      */
+    #[\Override]
     public function load(array $configs, ContainerBuilder $container): void
     {
         $loader = new PhpFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
@@ -78,6 +80,7 @@ class ApiPlatformMsExtension extends Extension
     /**
      * @SuppressWarnings(UnusedFormalParameter)
      */
+    #[\Override]
     public function getConfiguration(array $config, ContainerBuilder $container): ?ConfigurationInterface
     {
         /** @var bool $debug */

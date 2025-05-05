@@ -17,6 +17,7 @@ class CollectionDenormalizer extends AbstractCollectionDenormalizer
 {
     use HydraDenormalizerTrait;
 
+    #[\Override]
     protected function denormalizeElements(array $data, string $enclosedType, array $context): array
     {
         return array_map(function (array $elementData) use ($enclosedType, $context) {
@@ -27,11 +28,13 @@ class CollectionDenormalizer extends AbstractCollectionDenormalizer
         }, $data['hydra:member'] ?? $data['member']);
     }
 
+    #[\Override]
     protected function getTotalItems(array $data): int
     {
         return $data['hydra:totalItems'] ?? $data['totalItems'];
     }
 
+    #[\Override]
     protected function getPagination(array $data): ?Pagination
     {
         $view = $data['hydra:view'] ?? $data['view'] ?? [];
@@ -47,6 +50,7 @@ class CollectionDenormalizer extends AbstractCollectionDenormalizer
             : null;
     }
 
+    #[\Override]
     protected function isRawCollection(array $data): bool
     {
         return !array_key_exists('@type', $data);

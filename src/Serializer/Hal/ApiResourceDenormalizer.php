@@ -13,16 +13,19 @@ class ApiResourceDenormalizer extends AbstractApiResourceDenormalizer
 {
     use HalDenormalizerTrait;
 
+    #[\Override]
     protected function getIri(array $data): string
     {
         return $data['_links']['self']['href'];
     }
 
+    #[\Override]
     protected function prepareData(array $data): array
     {
         return $data;
     }
 
+    #[\Override]
     protected function prepareEmbeddedData(array $data): array
     {
         if (!isset($data['_links'], $data['_embedded'])) {

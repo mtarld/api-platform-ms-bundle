@@ -15,6 +15,7 @@ class_exists(MicroserviceHttpClient::class);
  */
 class CreateHttpClientsPass implements CompilerPassInterface
 {
+    #[\Override]
     public function process(ContainerBuilder $container): void
     {
         /** @var array<string, array> $microservices */

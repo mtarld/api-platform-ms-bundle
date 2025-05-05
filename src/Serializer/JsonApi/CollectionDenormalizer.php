@@ -20,6 +20,7 @@ class CollectionDenormalizer extends AbstractCollectionDenormalizer
     /**
      * @return array<object>
      */
+    #[\Override]
     protected function denormalizeElements(array $data, string $enclosedType, array $context): array
     {
         return array_map(function (array $elementData) use ($enclosedType, $context) {
@@ -30,11 +31,13 @@ class CollectionDenormalizer extends AbstractCollectionDenormalizer
         }, $data['data']);
     }
 
+    #[\Override]
     protected function getTotalItems(array $data): int
     {
         return $data['meta']['totalItems'];
     }
 
+    #[\Override]
     protected function getPagination(array $data): ?Pagination
     {
         return !empty($data['links']['first'] ?? null)
@@ -48,6 +51,7 @@ class CollectionDenormalizer extends AbstractCollectionDenormalizer
             : null;
     }
 
+    #[\Override]
     protected function isRawCollection(array $data): bool
     {
         return !array_key_exists('data', $data);
