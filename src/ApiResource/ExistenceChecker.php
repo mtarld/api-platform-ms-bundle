@@ -32,6 +32,8 @@ class ExistenceChecker implements ReplaceableHttpClientInterface
         private readonly MicroservicePool $microservices,
     ) {
         $this->httpClient = $httpClient;
+
+        trigger_deprecation('mtarld/api-platform-ms-bundle', '1.3.0', sprintf('%s is deprecated.', self::class));
     }
 
     /**

@@ -14,6 +14,7 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
 /**
  * @group resource-existence
  * @group validator
+ * @group legacy
  *
  * @author Mathias Arlaud <mathias.arlaud@gmail.com>
  */

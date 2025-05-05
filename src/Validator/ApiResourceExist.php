@@ -58,6 +58,8 @@ final class ApiResourceExist extends Constraint
 
         $this->message = $message ?? $this->message;
         $this->skipOnError = $skipOnError ?? $this->skipOnError;
+
+        trigger_deprecation('mtarld/api-platform-ms-bundle', '1.3.0', sprintf('%s is deprecated, use %s instead.', self::class, ApiResourceExists::class));
     }
 
     #[\Override]

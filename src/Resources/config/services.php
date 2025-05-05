@@ -3,12 +3,14 @@
 namespace Mtarld\ApiPlatformMsBundle\DependencyInjection\Loader\Configurator;
 
 use Mtarld\ApiPlatformMsBundle\ApiResource\ExistenceChecker;
+use Mtarld\ApiPlatformMsBundle\ApiResource\ExistenceVerifier;
 use Mtarld\ApiPlatformMsBundle\Collection\PaginatedCollectionIterator;
 use Mtarld\ApiPlatformMsBundle\Controller\ApiResourceExistenceCheckerAction;
 use Mtarld\ApiPlatformMsBundle\EventListener\RequestLoggerListener;
 use Mtarld\ApiPlatformMsBundle\HttpClient\GenericHttpClient;
 use Mtarld\ApiPlatformMsBundle\Microservice\MicroservicePool;
 use Mtarld\ApiPlatformMsBundle\Routing\RouteLoader;
+use Mtarld\ApiPlatformMsBundle\Validator\ApiResourceExistsValidator;
 use Mtarld\ApiPlatformMsBundle\Validator\ApiResourceExistValidator;
 use Mtarld\ApiPlatformMsBundle\Validator\FormatEnabledValidator;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
@@ -54,9 +56,22 @@ return static function (ContainerConfigurator $container): void {
                 service('serializer'),
                 service('api_platform_ms.microservice_pool'),
             ])
+        ->set('api_platform_ms.api_resource.existence_verifier', ExistenceVerifier::class)
+            ->args([
+                service('api_platform_ms.http_client.generic'),
+                service('api_platform_ms.microservice_pool'),
+            ])
         ->set('api_platform_ms.validator.api_resource_exist', ApiResourceExistValidator::class)
             ->args([
                 service('api_platform_ms.api_resource.existence_checker'),
+            ])
+            ->call('setLogger', [
+                service('logger'),
+            ])
+            ->tag('validator.constraint_validator')
+        ->set('api_platform_ms.validator.api_resource_exists', ApiResourceExistsValidator::class)
+            ->args([
+                service('api_platform_ms.api_resource.existence_verifier'),
             ])
             ->call('setLogger', [
                 service('logger'),
