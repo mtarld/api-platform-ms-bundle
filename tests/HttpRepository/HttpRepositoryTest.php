@@ -2,8 +2,10 @@
 
 namespace Mtarld\ApiPlatformMsBundle\Tests\HttpRepository;
 
+use ApiPlatform\Metadata\Exception\ItemNotFoundException;
 use ApiPlatform\Validator\Exception\ValidationException;
 use Mtarld\ApiPlatformMsBundle\Exception\ResourceValidationException;
+use Mtarld\ApiPlatformMsBundle\Tests\Fixtures\App\src\Dto\ColorResourceDto;
 use Mtarld\ApiPlatformMsBundle\Tests\Fixtures\App\src\Dto\PuppyResourceDto;
 use Mtarld\ApiPlatformMsBundle\Tests\Fixtures\App\src\Entity\Puppy;
 use Mtarld\ApiPlatformMsBundle\Tests\Fixtures\App\src\HttpRepository\PuppyHttpRepository;
@@ -317,7 +319,10 @@ class HttpRepositoryTest extends KernelTestCase
         self::assertEquals(new PuppyResourceDto('/puppies/1', 'foo'), $createdPuppyDto);
     }
 
-    public function testCreateResourceWithViolations(): void
+    /**
+     * @dataProvider provideValidationFailureStatusCodes
+     */
+    public function testCreateResourceWithViolations(int $statusCode): void
     {
         $this->expectException(ResourceValidationException::class);
 
@@ -333,7 +338,7 @@ class HttpRepositoryTest extends KernelTestCase
                     'api_error_resource' => true,
                     'rfc_7807_compliant_errors' => true,
                 ]),
-                ['http_code' => 400]
+                ['http_code' => $statusCode]
             ),
         ]);
 
@@ -342,6 +347,36 @@ class HttpRepositoryTest extends KernelTestCase
         /** @var PuppyHttpRepository $httpRepository */
         $httpRepository = static::getContainer()->get(PuppyHttpRepository::class);
         $httpRepository->create(new PuppyResourceDto(null, 'foo'));
+    }
+
+    public static function provideValidationFailureStatusCodes(): iterable
+    {
+        yield 'bad request' => [400];
+        yield 'unprocessable entity' => [422];
+    }
+
+    public function testCreateResourceWithBadRequestWithoutViolations(): void
+    {
+        $this->expectException(ResourceValidationException::class);
+
+        /** @var SerializerInterface $serializer */
+        $serializer = static::getContainer()->get(SerializerInterface::class);
+        $violation = new ItemNotFoundException('Item not found for /api/colors/1');
+        $httpClient = new MockHttpClient([
+            new MockResponse(
+                $serializer->serialize($violation, 'jsonld', [
+                    'api_error_resource' => true,
+                    'rfc_7807_compliant_errors' => true,
+                ]),
+                ['http_code' => 400]
+            ),
+        ]);
+
+        static::getContainer()->set('test.http_client', $httpClient);
+
+        /** @var PuppyHttpRepository $httpRepository */
+        $httpRepository = static::getContainer()->get(PuppyHttpRepository::class);
+        $httpRepository->create(new PuppyResourceDto(null, 'foo', new ColorResourceDto('/colors/1', '#000000')));
     }
 
     public function testUpdateResource(): void

@@ -40,11 +40,11 @@ abstract class AbstractConstraintViolationListDenormalizer implements Denormaliz
     #[\Override]
     public function supportsDenormalization(mixed $data, string $type, ?string $format = null, array $context = []): bool
     {
-        return ConstraintViolationList::class === $type && $this->getFormat() === $format;
+        return is_array($data) && array_key_exists($this->getViolationsKey(), $data);
     }
 
     public function getSupportedTypes(?string $format): array
     {
-        return ['*' => true];
+        return $this->getFormat() === $format ? [ConstraintViolationList::class => false] : [];
     }
 }

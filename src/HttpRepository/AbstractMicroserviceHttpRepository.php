@@ -131,8 +131,10 @@ abstract class AbstractMicroserviceHttpRepository implements ReplaceableHttpClie
 
             return $this->serializer->deserialize($response->getContent(), $this->getResourceDto(), $this->getMicroservice()->getFormat());
         } catch (ClientExceptionInterface $e) {
-            if ((400 === $e->getCode()) && null !== $violations = $this->createConstraintViolationListFromResponse($e->getResponse())) {
-                throw new ResourceValidationException($resource, $violations);
+            if (400 === $e->getCode() || 422 === $e->getCode()) {
+                if (null !== $violations = $this->createConstraintViolationListFromResponse($e->getResponse())) {
+                    throw new ResourceValidationException($resource, $violations);
+                }
             }
 
             throw $e;
