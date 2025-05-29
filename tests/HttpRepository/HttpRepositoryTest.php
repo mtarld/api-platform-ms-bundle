@@ -13,6 +13,7 @@ use Symfony\Component\HttpClient\Exception\RedirectionException;
 use Symfony\Component\HttpClient\Exception\ServerException;
 use Symfony\Component\HttpClient\MockHttpClient;
 use Symfony\Component\HttpClient\Response\MockResponse;
+use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\Validator\ConstraintViolation;
 use Symfony\Component\Validator\ConstraintViolationList;
@@ -344,6 +345,29 @@ class HttpRepositoryTest extends KernelTestCase
         $httpRepository->create(new PuppyResourceDto(null, 'foo'));
     }
 
+    public function testCreateResourceWithWithClientExceptionWithoutViolations(): void
+    {
+        $this->expectException(ClientException::class);
+
+        /** @var SerializerInterface $serializer */
+        $serializer = static::getContainer()->get(SerializerInterface::class);
+        $httpClient = new MockHttpClient([
+            new MockResponse(
+                $serializer->serialize(new BadRequestHttpException(), 'jsonld', [
+                    'api_error_resource' => true,
+                    'rfc_7807_compliant_errors' => true,
+                ]),
+                ['http_code' => 400]
+            ),
+        ]);
+
+        static::getContainer()->set('test.http_client', $httpClient);
+
+        /** @var PuppyHttpRepository $httpRepository */
+        $httpRepository = static::getContainer()->get(PuppyHttpRepository::class);
+        $httpRepository->create(new PuppyResourceDto(null, 'foo'));
+    }
+
     public function testUpdateResource(): void
     {
         /** @var SerializerInterface $serializer */
@@ -396,6 +420,29 @@ class HttpRepositoryTest extends KernelTestCase
         $httpClient = new MockHttpClient([
             new MockResponse(
                 $serializer->serialize($violation, 'jsonld', [
+                    'api_error_resource' => true,
+                    'rfc_7807_compliant_errors' => true,
+                ]),
+                ['http_code' => 400]
+            ),
+        ]);
+
+        static::getContainer()->set('test.http_client', $httpClient);
+
+        /** @var PuppyHttpRepository $httpRepository */
+        $httpRepository = static::getContainer()->get(PuppyHttpRepository::class);
+        $httpRepository->update(new PuppyResourceDto('/puppies/1', 'foo'));
+    }
+
+    public function testUpdateResourceWithWithClientExceptionWithoutViolations(): void
+    {
+        $this->expectException(ClientException::class);
+
+        /** @var SerializerInterface $serializer */
+        $serializer = static::getContainer()->get(SerializerInterface::class);
+        $httpClient = new MockHttpClient([
+            new MockResponse(
+                $serializer->serialize(new BadRequestHttpException(), 'jsonld', [
                     'api_error_resource' => true,
                     'rfc_7807_compliant_errors' => true,
                 ]),
@@ -486,6 +533,29 @@ class HttpRepositoryTest extends KernelTestCase
         $httpRepository->partialUpdate(new PuppyResourceDto('/puppies/1', 'foo'));
     }
 
+    public function testPartialUpdateResourceWithWithClientExceptionWithoutViolations(): void
+    {
+        $this->expectException(ClientException::class);
+
+        /** @var SerializerInterface $serializer */
+        $serializer = static::getContainer()->get(SerializerInterface::class);
+        $httpClient = new MockHttpClient([
+            new MockResponse(
+                $serializer->serialize(new BadRequestHttpException(), 'jsonld', [
+                    'api_error_resource' => true,
+                    'rfc_7807_compliant_errors' => true,
+                ]),
+                ['http_code' => 400]
+            ),
+        ]);
+
+        static::getContainer()->set('test.http_client', $httpClient);
+
+        /** @var PuppyHttpRepository $httpRepository */
+        $httpRepository = static::getContainer()->get(PuppyHttpRepository::class);
+        $httpRepository->partialUpdate(new PuppyResourceDto('/puppies/1', 'foo'));
+    }
+
     public function testPartialUpdateResourceWithoutIri(): void
     {
         $this->expectException(\RuntimeException::class);
@@ -537,6 +607,29 @@ class HttpRepositoryTest extends KernelTestCase
         $httpClient = new MockHttpClient([
             new MockResponse(
                 $serializer->serialize($violation, 'jsonld', [
+                    'api_error_resource' => true,
+                    'rfc_7807_compliant_errors' => true,
+                ]),
+                ['http_code' => 400]
+            ),
+        ]);
+
+        static::getContainer()->set('test.http_client', $httpClient);
+
+        /** @var PuppyHttpRepository $httpRepository */
+        $httpRepository = static::getContainer()->get(PuppyHttpRepository::class);
+        $httpRepository->delete(new PuppyResourceDto('/puppies/1', 'foo'));
+    }
+
+    public function testDeleteResourceWithWithClientExceptionWithoutViolations(): void
+    {
+        $this->expectException(ClientException::class);
+
+        /** @var SerializerInterface $serializer */
+        $serializer = static::getContainer()->get(SerializerInterface::class);
+        $httpClient = new MockHttpClient([
+            new MockResponse(
+                $serializer->serialize(new BadRequestHttpException(), 'jsonld', [
                     'api_error_resource' => true,
                     'rfc_7807_compliant_errors' => true,
                 ]),
