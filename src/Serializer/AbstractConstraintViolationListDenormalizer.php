@@ -2,6 +2,7 @@
 
 namespace Mtarld\ApiPlatformMsBundle\Serializer;
 
+use Symfony\Component\Serializer\Exception\UnexpectedValueException;
 use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
 use Symfony\Component\Validator\ConstraintViolation;
 use Symfony\Component\Validator\ConstraintViolationList;
@@ -34,6 +35,10 @@ abstract class AbstractConstraintViolationListDenormalizer implements Denormaliz
     #[\Override]
     public function denormalize(mixed $data, string $type, ?string $format = null, array $context = []): ConstraintViolationList
     {
+        if (!is_array($data) || !array_key_exists($this->getViolationsKey(), $data)) {
+            throw new UnexpectedValueException(sprintf('Missing key: "%s"', $this->getViolationsKey()));
+        }
+
         return new ConstraintViolationList(array_map(fn (array $violation): ConstraintViolation => $this->denormalizeViolation($violation), $data[$this->getViolationsKey()]));
     }
 
